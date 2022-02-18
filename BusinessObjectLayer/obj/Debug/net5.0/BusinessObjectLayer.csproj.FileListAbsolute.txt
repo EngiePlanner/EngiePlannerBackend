@@ -1,0 +1,15 @@
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\bin\Debug\net5.0\BusinessObjectLayer.deps.json
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\bin\Debug\net5.0\BusinessObjectLayer.runtimeconfig.json
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\bin\Debug\net5.0\BusinessObjectLayer.runtimeconfig.dev.json
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\bin\Debug\net5.0\BusinessObjectLayer.dll
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\bin\Debug\net5.0\ref\BusinessObjectLayer.dll
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\bin\Debug\net5.0\BusinessObjectLayer.pdb
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.csproj.AssemblyReference.cache
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.AssemblyInfoInputs.cache
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.AssemblyInfo.cs
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.csproj.CoreCompileInputs.cache
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.dll
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\ref\BusinessObjectLayer.dll
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.pdb
+C:\Users\ROC2CLJ\Desktop\EngiePlanner\BusinessObjectLayer\obj\Debug\net5.0\BusinessObjectLayer.genruntimeconfig.cache
