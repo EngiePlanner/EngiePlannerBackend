@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
@@ -9,6 +14,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EngiePlanner.Controllers
 {
@@ -34,14 +40,16 @@ namespace EngiePlanner.Controllers
 
         [DisableCors]
         [AllowAnonymous]
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login()
         {
+            object token;
             UserDto loggedUser;
             var user = await userService.GetUserByUsernameAsync(currentUsername);
             if (user != null)
             {
-                return Ok(user);
+                token = await GenerateJwtToken(user);
+                return Ok(new { token });
             }
 
             var group = LdapWrapper.GetGroupByUserName(currentUsername);
@@ -77,7 +85,8 @@ namespace EngiePlanner.Controllers
                 await userService.CreateUserAsync(loggedUser);
                 loggedUser.LeaderUsername = null;
 
-                return Ok(loggedUser);
+                token = await GenerateJwtToken(loggedUser);
+                return Ok(new { token });
             }
 
             if (currentUsername == groupLeaderUsername)
@@ -121,7 +130,8 @@ namespace EngiePlanner.Controllers
                 await userService.CreateUserAsync(loggedUser);
                 loggedUser.LeaderUsername = null;
 
-                return Ok(loggedUser);
+                token = await GenerateJwtToken(loggedUser);
+                return Ok(new { token });
             }
 
             if (departmentHead == null)
@@ -179,7 +189,47 @@ namespace EngiePlanner.Controllers
 
             await userService.CreateUserAsync(loggedUser);
 
-            return Ok(loggedUser);
+            token = await GenerateJwtToken(loggedUser);
+            return Ok(new { token });
+        }
+
+        private async Task<object> GenerateJwtToken(UserDto user)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var claims = new List<Claim>
+            {
+                new Claim("Username", user.Username),
+                new Claim("Name", user.Name),
+                new Claim("DisplayName", user.DisplayName),
+                new Claim("Email", user.Email),
+                new Claim("Role", user.RoleType.ToString()),
+                new Claim("LeaderUsername", user.LeaderUsername),
+                new Claim("LeaderName", user.LeaderName),
+            };
+
+            claims.AddRange(user.Groups.Select(group => new Claim("Groups", group)));
+            claims.AddRange(user.Departments.Select(department => new Claim("Departments", department)));
+
+            ClaimsIdentity identity = new ClaimsIdentity(claims);
+
+            var keyByteArray = Encoding.ASCII.GetBytes(configuration["JwtKey"]);
+            var signingKey = new SymmetricSecurityKey(keyByteArray);
+            var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
+            var issuer = configuration["JwtIssuer"];
+            var audience = configuration["JwtAudience"];
+
+            var securityToken = handler.CreateToken(new SecurityTokenDescriptor
+            {
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = credentials,
+                Subject = identity,
+                Expires = expires,
+                NotBefore = DateTime.Now
+            });
+
+            return handler.WriteToken(securityToken);
         }
     }
 }

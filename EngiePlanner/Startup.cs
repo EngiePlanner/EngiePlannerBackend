@@ -5,13 +5,18 @@ using BusinessObjectLayer.Helpers;
 using DataAccessLayer;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace EngiePlanner
 {
@@ -28,6 +33,33 @@ namespace EngiePlanner
         public void ConfigureServices(IServiceCollection services)
         {
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.RequireHttpsMetadata = false;
+                    cfg.SaveToken = true;
+                    var keyByteArray = Encoding.ASCII.GetBytes(Configuration["JwtKey"]);
+                    var signingKey = new SymmetricSecurityKey(keyByteArray);
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = signingKey,
+                        ValidAudience = Configuration["JwtAudience"],
+                        ValidIssuer = Configuration["JwtIssuer"],
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            
             var mapperConfig = new MapperConfiguration(mc => {
                 mc.AddProfile(new Mappers());
             });
@@ -46,6 +78,15 @@ namespace EngiePlanner
             );
 
             services.AddHttpContextAccessor();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Jwt", policy =>
+                {
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                });
+            });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -71,6 +112,7 @@ namespace EngiePlanner
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EngiePlanner v1"));
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -78,7 +120,9 @@ namespace EngiePlanner
             app.UseCors(x =>
                    x.AllowAnyMethod());
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            
+            app.UseAuthorization();
 
             app.UseMiddleware<NtlmAndAnonymousSetupMiddleware>();
 
