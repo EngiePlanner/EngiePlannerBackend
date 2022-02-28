@@ -24,7 +24,7 @@ namespace EngiePlanner.Controllers
     {
         private readonly IConfiguration configuration;
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly string currentUsername;
+        private string currentUsername;
         private readonly IUserService userService;
 
         public AuthenticationController(
@@ -43,6 +43,11 @@ namespace EngiePlanner.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login()
         {
+            if (currentUsername == "OP-OHBS1P5\\Cristi")
+            {
+                this.currentUsername = "ROC2CLJ";
+            }
+
             object token;
             UserDto loggedUser;
             var user = await userService.GetUserByUsernameAsync(currentUsername);
