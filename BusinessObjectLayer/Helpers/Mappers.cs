@@ -23,6 +23,11 @@ namespace BusinessObjectLayer.Helpers
 
             CreateMap<GroupEntity, GroupDto>();
             CreateMap<GroupDto, GroupEntity>();
+
+            CreateMap<TaskEntity, TaskDto>()
+                .ForMember(x => x.Employees, opt => opt.Ignore());
+            CreateMap<TaskDto, TaskEntity>()
+                .ForMember(x => x.Employees, opt => opt.Ignore());
         }
     }
 }

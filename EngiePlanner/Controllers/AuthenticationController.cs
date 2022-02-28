@@ -40,7 +40,7 @@ namespace EngiePlanner.Controllers
 
         [DisableCors]
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login()
         {
             object token;

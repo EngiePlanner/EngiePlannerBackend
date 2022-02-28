@@ -92,8 +92,10 @@ namespace EngiePlanner
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITaskService, TaskService>();
 
             services.AddMvc();
             services.AddSwaggerGen(c =>
