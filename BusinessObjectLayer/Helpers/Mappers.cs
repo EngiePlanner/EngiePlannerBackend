@@ -28,6 +28,10 @@ namespace BusinessObjectLayer.Helpers
                 .ForMember(x => x.Employees, opt => opt.Ignore());
             CreateMap<TaskDto, TaskEntity>()
                 .ForMember(x => x.Employees, opt => opt.Ignore());
+
+            CreateMap<AvailabilityEntity, AvailabilityDto>();
+            CreateMap<AvailabilityDto, AvailabilityEntity>()
+                .ForMember(x => x.User, opt => opt.Ignore());
         }
     }
 }

@@ -45,5 +45,6 @@ namespace DataAccessLayer
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<DeliveryEntity> Delivery { get; set; }
         public DbSet<UserTaskMapping> UserTaskMappings { get; set; }
+        public DbSet<AvailabilityEntity> Availabilities { get; set; }
     }
 }

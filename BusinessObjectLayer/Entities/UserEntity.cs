@@ -35,6 +35,8 @@ namespace BusinessObjectLayer.Entities
         public virtual ICollection<UserDepartmentMapping> UserDepartments { get; set; }
 
         public virtual ICollection<UserGroupMapping> UserGroups { get; set; }
+
+        public virtual ICollection<AvailabilityEntity> Availabilities { get; set; }
     }
 }
 

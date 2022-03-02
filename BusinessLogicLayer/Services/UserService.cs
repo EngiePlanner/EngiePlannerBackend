@@ -13,13 +13,15 @@ namespace BusinessLogicLayer.Services
         private readonly IUserRepository userRepository;
         private readonly IDepartmentRepository departmentRepository;
         private readonly IGroupRepository groupRepository;
+        private readonly IAvailabilityRepository availabilityRepository;
         private readonly IMapper mapper;
 
-        public UserService(IUserRepository userRepository, IDepartmentRepository departmentRepository, IGroupRepository groupRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IDepartmentRepository departmentRepository, IGroupRepository groupRepository, IAvailabilityRepository availabilityRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.departmentRepository = departmentRepository;
             this.groupRepository = groupRepository;
+            this.availabilityRepository = availabilityRepository;
             this.mapper = mapper;
         }
 
@@ -107,6 +109,12 @@ namespace BusinessLogicLayer.Services
                     await groupRepository.CreateUserGroupMappingAsync(userGroupMapping);
                 }
             }
+        }
+
+        public async Task CreateAvailabilityAsync(AvailabilityDto availability)
+        {
+            availability.ToDate = availability.FromDate.AddDays(4);
+            await availabilityRepository.CreateAvailabilityAsync(mapper.Map<AvailabilityDto, AvailabilityEntity>(availability));
         }
     }
 }

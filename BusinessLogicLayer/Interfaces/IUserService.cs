@@ -11,5 +11,6 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<UserDto> GetUserByUsernameAsync(string username);
         Task CreateUserAsync(UserDto user);
+        Task CreateAvailabilityAsync(AvailabilityDto availability);
     }
 }
