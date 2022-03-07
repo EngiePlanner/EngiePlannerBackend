@@ -32,6 +32,9 @@ namespace BusinessObjectLayer.Helpers
             CreateMap<AvailabilityEntity, AvailabilityDto>();
             CreateMap<AvailabilityDto, AvailabilityEntity>()
                 .ForMember(x => x.User, opt => opt.Ignore());
+
+            CreateMap<DeliveryEntity, DeliveryDto>();
+            CreateMap<DeliveryDto, DeliveryEntity>();
         }
     }
 }

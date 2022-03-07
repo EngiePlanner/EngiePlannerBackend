@@ -26,16 +26,42 @@ namespace EngiePlanner.Controllers
 
             if (!tasks.Any())
             {
-                return NotFound();
+                return NoContent();
             }
 
             return Ok(tasks);
         }
 
-        [HttpPost("task")]
-        public async Task<IActionResult> CreateTaskAsync([FromBody] TaskDto task)
+        [HttpGet("GetAllDeliveries")]
+        public async Task<IActionResult> GetAllDeliveries()
+        {
+            var deliveries = await taskService.GetAllDeliveriesAsync();
+            if (!deliveries.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(deliveries);
+        }
+
+        [HttpPost("CreateTask")]
+        public async Task<IActionResult> CreateTask([FromBody] TaskDto task)
         {
             await taskService.CreateTaskAsync(task);
+            return Ok();
+        }
+
+        [HttpPut("UpdateTask")]
+        public async Task<IActionResult> UpdateTask([FromBody] TaskDto task)
+        {
+            await taskService.UpdateTaskAsync(task);
+            return Ok();
+        }
+
+        [HttpDelete("DeleteTask")]
+        public async Task<IActionResult> DeleteTask([FromQuery] int taskId)
+        {
+            await taskService.DeleteTaskAsync(taskId);
             return Ok();
         }
     }

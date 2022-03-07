@@ -3,6 +3,7 @@ using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
 using DataAccessLayer.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +24,13 @@ namespace BusinessLogicLayer.Services
             this.groupRepository = groupRepository;
             this.availabilityRepository = availabilityRepository;
             this.mapper = mapper;
+        }
+
+        public async Task<List<UserDto>> GetAllUsersAsync()
+        {
+            return (await userRepository.GetAllUsersAsync())
+                .Select(mapper.Map<UserEntity, UserDto>)
+                .ToList();
         }
 
         public async Task<UserDto> GetUserByUsernameAsync(string username)

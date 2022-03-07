@@ -13,11 +13,15 @@ namespace BusinessLogicLayer.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository taskRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IDeliveryRepository deliveryRepository;
         private readonly IMapper mapper;
 
-        public TaskService(ITaskRepository taskRepository, IMapper mapper)
+        public TaskService(ITaskRepository taskRepository, IUserRepository userRepository, IDeliveryRepository deliveryRepository, IMapper mapper)
         {
             this.taskRepository = taskRepository;
+            this.userRepository = userRepository;
+            this.deliveryRepository = deliveryRepository;
             this.mapper = mapper;
         }
 
@@ -31,6 +35,7 @@ namespace BusinessLogicLayer.Services
             {
                 var employees = (await taskRepository.GetEmployeesByTaskIdAsync(task.Id))
                     .Select(mapper.Map<UserEntity, UserDto>)
+                    .Select(x => x.Username)
                     .ToList();
                 task.Employees = employees;
             }
@@ -38,13 +43,21 @@ namespace BusinessLogicLayer.Services
             return tasks;
         }
 
+        public async Task<List<DeliveryDto>> GetAllDeliveriesAsync()
+        {
+            return (await deliveryRepository.GetAllDeliveriesAsync())
+                .Select(mapper.Map<DeliveryEntity, DeliveryDto>)
+                .ToList();
+        }
+
         public async Task CreateTaskAsync(TaskDto task)
         {
             task.StartDate = DateTime.Now;
             var taskId = await taskRepository.CreateTaskAsync(mapper.Map<TaskDto, TaskEntity>(task));
 
-            foreach (var employee in task.Employees)
+            foreach (var employeeUsername in task.Employees)
             {
+                var employee = await userRepository.GetUserByUsernameAsync(employeeUsername);
                 var userTaskMapping = new UserTaskMapping
                 {
                     UserUsername = employee.Username,
@@ -53,6 +66,16 @@ namespace BusinessLogicLayer.Services
 
                 await taskRepository.CreateUserTaskMappingAsync(userTaskMapping);
             }
+        }
+
+        public async Task UpdateTaskAsync(TaskDto task)
+        {
+            await taskRepository.UpdateTaskAsync(mapper.Map<TaskDto, TaskEntity>(task));
+        }
+
+        public async Task DeleteTaskAsync(int taskId)
+        {
+            await taskRepository.DeleteTaskAsync(taskId);
         }
     }
 }

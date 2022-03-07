@@ -2,6 +2,7 @@
 using BusinessObjectLayer.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EngiePlanner.Controllers
@@ -16,6 +17,18 @@ namespace EngiePlanner.Controllers
         public UserController(IUserService userService)
         {
             this.userService = userService;
+        }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await userService.GetAllUsersAsync();
+            if (!users.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(users);
         }
 
         [HttpPost("AddAvailability")]

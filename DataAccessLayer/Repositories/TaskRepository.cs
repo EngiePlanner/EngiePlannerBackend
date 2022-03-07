@@ -43,5 +43,18 @@ namespace DataAccessLayer.Repositories
             dbContext.UserTaskMappings.Add(userTaskMapping);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task UpdateTaskAsync(TaskEntity task)
+        {
+            dbContext.Tasks.Update(task);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteTaskAsync(int taskId)
+        {
+            var task = new TaskEntity { Id = taskId };
+            dbContext.Tasks.Remove(task);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
