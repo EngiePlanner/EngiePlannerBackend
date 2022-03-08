@@ -15,6 +15,6 @@ namespace BusinessObjectLayer.Dtos
         public DateTime PlannedDate { get; set; }
         public string Subteam { get; set; }
         public int Duration { get; set; }
-        public List<UserDto> Employees { get; set; }
+        public List<string> Employees { get; set; }
     }
 }

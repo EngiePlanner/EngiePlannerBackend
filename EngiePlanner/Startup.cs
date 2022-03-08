@@ -93,6 +93,8 @@ namespace EngiePlanner
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IAvailabilityRepository, AvailabilityRepository>();
+            services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaskService, TaskService>();

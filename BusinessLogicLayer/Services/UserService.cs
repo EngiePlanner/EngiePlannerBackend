@@ -3,6 +3,7 @@ using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
 using DataAccessLayer.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,14 +14,23 @@ namespace BusinessLogicLayer.Services
         private readonly IUserRepository userRepository;
         private readonly IDepartmentRepository departmentRepository;
         private readonly IGroupRepository groupRepository;
+        private readonly IAvailabilityRepository availabilityRepository;
         private readonly IMapper mapper;
 
-        public UserService(IUserRepository userRepository, IDepartmentRepository departmentRepository, IGroupRepository groupRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IDepartmentRepository departmentRepository, IGroupRepository groupRepository, IAvailabilityRepository availabilityRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.departmentRepository = departmentRepository;
             this.groupRepository = groupRepository;
+            this.availabilityRepository = availabilityRepository;
             this.mapper = mapper;
+        }
+
+        public async Task<List<UserDto>> GetAllUsersAsync()
+        {
+            return (await userRepository.GetAllUsersAsync())
+                .Select(mapper.Map<UserEntity, UserDto>)
+                .ToList();
         }
 
         public async Task<UserDto> GetUserByUsernameAsync(string username)
@@ -107,6 +117,12 @@ namespace BusinessLogicLayer.Services
                     await groupRepository.CreateUserGroupMappingAsync(userGroupMapping);
                 }
             }
+        }
+
+        public async Task CreateAvailabilityAsync(AvailabilityDto availability)
+        {
+            availability.ToDate = availability.FromDate.AddDays(4);
+            await availabilityRepository.CreateAvailabilityAsync(mapper.Map<AvailabilityDto, AvailabilityEntity>(availability));
         }
     }
 }
