@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
+using BusinessObjectLayer.Validators;
 using DataAccessLayer.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,22 @@ namespace BusinessLogicLayer.Services
         private readonly IDepartmentRepository departmentRepository;
         private readonly IGroupRepository groupRepository;
         private readonly IAvailabilityRepository availabilityRepository;
+        private readonly IValidator<UserEntity> userValidator; 
         private readonly IMapper mapper;
 
-        public UserService(IUserRepository userRepository, IDepartmentRepository departmentRepository, IGroupRepository groupRepository, IAvailabilityRepository availabilityRepository, IMapper mapper)
+        public UserService(
+            IUserRepository userRepository, 
+            IDepartmentRepository departmentRepository, 
+            IGroupRepository groupRepository, 
+            IAvailabilityRepository availabilityRepository, 
+            IValidator<UserEntity> userValidator,
+            IMapper mapper)
         {
             this.userRepository = userRepository;
             this.departmentRepository = departmentRepository;
             this.groupRepository = groupRepository;
             this.availabilityRepository = availabilityRepository;
+            this.userValidator = userValidator;
             this.mapper = mapper;
         }
 
@@ -56,7 +65,16 @@ namespace BusinessLogicLayer.Services
 
         public async Task CreateUserAsync(UserDto user)
         {
-            await userRepository.CreateUserAsync(mapper.Map<UserDto, UserEntity>(user));
+            try
+            {
+                var userEntity = mapper.Map<UserDto, UserEntity>(user);
+                userValidator.Validate(userEntity);
+                await userRepository.CreateUserAsync(userEntity);
+            }
+            catch (ValidationException exception)
+            {
+                throw new ValidationException(exception.Message);
+            }
 
             foreach (var departmentName in user.Departments)
             {
