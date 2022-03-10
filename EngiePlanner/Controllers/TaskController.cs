@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
+using BusinessObjectLayer.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -47,15 +48,29 @@ namespace EngiePlanner.Controllers
         [HttpPost("CreateTask")]
         public async Task<IActionResult> CreateTask([FromBody] TaskDto task)
         {
-            await taskService.CreateTaskAsync(task);
-            return Ok();
+            try
+            {
+                await taskService.CreateTaskAsync(task);
+                return Ok();
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpPut("UpdateTask")]
         public async Task<IActionResult> UpdateTask([FromBody] TaskDto task)
         {
-            await taskService.UpdateTaskAsync(task);
-            return Ok();
+            try
+            {
+                await taskService.UpdateTaskAsync(task);
+                return Ok();
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
 
         [HttpDelete("DeleteTask")]

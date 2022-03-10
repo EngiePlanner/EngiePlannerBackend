@@ -1,7 +1,9 @@
 using AutoMapper;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
+using BusinessObjectLayer.Entities;
 using BusinessObjectLayer.Helpers;
+using BusinessObjectLayer.Validators;
 using DataAccessLayer;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
@@ -95,6 +97,9 @@ namespace EngiePlanner
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IAvailabilityRepository, AvailabilityRepository>();
             services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+
+            services.AddScoped<IValidator<TaskEntity>, TaskValidator>();
+            services.AddScoped<IValidator<UserEntity>, UserValidator>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaskService, TaskService>();

@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
+using BusinessObjectLayer.Validators;
 using DataAccessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,20 @@ namespace BusinessLogicLayer.Services
         private readonly ITaskRepository taskRepository;
         private readonly IUserRepository userRepository;
         private readonly IDeliveryRepository deliveryRepository;
+        private readonly IValidator<TaskEntity> taskValidator;
         private readonly IMapper mapper;
 
-        public TaskService(ITaskRepository taskRepository, IUserRepository userRepository, IDeliveryRepository deliveryRepository, IMapper mapper)
+        public TaskService(
+            ITaskRepository taskRepository, 
+            IUserRepository userRepository, 
+            IDeliveryRepository deliveryRepository, 
+            IValidator<TaskEntity> taskValidator, 
+            IMapper mapper)
         {
             this.taskRepository = taskRepository;
             this.userRepository = userRepository;
             this.deliveryRepository = deliveryRepository;
+            this.taskValidator = taskValidator;
             this.mapper = mapper;
         }
 
@@ -52,8 +60,17 @@ namespace BusinessLogicLayer.Services
 
         public async Task CreateTaskAsync(TaskDto task)
         {
-            task.StartDate = DateTime.Now;
-            var taskId = await taskRepository.CreateTaskAsync(mapper.Map<TaskDto, TaskEntity>(task));
+            int taskId;
+            try
+            {
+                var taskEntity = mapper.Map<TaskDto, TaskEntity>(task);
+                taskValidator.Validate(taskEntity);
+                taskId = await taskRepository.CreateTaskAsync(taskEntity);
+            }
+            catch (ValidationException exception)
+            {
+                throw new ValidationException(exception.Message);
+            }
 
             foreach (var employeeUsername in task.Employees)
             {
@@ -70,7 +87,16 @@ namespace BusinessLogicLayer.Services
 
         public async Task UpdateTaskAsync(TaskDto task)
         {
-            await taskRepository.UpdateTaskAsync(mapper.Map<TaskDto, TaskEntity>(task));
+            try
+            {
+                var taskEntity = mapper.Map<TaskDto, TaskEntity>(task);
+                taskValidator.Validate(taskEntity);
+                await taskRepository.UpdateTaskAsync(taskEntity);
+            }
+            catch (ValidationException exception)
+            {
+                throw new ValidationException(exception.Message);
+            }
         }
 
         public async Task DeleteTaskAsync(int taskId)

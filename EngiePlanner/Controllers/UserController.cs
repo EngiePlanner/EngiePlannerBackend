@@ -31,7 +31,7 @@ namespace EngiePlanner.Controllers
             return Ok(users);
         }
 
-        [HttpPost("AddAvailability")]
+        [HttpPost("CreateAvailability")]
         public async Task<IActionResult> CreateAvailability(AvailabilityDto availability)
         {
             await userService.CreateAvailabilityAsync(availability);
