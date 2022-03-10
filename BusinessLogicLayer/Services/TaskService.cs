@@ -60,7 +60,6 @@ namespace BusinessLogicLayer.Services
 
         public async Task CreateTaskAsync(TaskDto task)
         {
-            task.StartDate = DateTime.Now;
             int taskId;
             try
             {
