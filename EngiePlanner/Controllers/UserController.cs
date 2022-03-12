@@ -1,7 +1,9 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
+using BusinessObjectLayer.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,11 +33,50 @@ namespace EngiePlanner.Controllers
             return Ok(users);
         }
 
-        [HttpPost("CreateAvailability")]
-        public async Task<IActionResult> CreateAvailability(AvailabilityDto availability)
+        [HttpGet("GetAvailabilitiesByUserUsername")]
+        public async Task<IActionResult> GetAvailabilitiesByUserUsername([FromQuery] string userUsername)
         {
-            await userService.CreateAvailabilityAsync(availability);
-            return Ok();
+            var availabilities = await userService.GetAvailabilitiesByUserUsernameAsync(userUsername);
+            if (!availabilities.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(availabilities);
+        }
+
+        [HttpGet("GettAllWeeksFromCurrentYear")]
+        public IActionResult GetAllWeeksFromCurrentYear()
+        {
+            var weeks = userService.GetAllWeeksFromCurrentYear();
+            return Ok(weeks);
+        }
+
+        [HttpGet("GetAvailabilityByFromDateAndUserUsername")]
+        public async Task<IActionResult> GetAvailabilityByFromDateAndUserUsername([FromQuery] DateTime fromDate, [FromQuery] string userUsername)
+        {
+            var availability = await userService.GetAvailabilityByFromDateAndUserUsernameAsync(fromDate, userUsername);
+
+            if (availability == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(availability);
+        }
+
+        [HttpPut("UpdateAvailability")]
+        public async Task<IActionResult> UpdateAvailability(AvailabilityDto availability)
+        {
+            try
+            {
+                await userService.UpdateAvailabilityAsync(availability);
+                return Ok();
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
     }
 }

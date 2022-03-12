@@ -4,6 +4,7 @@ using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
 using BusinessObjectLayer.Validators;
 using DataAccessLayer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace BusinessLogicLayer.Services
         private readonly IDepartmentRepository departmentRepository;
         private readonly IGroupRepository groupRepository;
         private readonly IAvailabilityRepository availabilityRepository;
-        private readonly IValidator<UserEntity> userValidator; 
+        private readonly IValidator<UserEntity> userValidator;
+        private readonly IValidator<AvailabilityEntity> availabilityValidator;
         private readonly IMapper mapper;
 
         public UserService(
@@ -25,6 +27,7 @@ namespace BusinessLogicLayer.Services
             IGroupRepository groupRepository, 
             IAvailabilityRepository availabilityRepository, 
             IValidator<UserEntity> userValidator,
+            IValidator<AvailabilityEntity> availabilityValidator,
             IMapper mapper)
         {
             this.userRepository = userRepository;
@@ -32,6 +35,7 @@ namespace BusinessLogicLayer.Services
             this.groupRepository = groupRepository;
             this.availabilityRepository = availabilityRepository;
             this.userValidator = userValidator;
+            this.availabilityValidator = availabilityValidator;
             this.mapper = mapper;
         }
 
@@ -61,6 +65,45 @@ namespace BusinessLogicLayer.Services
             }
 
             return userDto;
+        }
+
+        public async Task<List<AvailabilityDto>> GetAvailabilitiesByUserUsernameAsync(string userUsername)
+        {
+            return (await availabilityRepository.GetAvailabilitiesByUserUsernameAsync(userUsername))
+                 .Select(mapper.Map<AvailabilityEntity, AvailabilityDto>)
+                 .ToList();
+        }
+
+        public async Task<AvailabilityDto> GetAvailabilityByFromDateAndUserUsernameAsync(DateTime fromDate, string userUsername)
+        {
+            var availability = await availabilityRepository.GetAvailabilityByFromDateAndUserUsernameAsync(fromDate, userUsername);
+            return mapper.Map<AvailabilityEntity, AvailabilityDto>(availability);
+        }
+
+        public List<WeekDto> GetAllWeeksFromCurrentYear()
+        {
+            var jan1 = new DateTime(DateTime.Today.Year, 1, 1);
+
+            var startOfFirstWeek = jan1.AddDays(1 - (int)(jan1.DayOfWeek));
+            var weeks =
+                Enumerable
+                    .Range(0, 54)
+                    .Select(i => new {
+                        weekStart = startOfFirstWeek.AddDays(i * 7)
+                    })
+                    .TakeWhile(x => x.weekStart.Year <= jan1.Year)
+                    .Select(x => new {
+                        x.weekStart,
+                        weekFinish = x.weekStart.AddDays(4)
+                    })
+                    .SkipWhile(x => x.weekFinish < jan1.AddDays(1))
+                    .Select((x, i) => new WeekDto{
+                        FirstDay =  x.weekStart,
+                        LastDay = x.weekFinish,
+                        Number  = i + 1
+                    });
+
+            return weeks.ToList();
         }
 
         public async Task CreateUserAsync(UserDto user)
@@ -135,12 +178,36 @@ namespace BusinessLogicLayer.Services
                     await groupRepository.CreateUserGroupMappingAsync(userGroupMapping);
                 }
             }
+
+            var weeks = GetAllWeeksFromCurrentYear();
+            var availabilities = weeks.Select(x => new AvailabilityDto
+            {
+                UserUsername = user.Username,
+                FromDate = x.FirstDay,
+                ToDate = x.LastDay,
+                AvailableHours = 20
+            }).ToList();
+
+            await CreateAvailabilityRangeAsync(availabilities);
         }
 
-        public async Task CreateAvailabilityAsync(AvailabilityDto availability)
+        public async Task CreateAvailabilityRangeAsync(List<AvailabilityDto> availabilities)
         {
-            availability.ToDate = availability.FromDate.AddDays(4);
-            await availabilityRepository.CreateAvailabilityAsync(mapper.Map<AvailabilityDto, AvailabilityEntity>(availability));
+            await availabilityRepository.CreateAvailabilityRangeAsync(availabilities.Select(mapper.Map<AvailabilityDto, AvailabilityEntity>).ToList());
+        }
+
+        public async Task UpdateAvailabilityAsync(AvailabilityDto availability)
+        {
+            try
+            {
+                var availabilityEntity = mapper.Map<AvailabilityDto, AvailabilityEntity>(availability);
+                availabilityValidator.Validate(availabilityEntity);
+                await availabilityRepository.UpdateAvailabilityAsync(availabilityEntity);
+            }
+            catch (ValidationException exception)
+            {
+                throw new ValidationException(exception.Message);
+            }
         }
     }
 }

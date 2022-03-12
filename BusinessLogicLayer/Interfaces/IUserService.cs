@@ -11,7 +11,11 @@ namespace BusinessLogicLayer.Interfaces
     {
         Task<List<UserDto>> GetAllUsersAsync();
         Task<UserDto> GetUserByUsernameAsync(string username);
+        Task<List<AvailabilityDto>> GetAvailabilitiesByUserUsernameAsync(string userUsername);
+        Task<AvailabilityDto> GetAvailabilityByFromDateAndUserUsernameAsync(DateTime fromDate, string userUsername);
+        List<WeekDto> GetAllWeeksFromCurrentYear();
         Task CreateUserAsync(UserDto user);
-        Task CreateAvailabilityAsync(AvailabilityDto availability);
+        Task CreateAvailabilityRangeAsync(List<AvailabilityDto> availability);
+        Task UpdateAvailabilityAsync(AvailabilityDto availability);
     }
 }

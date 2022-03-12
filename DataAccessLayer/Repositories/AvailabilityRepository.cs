@@ -1,5 +1,6 @@
 ﻿using BusinessObjectLayer.Entities;
 using DataAccessLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,27 @@ namespace DataAccessLayer.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task CreateAvailabilityAsync(AvailabilityEntity availability)
+        public Task<List<AvailabilityEntity>> GetAvailabilitiesByUserUsernameAsync(string userUsername)
         {
-            dbContext.Availabilities.Add(availability);
+            return dbContext.Availabilities.AsNoTracking().ToListAsync();
+        }
+
+        public Task<AvailabilityEntity> GetAvailabilityByFromDateAndUserUsernameAsync(DateTime fromDate, string userUsername)
+        {
+            return dbContext.Availabilities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.FromDate == fromDate && x.UserUsername == userUsername);
+        }
+
+        public async Task CreateAvailabilityRangeAsync(List<AvailabilityEntity> availabilities)
+        {
+            dbContext.Availabilities.AddRange(availabilities);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAvailabilityAsync(AvailabilityEntity availability)
+        {
+            dbContext.Availabilities.Update(availability);
             await dbContext.SaveChangesAsync();
         }
     }

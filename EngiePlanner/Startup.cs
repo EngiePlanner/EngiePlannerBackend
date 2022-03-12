@@ -100,6 +100,7 @@ namespace EngiePlanner
 
             services.AddScoped<IValidator<TaskEntity>, TaskValidator>();
             services.AddScoped<IValidator<UserEntity>, UserValidator>();
+            services.AddScoped<IValidator<AvailabilityEntity>, AvailabilityValidator>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaskService, TaskService>();
