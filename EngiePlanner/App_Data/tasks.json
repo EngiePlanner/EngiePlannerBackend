@@ -1,0 +1,37 @@
+{
+  "tasks": [
+    {
+      "name": 11,
+      "DeliveryId": 2,
+      "start_date": "13.03.2022",
+      "planned_date": "16.03.2022",
+      "subteam": "s2",
+      "duration": 20,
+      "employees": [
+        "rba5clj"
+      ]
+    },
+    {
+      "name": 12,
+      "DeliveryId": 1,
+      "start_date": "23.03.2022",
+      "planned_date": "31.03.2022",
+      "subteam": "s3",
+      "duration": 10,
+      "employees": [
+        "roc2clj"
+      ]
+    },
+    {
+      "name": 13,
+      "DeliveryId": 1,
+      "start_date": "21.03.2022",
+      "planned_date": "25.03.2022",
+      "subteam": "s3",
+      "duration": 15,
+      "employees": [
+        "roc2clj"
+      ]
+    }
+  ]
+}

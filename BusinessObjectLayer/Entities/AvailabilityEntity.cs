@@ -21,7 +21,7 @@ namespace BusinessObjectLayer.Entities
         public DateTime ToDate { get; set; }
 
         [Required]
-        public double AvailableHours { get; set; }
+        public int AvailableHours { get; set; }
 
         public virtual UserEntity User { get; set; }
     }
