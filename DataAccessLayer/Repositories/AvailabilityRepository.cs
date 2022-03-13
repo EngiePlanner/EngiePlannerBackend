@@ -20,7 +20,10 @@ namespace DataAccessLayer.Repositories
 
         public Task<List<AvailabilityEntity>> GetAvailabilitiesByUserUsernameAsync(string userUsername)
         {
-            return dbContext.Availabilities.AsNoTracking().ToListAsync();
+            return dbContext.Availabilities
+                .Where(x => x.UserUsername == userUsername)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public Task<AvailabilityEntity> GetAvailabilityByFromDateAndUserUsernameAsync(DateTime fromDate, string userUsername)

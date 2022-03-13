@@ -104,6 +104,7 @@ namespace EngiePlanner
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IAspSolverService, AspSolverService>();
 
             services.AddMvc();
             services.AddSwaggerGen(c =>
@@ -140,6 +141,9 @@ namespace EngiePlanner
             {
                 endpoints.MapControllers();
             });
+
+            string baseDir = env.ContentRootPath;
+            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(baseDir, "App_Data"));
         }
     }
 }
