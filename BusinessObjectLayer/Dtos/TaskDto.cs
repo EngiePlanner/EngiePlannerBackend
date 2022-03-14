@@ -10,6 +10,7 @@ namespace BusinessObjectLayer.Dtos
         public int Id { get; set; }
         [JsonIgnore]
         public string Name { get; set; }
+        [JsonProperty("delivery")]
         public int DeliveryId { get; set; }
         [JsonProperty("start_date")]
         public DateTime StartDate { get; set; }

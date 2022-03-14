@@ -143,7 +143,7 @@ namespace EngiePlanner
             });
 
             string baseDir = env.ContentRootPath;
-            AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Path.Combine(baseDir, "App_Data"));
+            AppDomain.CurrentDomain.SetData("AspDataDirectory", System.IO.Path.Combine(baseDir, "AspData"));
         }
     }
 }
