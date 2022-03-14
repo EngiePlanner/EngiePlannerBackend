@@ -3,6 +3,7 @@ using BusinessObjectLayer.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace EngiePlanner.Controllers
@@ -22,8 +23,15 @@ namespace EngiePlanner.Controllers
         [HttpPost("InvokeAspSolver")]
         public async Task<IActionResult> InvokeAspSolver([FromBody] List<TaskDto> tasks)
         {
-            await aspSolverService.InvokeAspSolver(tasks);
-            return Ok();
+            try
+            {
+                await aspSolverService.InvokeAspSolver(tasks);
+                return Ok();
+            }
+            catch (IOException exception)
+            {
+                return BadRequest(exception.Message);
+            }
         }
     }
 }

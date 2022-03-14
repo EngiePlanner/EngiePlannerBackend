@@ -257,7 +257,7 @@ class JsonOutputWriter():
 
 if __name__ == '__main__':
     dirname = os.path.dirname(__file__)
-    inputFile = os.path.join(dirname, 'input.json').replace('\\', '/')
+    inputFile = os.path.join(dirname, 'tasks.json').replace('\\', '/')
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
     taskMasterAutogenEncoding = os.path.join(dirname, 'task_master_pot_encoding.lp4').replace('\\', '/')
     json = JsonInputReader(inputFile, availabilityFile)

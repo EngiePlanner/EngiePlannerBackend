@@ -3,11 +3,10 @@ using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
 using DataAccessLayer.Interfaces;
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,18 +15,16 @@ namespace BusinessLogicLayer.Services
 {
     public class AspSolverService : IAspSolverService
     {
-        private readonly IUserRepository userRepository;
         private readonly ITaskRepository taskRepository;
         private readonly IAvailabilityRepository availabilityRepository;
         private readonly IMapper mapper;
+        private static readonly string aspDataDirectory = AppDomain.CurrentDomain.GetData("AspDataDirectory").ToString();
 
         public AspSolverService(
-            IUserRepository userRepository, 
             ITaskRepository taskRepository, 
             IAvailabilityRepository availabilityRepository,
             IMapper mapper)
         {
-            this.userRepository = userRepository;
             this.taskRepository = taskRepository;
             this.availabilityRepository = availabilityRepository;
             this.mapper = mapper;
@@ -37,12 +34,14 @@ namespace BusinessLogicLayer.Services
         {
             var availabilities = new List<AvailabilityDto>();
             var users = tasks.Select(x => x.Employees.FirstOrDefault()).Distinct().ToList();
+
             foreach (var user in users)
             {
                 availabilities.AddRange(
                     (await availabilityRepository.GetAvailabilitiesByUserUsernameAsync(user))
                     .Select(mapper.Map<AvailabilityEntity, AvailabilityDto>));
             }
+
             CreateAvailabilityJsonFile(availabilities);
             CreateTaskJsonFile(tasks);
             CallPythonScript("pot_plot_json_io.py");
@@ -59,8 +58,7 @@ namespace BusinessLogicLayer.Services
             };
             string availabilityJson = JsonConvert.SerializeObject(availabilities, jsonSerializerOptions);
 
-            var dataDir = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-            var path = dataDir + "\\availability.json";
+            var path = aspDataDirectory + "\\availability.json";
             if (!File.Exists(path))
             {
                 File.CreateText(path);
@@ -87,8 +85,7 @@ namespace BusinessLogicLayer.Services
             };
             string availabilityJson = JsonConvert.SerializeObject(tasksDictionary, jsonSerializerOptions);
 
-            var dataDir = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-            var path = dataDir + "\\tasks.json";
+            var path = aspDataDirectory + "\\tasks.json";
             if (!File.Exists(path))
             {
                 File.CreateText(path);
@@ -98,10 +95,28 @@ namespace BusinessLogicLayer.Services
 
         private static void CallPythonScript(string script)
         {
-            ScriptEngine engine = Python.CreateEngine();
-            var dataDir = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-            var file = dataDir + "\\" + script;
-            engine.ExecuteFile(file);
+            var cmd = aspDataDirectory + "\\" + script;
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.FileName = "python";
+            start.Arguments = string.Format("\"{0}\"", cmd);
+            start.UseShellExecute = false;
+            start.CreateNoWindow = true; 
+            start.RedirectStandardOutput = true;
+            start.RedirectStandardError = true; 
+            using (Process process = Process.Start(start))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string stderr = process.StandardError.ReadToEnd(); 
+
+                    if (stderr.Length != 0)
+                    {
+                        throw new IOException(stderr);
+                    }
+
+                    string result = reader.ReadToEnd(); 
+                }
+            }
         }
     }
 }
