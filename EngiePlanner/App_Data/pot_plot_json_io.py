@@ -146,7 +146,6 @@ class JsonInputReader():
         return(lp+lp_complex)
             
     def _determin_integer_date(self):
-    #!!!! Wochenenden müssen noch behandelt werden!!!!
         dates_raw = []
         dates = []
         

@@ -3,6 +3,8 @@ using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
 using DataAccessLayer.Interfaces;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -43,9 +45,10 @@ namespace BusinessLogicLayer.Services
             }
             CreateAvailabilityJsonFile(availabilities);
             CreateTaskJsonFile(tasks);
+            CallPythonScript("pot_plot_json_io.py");
         }
 
-        private void CreateAvailabilityJsonFile(List<AvailabilityDto> availabilities)
+        private static void CreateAvailabilityJsonFile(List<AvailabilityDto> availabilities)
         {
             availabilities.ForEach(x => x.UserUsername = x.UserUsername.ToLower());
 
@@ -65,7 +68,7 @@ namespace BusinessLogicLayer.Services
             File.WriteAllText(path, availabilityJson);
         }
 
-        private void CreateTaskJsonFile(List<TaskDto> tasks)
+        private static void CreateTaskJsonFile(List<TaskDto> tasks)
         {
             foreach (var task in tasks)
             {
@@ -91,6 +94,14 @@ namespace BusinessLogicLayer.Services
                 File.CreateText(path);
             }
             File.WriteAllText(path, availabilityJson);
+        }
+
+        private static void CallPythonScript(string script)
+        {
+            ScriptEngine engine = Python.CreateEngine();
+            var dataDir = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+            var file = dataDir + "\\" + script;
+            engine.ExecuteFile(file);
         }
     }
 }

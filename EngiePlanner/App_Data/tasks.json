@@ -2,7 +2,7 @@
   "tasks": [
     {
       "name": 11,
-      "DeliveryId": 2,
+      "delivery": 2,
       "start_date": "13.03.2022",
       "planned_date": "16.03.2022",
       "subteam": "s2",
@@ -13,7 +13,7 @@
     },
     {
       "name": 12,
-      "DeliveryId": 1,
+      "delivery": 1,
       "start_date": "23.03.2022",
       "planned_date": "31.03.2022",
       "subteam": "s3",
@@ -24,7 +24,7 @@
     },
     {
       "name": 13,
-      "DeliveryId": 1,
+      "delivery": 1,
       "start_date": "21.03.2022",
       "planned_date": "25.03.2022",
       "subteam": "s3",
