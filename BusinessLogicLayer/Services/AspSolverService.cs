@@ -47,16 +47,17 @@ namespace BusinessLogicLayer.Services
             CallPythonScript("pot_plot_json_io.py");
         }
 
-        private static void CreateAvailabilityJsonFile(List<AvailabilityDto> availabilities)
+        private void CreateAvailabilityJsonFile(List<AvailabilityDto> availabilities)
         {
             availabilities.ForEach(x => x.UserUsername = x.UserUsername.ToLower());
+            var availabilitiesJson = availabilities.Select(mapper.Map<AvailabilityDto, AvailabilityJsonDto>).ToList();
 
             var jsonSerializerOptions = new JsonSerializerSettings
             {
                 DateFormatString = "dd.MM.yyyy",
                 Formatting = Formatting.Indented,
             };
-            string availabilityJson = JsonConvert.SerializeObject(availabilities, jsonSerializerOptions);
+            string availabilityJson = JsonConvert.SerializeObject(availabilitiesJson, jsonSerializerOptions);
 
             var path = aspDataDirectory + "\\availability.json";
             if (!File.Exists(path))
@@ -66,16 +67,17 @@ namespace BusinessLogicLayer.Services
             File.WriteAllText(path, availabilityJson);
         }
 
-        private static void CreateTaskJsonFile(List<TaskDto> tasks)
+        private void CreateTaskJsonFile(List<TaskDto> tasks)
         {
             foreach (var task in tasks)
             {
                 task.Employees = task.Employees.Select(x => x.ToLower()).ToList();
             }
+            var tasksJson = tasks.Select(mapper.Map<TaskDto, TaskJsonDto>).ToList();
             
-            var tasksDictionary = new Dictionary<string, List<TaskDto>>
+            var tasksDictionary = new Dictionary<string, List<TaskJsonDto>>
             {
-                { "tasks", tasks }
+                { "tasks", tasksJson }
             };
             
             var jsonSerializerOptions = new JsonSerializerSettings
