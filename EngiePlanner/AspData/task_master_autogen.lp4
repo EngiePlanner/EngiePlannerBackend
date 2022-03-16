@@ -1,63 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem Instance 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-task((11, 2)). task_available_day((11, 2),1). task_available(2,1). task_planned_day((11, 2),4). planned_date_week(2, 1). task_duration((11, 2),20). job_duration(11,20). delivery(2). 
-task((12, 1)). task_available_day((12, 1),11). task_available(1,3). task_planned_day((12, 1),19). planned_date_week(1, 4). task_duration((12, 1),10). job_duration(12,10). delivery(1). 
-task((13, 1)). task_available_day((13, 1),9). task_available(1,2). task_planned_day((13, 1),13). planned_date_week(1, 3). task_duration((13, 1),15). job_duration(13,15). 
+task((13, 1)). task_available_day((13, 1),1). task_available(1,1). task_planned_day((13, 1),5). planned_date_week(1, 1). task_duration((13, 1),15). job_duration(13,15). delivery(1). 
 
-capacity(rba5clj, 1, 20). 
-capacity(rba5clj, 2, 20). 
-capacity(rba5clj, 3, 20). 
-capacity(rba5clj, 4, 20). 
-capacity(rba5clj, 5, 20). 
-capacity(rba5clj, 6, 20). 
-capacity(rba5clj, 7, 20). 
-capacity(rba5clj, 8, 20). 
-capacity(rba5clj, 9, 20). 
-capacity(rba5clj, 10, 20). 
-capacity(rba5clj, 11, 20). 
-capacity(rba5clj, 12, 20). 
-capacity(rba5clj, 13, 20). 
-capacity(rba5clj, 14, 20). 
-capacity(rba5clj, 15, 20). 
-capacity(rba5clj, 16, 20). 
-capacity(rba5clj, 17, 20). 
-capacity(rba5clj, 18, 20). 
-capacity(rba5clj, 19, 20). 
-capacity(rba5clj, 20, 20). 
-capacity(rba5clj, 21, 20). 
-capacity(rba5clj, 22, 20). 
-capacity(rba5clj, 23, 20). 
-capacity(rba5clj, 24, 20). 
-capacity(rba5clj, 25, 20). 
-capacity(rba5clj, 26, 20). 
-capacity(rba5clj, 27, 20). 
-capacity(rba5clj, 28, 20). 
-capacity(rba5clj, 29, 20). 
-capacity(rba5clj, 30, 20). 
-capacity(rba5clj, 31, 20). 
-capacity(rba5clj, 32, 20). 
-capacity(rba5clj, 33, 20). 
-capacity(rba5clj, 34, 20). 
-capacity(rba5clj, 35, 20). 
-capacity(rba5clj, 36, 20). 
-capacity(rba5clj, 37, 20). 
-capacity(rba5clj, 38, 20). 
-capacity(rba5clj, 39, 20). 
-capacity(rba5clj, 40, 20). 
-capacity(rba5clj, 41, 20). 
-capacity(rba5clj, 42, 20). 
-capacity(rba5clj, 43, 20). 
-capacity(rba5clj, 44, 20). 
-capacity(rba5clj, 45, 20). 
-capacity(rba5clj, 46, 20). 
-capacity(rba5clj, 47, 20). 
-capacity(rba5clj, 48, 20). 
-capacity(rba5clj, 49, 20). 
-capacity(rba5clj, 50, 20). 
-capacity(rba5clj, 51, 20). 
-capacity(rba5clj, 52, 20). 
-capacity(roc2clj, 1, 20). 
 capacity(roc2clj, 2, 20). 
 capacity(roc2clj, 3, 20). 
 capacity(roc2clj, 4, 20). 
@@ -68,9 +13,9 @@ capacity(roc2clj, 8, 20).
 capacity(roc2clj, 9, 20). 
 capacity(roc2clj, 10, 20). 
 capacity(roc2clj, 11, 20). 
-capacity(roc2clj, 12, 10). 
-capacity(roc2clj, 13, 35). 
-capacity(roc2clj, 14, 20). 
+capacity(roc2clj, 12, 20). 
+capacity(roc2clj, 13, 10). 
+capacity(roc2clj, 14, 35). 
 capacity(roc2clj, 15, 20). 
 capacity(roc2clj, 16, 20). 
 capacity(roc2clj, 17, 20). 
@@ -109,26 +54,18 @@ capacity(roc2clj, 49, 20).
 capacity(roc2clj, 50, 20). 
 capacity(roc2clj, 51, 20). 
 capacity(roc2clj, 52, 20). 
+capacity(roc2clj, 53, 20). 
 
-capable_of(E,11) :- sub_team_member(E,team1).
-capable_of(rba5clj,11).
-capable_of(E,12) :- sub_team_member(E,team1).
-capable_of(roc2clj,12).
 capable_of(E,13) :- sub_team_member(E,team1).
 capable_of(roc2clj,13).
 
-days(1..25).
-weeks(1..5).
-job(11).
-job(12).
+days(1..15).
+weeks(1..3).
 job(13).
-weekend(1).
+weekend(6).
 weekend(7).
-weekend(8).
+weekend(13).
 weekend(14).
-weekend(15).
-weekend(21).
-weekend(22).
 
 
 sub_team(team1).
