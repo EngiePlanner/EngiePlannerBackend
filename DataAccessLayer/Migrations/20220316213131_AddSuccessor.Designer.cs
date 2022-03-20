@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(EngiePlannerContext))]
-    partial class EngiePlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20220316213131_AddSuccessor")]
+    partial class AddSuccessor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,10 +97,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<string>("EmployeeUsername")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -117,8 +115,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeUsername");
 
                     b.HasIndex("SuccessorId");
 
@@ -191,6 +187,22 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("UserGroupMappings");
                 });
 
+            modelBuilder.Entity("BusinessObjectLayer.Entities.UserTaskMapping", b =>
+                {
+                    b.Property<string>("UserUsername")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("TaskId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserUsername", "TaskId");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("UserTaskMappings");
+                });
+
             modelBuilder.Entity("BusinessObjectLayer.Entities.AvailabilityEntity", b =>
                 {
                     b.HasOne("BusinessObjectLayer.Entities.UserEntity", "User")
@@ -215,17 +227,9 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("BusinessObjectLayer.Entities.TaskEntity", b =>
                 {
-                    b.HasOne("BusinessObjectLayer.Entities.UserEntity", "Employee")
-                        .WithMany("Tasks")
-                        .HasForeignKey("EmployeeUsername")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BusinessObjectLayer.Entities.TaskEntity", "Successor")
                         .WithMany()
                         .HasForeignKey("SuccessorId");
-
-                    b.Navigation("Employee");
 
                     b.Navigation("Successor");
                 });
@@ -277,11 +281,33 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BusinessObjectLayer.Entities.UserTaskMapping", b =>
+                {
+                    b.HasOne("BusinessObjectLayer.Entities.TaskEntity", "Task")
+                        .WithMany("Employees")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessObjectLayer.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Task");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BusinessObjectLayer.Entities.TaskEntity", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
             modelBuilder.Entity("BusinessObjectLayer.Entities.UserEntity", b =>
                 {
                     b.Navigation("Availabilities");
-
-                    b.Navigation("Tasks");
 
                     b.Navigation("UserDepartments");
 

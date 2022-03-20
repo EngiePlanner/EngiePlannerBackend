@@ -10,8 +10,6 @@ namespace BusinessObjectLayer.Dtos
         public int Id { get; set; }
         [JsonIgnore]
         public string Name { get; set; }
-        [JsonProperty("delivery")]
-        public int DeliveryId { get; set; }
         [JsonProperty("start_date")]
         public DateTime StartDate { get; set; }
         [JsonProperty("planned_date")]
@@ -22,5 +20,7 @@ namespace BusinessObjectLayer.Dtos
         public int Duration { get; set; }
         [JsonProperty("employees")]
         public List<string> Employees { get; set; }
+        [JsonProperty("predecessors")]
+        public List<string> Predecessors { get; set; }
     }
 }

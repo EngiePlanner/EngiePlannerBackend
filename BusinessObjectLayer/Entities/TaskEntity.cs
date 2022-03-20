@@ -16,10 +16,6 @@ namespace BusinessObjectLayer.Entities
         public string Name { get; set; }
 
         [Required]
-        [ForeignKey("Delivery")]
-        public int DeliveryId { get; set; }
-
-        [Required]
         public DateTime StartDate { get; set; }
 
         [Required]
@@ -30,7 +26,16 @@ namespace BusinessObjectLayer.Entities
         [Required]
         public int Duration { get; set; }
 
-        public virtual DeliveryEntity Delivery { get; set; }
-        public virtual ICollection<UserTaskMapping> Employees { get; set; }
+        [Required]
+        [ForeignKey("Employee")]
+        public string EmployeeUsername { get; set; }
+
+        [ForeignKey("Successor")]
+        public int? SuccessorId { get; set; }
+
+        public virtual UserEntity Employee { get; set; }
+
+        public virtual TaskEntity Successor { get; set; }
+
     }
 }

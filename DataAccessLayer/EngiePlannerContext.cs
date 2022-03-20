@@ -34,8 +34,6 @@ namespace DataAccessLayer
                 .HasKey(nameof(UserDepartmentMapping.UserUsername), nameof(UserDepartmentMapping.DepartmentId));
             modelBuilder.Entity<UserGroupMapping>()
                 .HasKey(nameof(UserGroupMapping.UserUsername), nameof(UserGroupMapping.GroupId));
-            modelBuilder.Entity<UserTaskMapping>()
-                .HasKey(nameof(UserTaskMapping.UserUsername), nameof(UserTaskMapping.TaskId));
         }
 
         public DbSet<UserEntity> Users { get; set; }
@@ -44,8 +42,6 @@ namespace DataAccessLayer
         public DbSet<UserDepartmentMapping> UserDepartmentMappings { get; set; }
         public DbSet<UserGroupMapping> UserGroupMappings { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
-        public DbSet<DeliveryEntity> Delivery { get; set; }
-        public DbSet<UserTaskMapping> UserTaskMappings { get; set; }
         public DbSet<AvailabilityEntity> Availabilities { get; set; }
     }
 }

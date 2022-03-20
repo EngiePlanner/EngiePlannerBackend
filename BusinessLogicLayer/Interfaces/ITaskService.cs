@@ -10,7 +10,6 @@ namespace BusinessLogicLayer.Interfaces
     public interface ITaskService
     {
         Task<List<TaskDto>> GetAllTasksAsync();
-        Task<List<DeliveryDto>> GetAllDeliveriesAsync();
         Task CreateTaskAsync(TaskDto task);
         Task UpdateTaskAsync(TaskDto task);
         Task DeleteTaskAsync(int taskId);
