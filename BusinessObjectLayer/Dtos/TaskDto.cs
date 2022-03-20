@@ -7,11 +7,12 @@ namespace BusinessObjectLayer.Dtos
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int DeliveryId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime PlannedDate { get; set; }
         public string Subteam { get; set; }
         public int Duration { get; set; }
-        public List<string> Employees { get; set; }
+        public string EmployeeUsername { get; set; }
+        public List<TaskDto> Predecessors { get; set; }
+        public UserDto Employee { get; set; }
     }
 }

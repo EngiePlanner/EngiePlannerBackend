@@ -7,10 +7,10 @@ namespace DataAccessLayer.Interfaces
     public interface ITaskRepository
     {
         Task<List<TaskEntity>> GetAllTasksAsync();
-        Task<List<UserEntity>> GetEmployeesByTaskIdAsync(int taskId);
+        Task<List<TaskEntity>> GetPredecessorsByTaskIdAsync(int taskId);
         Task<int> CreateTaskAsync(TaskEntity task);
-        Task CreateUserTaskMappingAsync(UserTaskMapping userTaskMapping);
         Task UpdateTaskAsync(TaskEntity task);
+        Task UpdateTaskRangeAsync(List<TaskEntity> tasks);
         Task DeleteTaskAsync(int taskId);
     }
 }

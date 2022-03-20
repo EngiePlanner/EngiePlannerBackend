@@ -18,14 +18,13 @@ namespace DataAccessLayer.Repositories
 
         public Task<List<TaskEntity>> GetAllTasksAsync()
         {
-            return dbContext.Tasks.AsNoTracking().ToListAsync();
+            return dbContext.Tasks.Include(x => x.Employee).AsNoTracking().ToListAsync();
         }
 
-        public Task<List<UserEntity>> GetEmployeesByTaskIdAsync(int taskId)
+        public Task<List<TaskEntity>> GetPredecessorsByTaskIdAsync(int taskId)
         {
-            return dbContext.UserTaskMappings
-                .Where(x => x.TaskId == taskId)
-                .Select(x => x.User)
+            return dbContext.Tasks
+                .Where(x => x.SuccessorId == taskId)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -38,15 +37,15 @@ namespace DataAccessLayer.Repositories
             return task.Id;
         }
 
-        public async Task CreateUserTaskMappingAsync(UserTaskMapping userTaskMapping)
-        {
-            dbContext.UserTaskMappings.Add(userTaskMapping);
-            await dbContext.SaveChangesAsync();
-        }
-
         public async Task UpdateTaskAsync(TaskEntity task)
         {
             dbContext.Tasks.Update(task);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateTaskRangeAsync(List<TaskEntity> tasks)
+        {
+            dbContext.Tasks.UpdateRange(tasks);
             await dbContext.SaveChangesAsync();
         }
 

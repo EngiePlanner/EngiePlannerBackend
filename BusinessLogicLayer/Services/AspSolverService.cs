@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.Services
         public async Task InvokeAspSolver(List<TaskDto> tasks)
         {
             var availabilities = new List<AvailabilityDto>();
-            var users = tasks.Select(x => x.Employees.FirstOrDefault()).Distinct().ToList();
+            var users = tasks.Select(x => x.EmployeeUsername).Distinct().ToList();
 
             foreach (var user in users)
             {
@@ -69,12 +69,24 @@ namespace BusinessLogicLayer.Services
 
         private void CreateTaskJsonFile(List<TaskDto> tasks)
         {
+            var tasksJson = new List<TaskJsonDto>();
             foreach (var task in tasks)
             {
-                task.Employees = task.Employees.Select(x => x.ToLower()).ToList();
+                var taskJson = new TaskJsonDto
+                {
+                    Id = task.Id,
+                    Name = task.Name,
+                    StartDate = task.StartDate,
+                    PlannedDate = task.PlannedDate,
+                    Subteam = task.Subteam,
+                    Duration = task.Duration,
+                    Employees = new List<string> { task.EmployeeUsername },
+                    Predecessors = task.Predecessors.Select(x => x.Name).ToList()
+                };
+
+                tasksJson.Add(taskJson);
             }
-            var tasksJson = tasks.Select(mapper.Map<TaskDto, TaskJsonDto>).ToList();
-            
+
             var tasksDictionary = new Dictionary<string, List<TaskJsonDto>>
             {
                 { "tasks", tasksJson }

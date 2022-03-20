@@ -14,21 +14,15 @@ namespace BusinessLogicLayer.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository taskRepository;
-        private readonly IUserRepository userRepository;
-        private readonly IDeliveryRepository deliveryRepository;
         private readonly IValidator<TaskEntity> taskValidator;
         private readonly IMapper mapper;
 
         public TaskService(
             ITaskRepository taskRepository, 
-            IUserRepository userRepository, 
-            IDeliveryRepository deliveryRepository, 
             IValidator<TaskEntity> taskValidator, 
             IMapper mapper)
         {
             this.taskRepository = taskRepository;
-            this.userRepository = userRepository;
-            this.deliveryRepository = deliveryRepository;
             this.taskValidator = taskValidator;
             this.mapper = mapper;
         }
@@ -41,21 +35,13 @@ namespace BusinessLogicLayer.Services
 
             foreach (var task in tasks)
             {
-                var employees = (await taskRepository.GetEmployeesByTaskIdAsync(task.Id))
-                    .Select(mapper.Map<UserEntity, UserDto>)
-                    .Select(x => x.Username)
+                var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
+                    .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
-                task.Employees = employees;
+                task.Predecessors = predecessors;
             }
 
             return tasks;
-        }
-
-        public async Task<List<DeliveryDto>> GetAllDeliveriesAsync()
-        {
-            return (await deliveryRepository.GetAllDeliveriesAsync())
-                .Select(mapper.Map<DeliveryEntity, DeliveryDto>)
-                .ToList();
         }
 
         public async Task CreateTaskAsync(TaskDto task)
@@ -70,18 +56,6 @@ namespace BusinessLogicLayer.Services
             catch (ValidationException exception)
             {
                 throw new ValidationException(exception.Message);
-            }
-
-            foreach (var employeeUsername in task.Employees)
-            {
-                var employee = await userRepository.GetUserByUsernameAsync(employeeUsername);
-                var userTaskMapping = new UserTaskMapping
-                {
-                    UserUsername = employee.Username,
-                    TaskId = taskId
-                };
-
-                await taskRepository.CreateUserTaskMappingAsync(userTaskMapping);
             }
         }
 
@@ -101,6 +75,9 @@ namespace BusinessLogicLayer.Services
 
         public async Task DeleteTaskAsync(int taskId)
         {
+            var predecessors = await taskRepository.GetPredecessorsByTaskIdAsync(taskId);
+            predecessors.ForEach(x => x.SuccessorId = null);
+            await taskRepository.UpdateTaskRangeAsync(predecessors);
             await taskRepository.DeleteTaskAsync(taskId);
         }
     }

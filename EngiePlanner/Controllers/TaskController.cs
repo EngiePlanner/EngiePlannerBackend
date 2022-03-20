@@ -33,18 +33,6 @@ namespace EngiePlanner.Controllers
             return Ok(tasks);
         }
 
-        [HttpGet("GetAllDeliveries")]
-        public async Task<IActionResult> GetAllDeliveries()
-        {
-            var deliveries = await taskService.GetAllDeliveriesAsync();
-            if (!deliveries.Any())
-            {
-                return NoContent();
-            }
-
-            return Ok(deliveries);
-        }
-
         [HttpPost("CreateTask")]
         public async Task<IActionResult> CreateTask([FromBody] TaskDto task)
         {

@@ -17,15 +17,11 @@ namespace BusinessObjectLayer.Validators
             {
                 errors.Append("Invalid name!\n");
             }
-            if (task.DeliveryId == 0)
-            {
-                errors.Append("Invalid delivery!\n");
-            }
-            if (DateTime.Compare(task.StartDate, DateTime.Now) <= 0)
+            if (DateTime.Compare(task.StartDate.Date, DateTime.Now.Date) < 0)
             {
                 errors.Append("Invalid start date!\n");
             }
-            if (DateTime.Compare(task.PlannedDate, DateTime.Now) <= 0)
+            if (DateTime.Compare(task.PlannedDate.Date, task.StartDate.Date) < 0)
             {
                 errors.Append("Invalid planned date!\n");
             }
@@ -36,6 +32,10 @@ namespace BusinessObjectLayer.Validators
             if (task.Duration < 1)
             {
                 errors.Append("Invalid duration!\n");
+            }
+            if (task.EmployeeUsername == "" || task.EmployeeUsername.Length == 0)
+            {
+                errors.Append("Invalid employee!\n");
             }
 
             if (errors.Length > 0)
