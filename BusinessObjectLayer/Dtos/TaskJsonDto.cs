@@ -21,6 +21,6 @@ namespace BusinessObjectLayer.Dtos
         [JsonProperty("employees")]
         public List<string> Employees { get; set; }
         [JsonProperty("predecessors")]
-        public List<string> Predecessors { get; set; }
+        public List<int> Predecessors { get; set; }
     }
 }

@@ -45,6 +45,7 @@ namespace BusinessLogicLayer.Services
             CreateAvailabilityJsonFile(availabilities);
             CreateTaskJsonFile(tasks);
             CallPythonScript("pot_plot_json_io.py");
+            CallPythonScript("run_clingo.py");
         }
 
         private void CreateAvailabilityJsonFile(List<AvailabilityDto> availabilities)
@@ -80,8 +81,8 @@ namespace BusinessLogicLayer.Services
                     PlannedDate = task.PlannedDate,
                     Subteam = task.Subteam,
                     Duration = task.Duration,
-                    Employees = new List<string> { task.EmployeeUsername },
-                    Predecessors = task.Predecessors.Select(x => x.Name).ToList()
+                    Employees = new List<string> { task.EmployeeUsername.ToLower() },
+                    Predecessors = task.Predecessors.Select(x => x.Id).ToList()
                 };
 
                 tasksJson.Add(taskJson);

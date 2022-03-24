@@ -30,12 +30,9 @@ namespace BusinessObjectLayer.Entities
         [ForeignKey("Employee")]
         public string EmployeeUsername { get; set; }
 
-        [ForeignKey("Successor")]
-        public int? SuccessorId { get; set; }
-
         public virtual UserEntity Employee { get; set; }
 
-        public virtual TaskEntity Successor { get; set; }
-
+        public virtual ICollection<TaskPredecessorMapping> Predecessors { get; set; }
+        public virtual ICollection<TaskPredecessorMapping> Tasks { get; set; }
     }
 }
