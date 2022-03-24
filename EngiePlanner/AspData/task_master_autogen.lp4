@@ -1,98 +1,165 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem Instance 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-task((13, 1)). task_available_day((13, 1),1). task_available(1,1). task_planned_day((13, 1),5). planned_date_week(1, 1). task_duration((13, 1),15). job_duration(13,15). delivery(1). 
+task_available_day(15, 2).
+task_available_week(15, 1).
+task_planned_day(15, 4).
+task_planned_week(15, 1).
+task_duration(15, 14).
+job_duration(15, 14).
 
-capacity(roc2clj, 2, 20). 
-capacity(roc2clj, 3, 20). 
-capacity(roc2clj, 4, 20). 
-capacity(roc2clj, 5, 20). 
-capacity(roc2clj, 6, 20). 
-capacity(roc2clj, 7, 20). 
-capacity(roc2clj, 8, 20). 
-capacity(roc2clj, 9, 20). 
-capacity(roc2clj, 10, 20). 
-capacity(roc2clj, 11, 20). 
-capacity(roc2clj, 12, 20). 
-capacity(roc2clj, 13, 10). 
-capacity(roc2clj, 14, 35). 
-capacity(roc2clj, 15, 20). 
-capacity(roc2clj, 16, 20). 
-capacity(roc2clj, 17, 20). 
-capacity(roc2clj, 18, 20). 
-capacity(roc2clj, 19, 20). 
-capacity(roc2clj, 20, 20). 
-capacity(roc2clj, 21, 20). 
-capacity(roc2clj, 22, 20). 
-capacity(roc2clj, 23, 20). 
-capacity(roc2clj, 24, 20). 
-capacity(roc2clj, 25, 20). 
-capacity(roc2clj, 26, 20). 
-capacity(roc2clj, 27, 20). 
-capacity(roc2clj, 28, 20). 
-capacity(roc2clj, 29, 20). 
-capacity(roc2clj, 30, 20). 
-capacity(roc2clj, 31, 20). 
-capacity(roc2clj, 32, 20). 
-capacity(roc2clj, 33, 20). 
-capacity(roc2clj, 34, 20). 
-capacity(roc2clj, 35, 20). 
-capacity(roc2clj, 36, 20). 
-capacity(roc2clj, 37, 20). 
-capacity(roc2clj, 38, 20). 
-capacity(roc2clj, 39, 20). 
-capacity(roc2clj, 40, 20). 
-capacity(roc2clj, 41, 20). 
-capacity(roc2clj, 42, 20). 
-capacity(roc2clj, 43, 20). 
-capacity(roc2clj, 44, 20). 
-capacity(roc2clj, 45, 20). 
-capacity(roc2clj, 46, 20). 
-capacity(roc2clj, 47, 20). 
-capacity(roc2clj, 48, 20). 
-capacity(roc2clj, 49, 20). 
-capacity(roc2clj, 50, 20). 
-capacity(roc2clj, 51, 20). 
-capacity(roc2clj, 52, 20). 
-capacity(roc2clj, 53, 20). 
+task_available_day(17, 1).
+task_available_week(17, 1).
+task_planned_day(17, 4).
+task_planned_week(17, 1).
+task_duration(17, 10).
+job_duration(17, 10).
 
-capable_of(E,13) :- sub_team_member(E,team1).
-capable_of(roc2clj,13).
+task_available_day(18, 10).
+task_available_week(18, 2).
+task_planned_day(18, 11).
+task_planned_week(18, 3).
+task_duration(18, 11).
+job_duration(18, 11).
 
-days(1..15).
-weeks(1..3).
-job(13).
+task_available_day(19, 3).
+task_available_week(19, 1).
+task_planned_day(19, 9).
+task_planned_week(19, 2).
+task_duration(19, 2).
+job_duration(19, 2).
+
+
+capacity(rba5clj, 1, 20). 
+capacity(rba5clj, 2, 20). 
+capacity(rba5clj, 3, 20). 
+capacity(rba5clj, 4, 20). 
+capacity(rba5clj, 5, 20). 
+capacity(rba5clj, 6, 20). 
+capacity(rba5clj, 7, 20). 
+capacity(rba5clj, 8, 20). 
+capacity(rba5clj, 9, 20). 
+capacity(rba5clj, 10, 20). 
+capacity(rba5clj, 11, 20). 
+capacity(rba5clj, 12, 20). 
+capacity(rba5clj, 13, 20). 
+capacity(rba5clj, 14, 20). 
+capacity(rba5clj, 15, 20). 
+capacity(rba5clj, 16, 20). 
+capacity(rba5clj, 17, 20). 
+capacity(rba5clj, 18, 20). 
+capacity(rba5clj, 19, 20). 
+capacity(rba5clj, 20, 20). 
+capacity(rba5clj, 21, 20). 
+capacity(rba5clj, 22, 20). 
+capacity(rba5clj, 23, 20). 
+capacity(rba5clj, 24, 20). 
+capacity(rba5clj, 25, 20). 
+capacity(rba5clj, 26, 20). 
+capacity(rba5clj, 27, 20). 
+capacity(rba5clj, 28, 20). 
+capacity(rba5clj, 29, 20). 
+capacity(rba5clj, 30, 20). 
+capacity(rba5clj, 31, 20). 
+capacity(rba5clj, 32, 20). 
+capacity(rba5clj, 33, 20). 
+capacity(rba5clj, 34, 20). 
+capacity(rba5clj, 35, 20). 
+capacity(rba5clj, 36, 20). 
+capacity(rba5clj, 37, 20). 
+capacity(rba5clj, 38, 20). 
+capacity(rba5clj, 39, 20). 
+capacity(rba5clj, 40, 20). 
+capacity(rba5clj, 41, 20). 
+capacity(rba5clj, 42, 20). 
+capacity(rba5clj, 43, 20). 
+capacity(rba5clj, 44, 20). 
+capacity(rba5clj, 45, 20). 
+capacity(rba5clj, 46, 20). 
+capacity(rba5clj, 47, 20). 
+capacity(rba5clj, 48, 20). 
+capacity(rba5clj, 49, 20). 
+capacity(rba5clj, 50, 20). 
+capacity(rba5clj, 51, 20). 
+capacity(rba5clj, 52, 20). 
+capacity(cof2bp, 1, 20). 
+capacity(cof2bp, 2, 20). 
+capacity(cof2bp, 3, 20). 
+capacity(cof2bp, 4, 20). 
+capacity(cof2bp, 5, 20). 
+capacity(cof2bp, 6, 20). 
+capacity(cof2bp, 7, 20). 
+capacity(cof2bp, 8, 20). 
+capacity(cof2bp, 9, 20). 
+capacity(cof2bp, 10, 20). 
+capacity(cof2bp, 11, 20). 
+capacity(cof2bp, 12, 20). 
+capacity(cof2bp, 13, 20). 
+capacity(cof2bp, 14, 20). 
+capacity(cof2bp, 15, 20). 
+capacity(cof2bp, 16, 20). 
+capacity(cof2bp, 17, 20). 
+capacity(cof2bp, 18, 20). 
+capacity(cof2bp, 19, 20). 
+capacity(cof2bp, 20, 20). 
+capacity(cof2bp, 21, 20). 
+capacity(cof2bp, 22, 20). 
+capacity(cof2bp, 23, 20). 
+capacity(cof2bp, 24, 20). 
+capacity(cof2bp, 25, 20). 
+capacity(cof2bp, 26, 20). 
+capacity(cof2bp, 27, 20). 
+capacity(cof2bp, 28, 20). 
+capacity(cof2bp, 29, 20). 
+capacity(cof2bp, 30, 20). 
+capacity(cof2bp, 31, 20). 
+capacity(cof2bp, 32, 20). 
+capacity(cof2bp, 33, 20). 
+capacity(cof2bp, 34, 20). 
+capacity(cof2bp, 35, 20). 
+capacity(cof2bp, 36, 20). 
+capacity(cof2bp, 37, 20). 
+capacity(cof2bp, 38, 20). 
+capacity(cof2bp, 39, 20). 
+capacity(cof2bp, 40, 20). 
+capacity(cof2bp, 41, 20). 
+capacity(cof2bp, 42, 20). 
+capacity(cof2bp, 43, 20). 
+capacity(cof2bp, 44, 20). 
+capacity(cof2bp, 45, 20). 
+capacity(cof2bp, 46, 20). 
+capacity(cof2bp, 47, 20). 
+capacity(cof2bp, 48, 20). 
+capacity(cof2bp, 49, 20). 
+capacity(cof2bp, 50, 20). 
+capacity(cof2bp, 51, 20). 
+capacity(cof2bp, 52, 20). 
+
+capable_of(wat1fe,15).
+capable_of(rba5clj,17).
+capable_of(rba5clj,18).
+predecessor(15,18).
+predecessor(17,18).
+predecessor(19,18).
+capable_of(cof2bp,19).
+predecessor(17,19).
+
+days(1..20).
+weeks(1..4).
+job(17).
+job(18).
+job(19).
+job(15).
+weekend(5).
 weekend(6).
-weekend(7).
+weekend(12).
 weekend(13).
-weekend(14).
-
-
-sub_team(team1).
-sub_team(team2).
-sub_team(team3).
-
-employee(roc2clj). sub_team_member(roc2clj, team1).
-employee(big83wi). sub_team_member(big83wi, team2).
-employee(tev8fe). sub_team_member(tev8fe, team1). sub_team_member(tev8fe, team2).
-employee(hvb1kor). sub_team_member(hvb1kor, team3). sub_team_member(hvb1kor, team2).
-
-capable_of(E,job1) :- sub_team_member(E,team1).
-capable_of(E,job2) :- sub_team_member(E,team1).
-capable_of(E,job3) :- sub_team_member(E,team2).
-capable_of(E,job4) :- sub_team_member(E,team3).
-capable_of(E,job5) :- sub_team_member(E,team4).
-
-before((job1,D), (job2,D)) :- delivery(D).
-before((job2,D), (job3,D)) :- delivery(D).
-before((job1,D), (job4,D)) :- delivery(D).
+weekend(19).
+task(T) :- task_available_day(T,D).
 
 days((7*W-6)..7*W) :- weeks(W).
 
 #const hours_per_week = 40.
-
-capacity(E, W, P*hours_per_week/100) :- capacity_employee(E, W, P), employee(E).
-capacity(E, W, hours_per_week) :- employee(E), weeks(W), not capacity_employee(E, W, _). 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,13 +167,15 @@ capacity(E, W, hours_per_week) :- employee(E), weeks(W), not capacity_employee(E
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Generate assignments
-{assigned_empl(T,Emp) : task(T), employee(Emp)} .
+%{assigned_empl(T,Emp) : task(T), employee(Emp)} .
 % Each task must be assigned an employee.
-:- task(T), not assigned_empl(T,_).
+%:- task(T), not assigned_empl(T,_).
 % Each task cannot be assigned more than one employee.
-:- assigned_empl(T,Emp1), assigned_empl(T,Emp2), Emp1 != Emp2.
+%:- assigned_empl(T,Emp1), assigned_empl(T,Emp2), Emp1 != Emp2.
 % An assigned employee must be capable of the job, they are assigned to.
-:- assigned_empl((J,_),E), not capable_of(E,J). 
+%:- assigned_empl(J,E), not capable_of(E,J). 
+
+assigned_empl(J,E) :- capable_of(E,J).
 
 % Assign tasks to a week
 {assign_week(Emp, W, T) : assigned_empl(T,Emp), weeks(W)}.
@@ -118,7 +187,7 @@ capacity(E, W, hours_per_week) :- employee(E), weeks(W), not capacity_employee(E
 % Task cannot be assigned before delivery is available
 :- assign_week(_, W, T), task_available(T , W_available), W < W_available.
 % Task should be finished before delivery planned date
- :~ assign_week(_, W, (_,D)), planned_date_week(D, Planned_week), Planned_week < W. [W-Planned_week@3]
+:~ assign_week(_, W, (_,D)), task_planned_week(D, Planned_week), Planned_week < W. [W-Planned_week@3]
 
 % The summ of all task effort must not exceed the weekly capacity.
 assign_week_task_dur(E, W, T, Dur) :- assign_week(E, W, T), task_duration(T,Dur).
@@ -126,7 +195,7 @@ load(E, W, S) :-S = #sum { Dur,E,W,T : assign_week_task_dur(E, W, T, Dur)}, week
 :~ load(E, W, S), capacity(E, W, C), C<=S, Delta=S-C. [S-C@2]
 
 % If there is a predecessor-successor relationship, then the successor must be in the same or a later week than the predecessor.
-:- before(T1, T2), assign_week(_, W1, T1), assign_week(_, W2, T2), W2<W1.
+:- predecessor(T1, T2), assign_week(_, W1, T1), assign_week(_, W2, T2), W2<W1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Feasible Solutions (daily)
@@ -153,7 +222,7 @@ day_belongs_to_week(Day, Week) :- days(Day), weeks(Week), Day\5!=0, Day/5 + 1 = 
 :- assign_day(E, Day, T), assign_day(E, Day2, T), Day2 > Day, not assign_day(E, Day+1, T).
 
 % If there is a predecessor-successor relationship, then the successor must be in the same or a later week than the predecessor.
-:- before(T1, T2), assign_day(_, Day1, T1), assign_day(_, Day2, T2), Day2<Day1.
+:- predecessor(T1, T2), assign_day(_, Day1, T1), assign_day(_, Day2, T2), Day2<Day1.
 
 
 % Start day must be greater or equal the available day.
@@ -175,11 +244,15 @@ end_day(E, Day, T1)|end_day(E, Day, T2) :- assign_day(E, Day, T1), assign_day(E,
 % Assign as early as possible
 :~ assign_day(E, Day, T). [Day@4]
 
+:- task(T), not start_day(_, _, T).
+:- task(T), not end_day(_, _, T).
+
+
 %#show day_belongs_to_week/2.
 %#show assign_day/3.
 %#show task_duration/2.
-%#show start_day/3.
-%#show end_day/3.
+#show start_day/3.
+#show end_day/3.
 
 
 

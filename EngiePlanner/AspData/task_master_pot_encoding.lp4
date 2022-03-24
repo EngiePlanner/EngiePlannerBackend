@@ -1,30 +1,8 @@
-
-
-sub_team(team1).
-sub_team(team2).
-sub_team(team3).
-
-employee(roc2clj). sub_team_member(roc2clj, team1).
-employee(big83wi). sub_team_member(big83wi, team2).
-employee(tev8fe). sub_team_member(tev8fe, team1). sub_team_member(tev8fe, team2).
-employee(hvb1kor). sub_team_member(hvb1kor, team3). sub_team_member(hvb1kor, team2).
-
-capable_of(E,job1) :- sub_team_member(E,team1).
-capable_of(E,job2) :- sub_team_member(E,team1).
-capable_of(E,job3) :- sub_team_member(E,team2).
-capable_of(E,job4) :- sub_team_member(E,team3).
-capable_of(E,job5) :- sub_team_member(E,team4).
-
-before((job1,D), (job2,D)) :- delivery(D).
-before((job2,D), (job3,D)) :- delivery(D).
-before((job1,D), (job4,D)) :- delivery(D).
+task(T) :- task_available_day(T,D).
 
 days((7*W-6)..7*W) :- weeks(W).
 
 #const hours_per_week = 40.
-
-capacity(E, W, P*hours_per_week/100) :- capacity_employee(E, W, P), employee(E).
-capacity(E, W, hours_per_week) :- employee(E), weeks(W), not capacity_employee(E, W, _). 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,13 +10,15 @@ capacity(E, W, hours_per_week) :- employee(E), weeks(W), not capacity_employee(E
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Generate assignments
-{assigned_empl(T,Emp) : task(T), employee(Emp)} .
+%{assigned_empl(T,Emp) : task(T), employee(Emp)} .
 % Each task must be assigned an employee.
-:- task(T), not assigned_empl(T,_).
+%:- task(T), not assigned_empl(T,_).
 % Each task cannot be assigned more than one employee.
-:- assigned_empl(T,Emp1), assigned_empl(T,Emp2), Emp1 != Emp2.
+%:- assigned_empl(T,Emp1), assigned_empl(T,Emp2), Emp1 != Emp2.
 % An assigned employee must be capable of the job, they are assigned to.
-:- assigned_empl((J,_),E), not capable_of(E,J). 
+%:- assigned_empl(J,E), not capable_of(E,J). 
+
+assigned_empl(J,E) :- capable_of(E,J).
 
 % Assign tasks to a week
 {assign_week(Emp, W, T) : assigned_empl(T,Emp), weeks(W)}.
@@ -50,7 +30,7 @@ capacity(E, W, hours_per_week) :- employee(E), weeks(W), not capacity_employee(E
 % Task cannot be assigned before delivery is available
 :- assign_week(_, W, T), task_available(T , W_available), W < W_available.
 % Task should be finished before delivery planned date
- :~ assign_week(_, W, (_,D)), planned_date_week(D, Planned_week), Planned_week < W. [W-Planned_week@3]
+:~ assign_week(_, W, (_,D)), task_planned_week(D, Planned_week), Planned_week < W. [W-Planned_week@3]
 
 % The summ of all task effort must not exceed the weekly capacity.
 assign_week_task_dur(E, W, T, Dur) :- assign_week(E, W, T), task_duration(T,Dur).
@@ -58,7 +38,7 @@ load(E, W, S) :-S = #sum { Dur,E,W,T : assign_week_task_dur(E, W, T, Dur)}, week
 :~ load(E, W, S), capacity(E, W, C), C<=S, Delta=S-C. [S-C@2]
 
 % If there is a predecessor-successor relationship, then the successor must be in the same or a later week than the predecessor.
-:- before(T1, T2), assign_week(_, W1, T1), assign_week(_, W2, T2), W2<W1.
+:- predecessor(T1, T2), assign_week(_, W1, T1), assign_week(_, W2, T2), W2<W1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Feasible Solutions (daily)
@@ -85,7 +65,7 @@ day_belongs_to_week(Day, Week) :- days(Day), weeks(Week), Day\5!=0, Day/5 + 1 = 
 :- assign_day(E, Day, T), assign_day(E, Day2, T), Day2 > Day, not assign_day(E, Day+1, T).
 
 % If there is a predecessor-successor relationship, then the successor must be in the same or a later week than the predecessor.
-:- before(T1, T2), assign_day(_, Day1, T1), assign_day(_, Day2, T2), Day2<Day1.
+:- predecessor(T1, T2), assign_day(_, Day1, T1), assign_day(_, Day2, T2), Day2<Day1.
 
 
 % Start day must be greater or equal the available day.
@@ -107,11 +87,15 @@ end_day(E, Day, T1)|end_day(E, Day, T2) :- assign_day(E, Day, T1), assign_day(E,
 % Assign as early as possible
 :~ assign_day(E, Day, T). [Day@4]
 
+:- task(T), not start_day(_, _, T).
+:- task(T), not end_day(_, _, T).
+
+
 %#show day_belongs_to_week/2.
 %#show assign_day/3.
 %#show task_duration/2.
-%#show start_day/3.
-%#show end_day/3.
+#show start_day/3.
+#show end_day/3.
 
 
 
