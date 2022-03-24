@@ -4,14 +4,16 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(EngiePlannerContext))]
-    partial class EngiePlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20220321090654_RemoveSuccessorColumn")]
+    partial class RemoveSuccessorColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,21 +122,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("BusinessObjectLayer.Entities.TaskPredecessorMapping", b =>
-                {
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PredecessorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TaskId", "PredecessorId");
-
-                    b.HasIndex("PredecessorId");
-
-                    b.ToTable("TaskPredecessorsMappings");
-                });
-
             modelBuilder.Entity("BusinessObjectLayer.Entities.UserDepartmentMapping", b =>
                 {
                     b.Property<string>("UserUsername")
@@ -234,25 +221,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("BusinessObjectLayer.Entities.TaskPredecessorMapping", b =>
-                {
-                    b.HasOne("BusinessObjectLayer.Entities.TaskEntity", "Predecessor")
-                        .WithMany("Tasks")
-                        .HasForeignKey("PredecessorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BusinessObjectLayer.Entities.TaskEntity", "Task")
-                        .WithMany("Predecessors")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Predecessor");
-
-                    b.Navigation("Task");
-                });
-
             modelBuilder.Entity("BusinessObjectLayer.Entities.UserDepartmentMapping", b =>
                 {
                     b.HasOne("BusinessObjectLayer.Entities.DepartmentEntity", "Department")
@@ -298,13 +266,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Group");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BusinessObjectLayer.Entities.TaskEntity", b =>
-                {
-                    b.Navigation("Predecessors");
-
-                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("BusinessObjectLayer.Entities.UserEntity", b =>

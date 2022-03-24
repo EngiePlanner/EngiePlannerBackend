@@ -3,6 +3,8 @@ using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,6 +35,19 @@ namespace EngiePlanner.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet("GetTasksWithPlannedDateLowerThanGivenDate")]
+        public async Task<IActionResult> GetTasksWithPlannedDateLowerThanGivenDateAsync(DateTime date)
+        {
+            var tasks = await taskService.GetTasksWithPlannedDateLowerThanGivenDateAsync(date);
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
         [HttpPost("CreateTask")]
         public async Task<IActionResult> CreateTask([FromBody] TaskDto task)
         {
@@ -45,6 +60,13 @@ namespace EngiePlanner.Controllers
             {
                 return BadRequest(exception.Message);
             }
+        }
+
+        [HttpPut("AddPredecessors")]
+        public async Task<IActionResult> CreateTaskPredecessorMappings([FromQuery] int taskId, [FromBody] List<int> predecessorsId)
+        {
+            await taskService.CreateTaskPredecessorMappingsRangeAsync(taskId, predecessorsId);
+            return Ok();
         }
 
         [HttpPut("UpdateTask")]

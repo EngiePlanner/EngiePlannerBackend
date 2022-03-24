@@ -29,7 +29,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<List<TaskDto>> GetAllTasksAsync()
         {
-            var tasks = (await taskRepository.GetAllTasksAsync())
+            var tasks =  (await taskRepository.GetAllTasksAsync())
                 .Select(mapper.Map<TaskEntity, TaskDto>)
                 .ToList();
 
@@ -38,10 +38,18 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                     .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
+
                 task.Predecessors = predecessors;
             }
 
             return tasks;
+        }
+
+        public async Task<List<TaskDto>> GetTasksWithPlannedDateLowerThanGivenDateAsync(DateTime date)
+        {
+            return (await taskRepository.GetTasksWithPlannedDateLowerThanGivenDateAsync(date))
+                .Select(mapper.Map<TaskEntity, TaskDto>)
+                .ToList();
         }
 
         public async Task CreateTaskAsync(TaskDto task)
@@ -57,6 +65,26 @@ namespace BusinessLogicLayer.Services
             {
                 throw new ValidationException(exception.Message);
             }
+        }
+
+        public async Task CreateTaskPredecessorMappingsRangeAsync(int taskId, List<int> predecessorsId)
+        {
+            var oldTaskPredecessorMappings = await taskRepository.GetTaskPredecessorMappingsByTaskIdAsync(taskId);
+            await taskRepository.DeleteTaskPredecessorMappingRangeAsync(oldTaskPredecessorMappings);
+            
+            var taskPredecessorMappings = new List<TaskPredecessorMapping>();
+            foreach (var predecessorId in predecessorsId)
+            {
+                var taskPredecessorMapping = new TaskPredecessorMapping
+                {
+                    TaskId = taskId,
+                    PredecessorId = predecessorId
+                };
+
+                taskPredecessorMappings.Add(taskPredecessorMapping);
+            }
+
+            await taskRepository.CreateTaskPredecessorMappingRangeAsync(taskPredecessorMappings);
         }
 
         public async Task UpdateTaskAsync(TaskDto task)
@@ -75,9 +103,8 @@ namespace BusinessLogicLayer.Services
 
         public async Task DeleteTaskAsync(int taskId)
         {
-            var predecessors = await taskRepository.GetPredecessorsByTaskIdAsync(taskId);
-            predecessors.ForEach(x => x.SuccessorId = null);
-            await taskRepository.UpdateTaskRangeAsync(predecessors);
+            var taskPredecessorMapping = await taskRepository.GetTaskPredecessorMappingsByTaskOrPredecessorIdAsync(taskId);
+            await taskRepository.DeleteTaskPredecessorMappingRangeAsync(taskPredecessorMapping);
             await taskRepository.DeleteTaskAsync(taskId);
         }
     }

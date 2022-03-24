@@ -23,8 +23,8 @@ namespace DataAccessLayer
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                //.UseSqlServer("Server=CLJ-C-0019T;Database=EngiePlanner;Trusted_Connection=True;")
-                .UseSqlServer("Server=DESKTOP-OHBS1P5;Database=EngiePlanner;Trusted_Connection=True;")
+                .UseSqlServer("Server=CLJ-C-0019T;Database=EngiePlanner;Trusted_Connection=True;")
+                //.UseSqlServer("Server=DESKTOP-OHBS1P5;Database=EngiePlanner;Trusted_Connection=True;")
                 .EnableSensitiveDataLogging();
         }
 
@@ -34,6 +34,18 @@ namespace DataAccessLayer
                 .HasKey(nameof(UserDepartmentMapping.UserUsername), nameof(UserDepartmentMapping.DepartmentId));
             modelBuilder.Entity<UserGroupMapping>()
                 .HasKey(nameof(UserGroupMapping.UserUsername), nameof(UserGroupMapping.GroupId));
+            modelBuilder.Entity<TaskPredecessorMapping>()
+                .HasKey(nameof(TaskPredecessorMapping.TaskId), nameof(TaskPredecessorMapping.PredecessorId));
+            modelBuilder.Entity<TaskPredecessorMapping>()
+                .HasOne(x => x.Task)
+                .WithMany(x => x.Predecessors)
+                .HasForeignKey(x => x.TaskId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<TaskPredecessorMapping>()
+                .HasOne(x => x.Predecessor)
+                .WithMany(x => x.Tasks)
+                .HasForeignKey(x => x.PredecessorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<UserEntity> Users { get; set; }
@@ -43,5 +55,6 @@ namespace DataAccessLayer
         public DbSet<UserGroupMapping> UserGroupMappings { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<AvailabilityEntity> Availabilities { get; set; }
+        public DbSet<TaskPredecessorMapping> TaskPredecessorMappings { get; set; }
     }
 }
