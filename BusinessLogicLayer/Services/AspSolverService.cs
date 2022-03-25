@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
+using BusinessObjectLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -124,10 +125,11 @@ namespace BusinessLogicLayer.Services
                 {
                     string stderr = process.StandardError.ReadToEnd(); 
 
-                    if (stderr.Length != 0)
+                    /*if (stderr.Length != 0 && !stderr.Equals(Constants.ClingoWarnings))
                     {
+                        Debug.WriteLine(stderr);
                         throw new IOException(stderr);
-                    }
+                    }*/
 
                     string result = reader.ReadToEnd(); 
                 }
