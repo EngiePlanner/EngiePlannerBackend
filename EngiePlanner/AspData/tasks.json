@@ -20,7 +20,11 @@
       "employees": [
         "rba5clj"
       ],
-      "predecessors": []
+      "predecessors": [
+        23,
+        28,
+        29
+      ]
     },
     {
       "name": 26,
@@ -53,7 +57,9 @@
       "employees": [
         "roc2clj"
       ],
-      "predecessors": []
+      "predecessors": [
+        23
+      ]
     },
     {
       "name": 29,

@@ -25,8 +25,8 @@ namespace EngiePlanner.Controllers
         {
             try
             {
-                await aspSolverService.InvokeAspSolver(tasks);
-                return Ok();
+                var scheduledTasks = await aspSolverService.InvokeAspSolver(tasks);
+                return Ok(scheduledTasks);
             }
             catch (IOException exception)
             {

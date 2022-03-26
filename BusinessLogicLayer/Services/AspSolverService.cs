@@ -2,7 +2,6 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
-using BusinessObjectLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -31,7 +30,7 @@ namespace BusinessLogicLayer.Services
             this.mapper = mapper;
         }
 
-        public async Task InvokeAspSolver(List<TaskDto> tasks)
+        public async Task<List<TaskDto>> InvokeAspSolver(List<TaskDto> tasks)
         {
             var availabilities = new List<AvailabilityDto>();
             var users = tasks.Select(x => x.EmployeeUsername).Distinct().ToList();
@@ -47,6 +46,8 @@ namespace BusinessLogicLayer.Services
             CreateTaskJsonFile(tasks);
             CallPythonScript("pot_plot_json_io.py");
             CallPythonScript("run_clingo.py");
+            var result = ReadJsonResult();
+            return SetStartAndEndDateOnTasks(tasks, result);
         }
 
         private void CreateAvailabilityJsonFile(List<AvailabilityDto> availabilities)
@@ -134,6 +135,30 @@ namespace BusinessLogicLayer.Services
                     string result = reader.ReadToEnd(); 
                 }
             }
+        }
+
+        private static List<AspResultDto> ReadJsonResult()
+        {
+            var path = aspDataDirectory + "\\output.json";
+            var json = File.ReadAllText(path);
+            var jsonSerializerOptions = new JsonSerializerSettings
+            {
+                DateFormatString = "dd.MM.yyyy",
+            };
+            var aspResults = JsonConvert.DeserializeObject<List<AspResultDto>>(json, jsonSerializerOptions);
+            return aspResults;
+        }
+
+        private static List<TaskDto> SetStartAndEndDateOnTasks(List<TaskDto> tasks, List<AspResultDto> result)
+        {
+            foreach (var task in tasks)
+            {
+                var item = result.FirstOrDefault(x => x.Task == task.Id);
+                task.StartDate = item.Start;
+                task.EndDate = item.Finish;
+            }
+
+            return tasks;
         }
     }
 }

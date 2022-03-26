@@ -9,6 +9,6 @@ namespace BusinessLogicLayer.Interfaces
 {
     public interface IAspSolverService
     {
-        Task InvokeAspSolver(List<TaskDto> tasks);
+        Task<List<TaskDto>> InvokeAspSolver(List<TaskDto> tasks);
     }
 }

@@ -30,8 +30,9 @@ namespace BusinessObjectLayer.Entities
         [ForeignKey("Employee")]
         public string EmployeeUsername { get; set; }
 
-        public virtual UserEntity Employee { get; set; }
+        public DateTime? EndDate { get; set; }
 
+        public virtual UserEntity Employee { get; set; }
         public virtual ICollection<TaskPredecessorMapping> Predecessors { get; set; }
         public virtual ICollection<TaskPredecessorMapping> Tasks { get; set; }
     }

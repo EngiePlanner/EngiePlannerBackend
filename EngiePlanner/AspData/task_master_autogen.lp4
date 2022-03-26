@@ -210,9 +210,13 @@ capacity(cof2bp, 52, 20).
 
 capable_of(roc2clj,23).
 capable_of(rba5clj,25).
+predecessor(23,25).
+predecessor(28,25).
+predecessor(29,25).
 capable_of(roc2clj,26).
 capable_of(roc2clj,27).
 capable_of(roc2clj,28).
+predecessor(23,28).
 capable_of(roc2clj,29).
 capable_of(cof2bp,30).
 

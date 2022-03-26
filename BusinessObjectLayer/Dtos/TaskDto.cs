@@ -14,5 +14,6 @@ namespace BusinessObjectLayer.Dtos
         public string EmployeeUsername { get; set; }
         public List<TaskDto> Predecessors { get; set; }
         public UserDto Employee { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }
