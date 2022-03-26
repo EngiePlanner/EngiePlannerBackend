@@ -22,5 +22,7 @@ namespace BusinessObjectLayer.Dtos
         public List<string> Employees { get; set; }
         [JsonProperty("predecessors")]
         public List<int> Predecessors { get; set; }
+        [JsonIgnore]
+        public DateTime? EndDate { get; set; }
     }
 }

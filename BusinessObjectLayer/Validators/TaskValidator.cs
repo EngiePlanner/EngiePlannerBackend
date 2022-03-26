@@ -35,7 +35,7 @@ namespace BusinessObjectLayer.Validators
             }
             if (task.EmployeeUsername == "" || task.EmployeeUsername.Length == 0)
             {
-                errors.Append("Invalid employee!\n");
+                errors.Append("Invalid associate!\n");
             }
 
             if (errors.Length > 0)
