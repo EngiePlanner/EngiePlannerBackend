@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
+using BusinessObjectLayer.Enums;
 using BusinessObjectLayer.Validators;
 using DataAccessLayer.Interfaces;
 using System;
@@ -14,12 +15,12 @@ namespace BusinessLogicLayer.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository taskRepository;
-        private readonly IValidator<TaskEntity> taskValidator;
+        private readonly IValidator<TaskDto> taskValidator;
         private readonly IMapper mapper;
 
         public TaskService(
             ITaskRepository taskRepository, 
-            IValidator<TaskEntity> taskValidator, 
+            IValidator<TaskDto> taskValidator, 
             IMapper mapper)
         {
             this.taskRepository = taskRepository;
@@ -29,7 +30,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<List<TaskDto>> GetAllTasksAsync()
         {
-            var tasks =  (await taskRepository.GetAllTasksAsync())
+            var tasks = (await taskRepository.GetAllTasksAsync())
                 .Select(mapper.Map<TaskEntity, TaskDto>)
                 .ToList();
 
@@ -38,8 +39,37 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                     .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
+                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).Username;
+                var ownerUsername = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Owner)).Username;
+                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).DisplayName;
 
                 task.Predecessors = predecessors;
+                task.ResponsibleUsername = responsibleUsername;
+                task.OwnerUsername = ownerUsername;
+                task.ResponsibleDisplayName = responsibleDisplayName;
+            }
+
+            return tasks;
+        }
+
+        public async Task<List<TaskDto>> GetTasksByOwnerUsername(string ownerUsername)
+        {
+            var tasks = (await taskRepository.GetTasksByOwnerUsername(ownerUsername))
+                .Select(mapper.Map<TaskEntity, TaskDto>)
+                .ToList();
+
+            foreach (var task in tasks)
+            {
+                var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
+                    .Select(mapper.Map<TaskEntity, TaskDto>)
+                    .ToList();
+                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).Username;
+                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).DisplayName;
+
+                task.Predecessors = predecessors;
+                task.ResponsibleUsername = responsibleUsername;
+                task.OwnerUsername = ownerUsername;
+                task.ResponsibleDisplayName = responsibleDisplayName;
             }
 
             return tasks;
@@ -52,14 +82,39 @@ namespace BusinessLogicLayer.Services
                 .ToList();
         }
 
+        public async Task<List<TaskDto>> GetTasksByOwnerUsernameWithPlannedDateLowerThanGivenDateAsync(string ownerUsername, DateTime date)
+        {
+            var tasks = (await taskRepository.GetTasksByOwnerUsername(ownerUsername))
+                .Select(mapper.Map<TaskEntity, TaskDto>)
+                .ToList();
+
+            return tasks.Where(x => DateTime.Compare(x.PlannedDate, date) < 0).ToList();
+        }
+
         public async Task CreateTaskAsync(TaskDto task)
         {
             int taskId;
             try
             {
+                taskValidator.Validate(task);
                 var taskEntity = mapper.Map<TaskDto, TaskEntity>(task);
-                taskValidator.Validate(taskEntity);
                 taskId = await taskRepository.CreateTaskAsync(taskEntity);
+
+                var ownerTaskMapping = new UserTaskMapping
+                {
+                    UserUsername = task.OwnerUsername,
+                    TaskId = taskId,
+                    UserType = UserType.Owner
+                };
+                await taskRepository.CreateUserTaskMappingAsync(ownerTaskMapping);
+
+                var responsibleTaskMapping = new UserTaskMapping
+                {
+                    UserUsername = task.ResponsibleUsername,
+                    TaskId = taskId,
+                    UserType = UserType.Responsible
+                };
+                await taskRepository.CreateUserTaskMappingAsync(responsibleTaskMapping);
             }
             catch (ValidationException exception)
             {
@@ -91,9 +146,21 @@ namespace BusinessLogicLayer.Services
         {
             try
             {
+                taskValidator.Validate(task);
                 var taskEntity = mapper.Map<TaskDto, TaskEntity>(task);
-                taskValidator.Validate(taskEntity);
                 await taskRepository.UpdateTaskAsync(taskEntity);
+                var userTaskMapping = await taskRepository.GetUserTaskMappingByTaskIdAndUserType(task.Id, UserType.Responsible);
+                if (task.ResponsibleUsername != userTaskMapping.UserUsername)
+                {
+                    await taskRepository.DeleteUserTaskMappingAsync(userTaskMapping);
+                    userTaskMapping = new UserTaskMapping
+                    {
+                        UserUsername = task.ResponsibleUsername,
+                        TaskId = task.Id,
+                        UserType = UserType.Responsible
+                    };
+                    await taskRepository.CreateUserTaskMappingAsync(userTaskMapping);
+                }
             }
             catch (ValidationException exception)
             {

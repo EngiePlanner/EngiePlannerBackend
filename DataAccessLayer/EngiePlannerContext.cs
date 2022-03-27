@@ -46,6 +46,8 @@ namespace DataAccessLayer
                 .WithMany(x => x.Tasks)
                 .HasForeignKey(x => x.PredecessorId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserTaskMapping>()
+                .HasKey(nameof(UserTaskMapping.UserUsername), nameof(UserTaskMapping.TaskId), nameof(UserTaskMapping.UserType));
         }
 
         public DbSet<UserEntity> Users { get; set; }
@@ -56,5 +58,6 @@ namespace DataAccessLayer
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<AvailabilityEntity> Availabilities { get; set; }
         public DbSet<TaskPredecessorMapping> TaskPredecessorMappings { get; set; }
+        public DbSet<UserTaskMapping> UserTaskMappings { get; set; }
     }
 }

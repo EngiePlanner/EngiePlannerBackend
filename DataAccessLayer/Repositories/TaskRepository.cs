@@ -1,4 +1,5 @@
 ﻿using BusinessObjectLayer.Entities;
+using BusinessObjectLayer.Enums;
 using DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,8 +21,16 @@ namespace DataAccessLayer.Repositories
         public Task<List<TaskEntity>> GetAllTasksAsync()
         {
             return dbContext.Tasks
-                .Include(x => x.Employee)
                 .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public Task<List<TaskEntity>> GetTasksByOwnerUsername(string ownerUsername)
+        {
+            return dbContext.UserTaskMappings
+                .Where(x => x.UserUsername == ownerUsername && x.UserType == UserType.Owner)
+                .Include(x => x.Task)
+                .Select(x => x.Task)
                 .ToListAsync();
         }
 
@@ -29,7 +38,6 @@ namespace DataAccessLayer.Repositories
         {
             return dbContext.Tasks
                 .Where(x => DateTime.Compare(x.PlannedDate, date) < 0)
-                .Include(x => x.Employee)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -59,6 +67,23 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
+        public Task<UserEntity> GetUserByTaskIdAndUserType(int taskId, UserType userType)
+        {
+            return dbContext.UserTaskMappings
+                .Where(x => x.TaskId == taskId && x.UserType == userType)
+                .Include(x => x.User)
+                .Select(x => x.User)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+        }
+
+        public Task<UserTaskMapping> GetUserTaskMappingByTaskIdAndUserType(int taskId, UserType userType)
+        {
+            return dbContext.UserTaskMappings
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.TaskId == taskId && x.UserType == userType);
+        }
+
         public async Task<int> CreateTaskAsync(TaskEntity task)
         {
             dbContext.Tasks.Add(task);
@@ -69,7 +94,13 @@ namespace DataAccessLayer.Repositories
 
         public async Task CreateTaskPredecessorMappingRangeAsync(List<TaskPredecessorMapping> taskPredecessorMappings)
         {
-            dbContext.AddRange(taskPredecessorMappings);
+            dbContext.TaskPredecessorMappings.AddRange(taskPredecessorMappings);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateUserTaskMappingAsync(UserTaskMapping userTaskMapping)
+        {
+            dbContext.UserTaskMappings.Add(userTaskMapping);
             await dbContext.SaveChangesAsync();
         }
 
@@ -95,6 +126,12 @@ namespace DataAccessLayer.Repositories
         public async Task DeleteTaskPredecessorMappingRangeAsync(List<TaskPredecessorMapping> taskPredecessorMappings)
         {
             dbContext.TaskPredecessorMappings.RemoveRange(taskPredecessorMappings);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteUserTaskMappingAsync(UserTaskMapping userTaskMapping)
+        {
+            dbContext.UserTaskMappings.Remove(userTaskMapping);
             await dbContext.SaveChangesAsync();
         }
     }
