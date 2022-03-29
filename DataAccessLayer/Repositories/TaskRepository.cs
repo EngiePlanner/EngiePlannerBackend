@@ -42,6 +42,14 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
+        public Task<List<TaskEntity>> GetUnplannedTasksAsync()
+        {
+            return dbContext.Tasks
+                .Where(x => x.EndDate == null)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public Task<List<TaskEntity>> GetPredecessorsByTaskIdAsync(int taskId)
         {
             return dbContext.TaskPredecessorMappings

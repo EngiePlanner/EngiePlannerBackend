@@ -82,13 +82,60 @@ namespace BusinessLogicLayer.Services
                 .ToList();
         }
 
-        public async Task<List<TaskDto>> GetTasksByOwnerUsernameWithPlannedDateLowerThanGivenDateAsync(string ownerUsername, DateTime date)
+        public async Task<List<TaskDto>> GetUnplannedTasksAsync()
         {
-            var tasks = (await taskRepository.GetTasksByOwnerUsername(ownerUsername))
+            var tasks = (await taskRepository.GetUnplannedTasksAsync())
                 .Select(mapper.Map<TaskEntity, TaskDto>)
                 .ToList();
 
-            return tasks.Where(x => DateTime.Compare(x.PlannedDate, date) < 0).ToList();
+            foreach (var task in tasks)
+            {
+                var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
+                    .Select(mapper.Map<TaskEntity, TaskDto>)
+                    .ToList();
+                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).Username;
+                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).DisplayName;
+                var ownerUsername = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Owner)).Username;
+
+                task.Predecessors = predecessors;
+                task.ResponsibleUsername = responsibleUsername;
+                task.ResponsibleDisplayName = responsibleDisplayName;
+                task.OwnerUsername = ownerUsername;
+            }
+
+            return tasks;
+        }
+
+        public async Task<List<TaskDto>> GetUnplannedTasksByOwnerUsernameAsync(string ownerUsername)
+        {
+            var tasks = (await taskRepository.GetTasksByOwnerUsername(ownerUsername))
+               .Where(x => x.EndDate == null)
+               .Select(mapper.Map<TaskEntity, TaskDto>)
+               .ToList();
+
+            foreach (var task in tasks)
+            {
+                var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
+                  .Select(mapper.Map<TaskEntity, TaskDto>)
+                  .ToList();
+                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).Username;
+                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserType(task.Id, UserType.Responsible)).DisplayName;
+
+                task.Predecessors = predecessors;
+                task.ResponsibleUsername = responsibleUsername;
+                task.ResponsibleDisplayName = responsibleDisplayName;
+                task.OwnerUsername = ownerUsername;
+            }
+
+            return tasks;
+        }
+
+        public async Task<List<TaskDto>> GetTasksByOwnerUsernameWithPlannedDateLowerThanGivenDateAsync(string ownerUsername, DateTime date)
+        {
+            return (await taskRepository.GetTasksByOwnerUsername(ownerUsername))
+                .Where(x => DateTime.Compare(x.PlannedDate, date) < 0).ToList()
+                .Select(mapper.Map<TaskEntity, TaskDto>)
+                .ToList();
         }
 
         public async Task CreateTaskAsync(TaskDto task)

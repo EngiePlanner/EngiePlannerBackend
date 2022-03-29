@@ -11,6 +11,7 @@ namespace DataAccessLayer.Interfaces
         Task<List<TaskEntity>> GetAllTasksAsync();
         Task<List<TaskEntity>> GetTasksByOwnerUsername(string ownerUsername);
         Task<List<TaskEntity>> GetTasksWithPlannedDateLowerThanGivenDateAsync(DateTime date);
+        Task<List<TaskEntity>> GetUnplannedTasksAsync();
         Task<List<TaskEntity>> GetPredecessorsByTaskIdAsync(int taskId);
         Task<List<TaskPredecessorMapping>> GetTaskPredecessorMappingsByTaskIdAsync(int taskId);
         Task<List<TaskPredecessorMapping>> GetTaskPredecessorMappingsByTaskOrPredecessorIdAsync(int id);
