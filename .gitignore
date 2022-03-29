@@ -4,8 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 #ASP data files
-*.json
-*.lp4
+AspData/tasks.json
+AspData/availability.json
+AspData/output.json
+AspData/task_master_autogen.lp4
 
 # User-specific files
 *.rsuser
