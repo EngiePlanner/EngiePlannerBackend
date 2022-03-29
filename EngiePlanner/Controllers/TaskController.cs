@@ -74,6 +74,32 @@ namespace EngiePlanner.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet("GetUnplannedTasks")]
+        public async Task<IActionResult> GetUnplannedTasks()
+        {
+            var tasks = await taskService.GetUnplannedTasksAsync();
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
+        [HttpGet("GetUnplannedTasksByOwnerUsername")]
+        public async Task<IActionResult> GetUnplannedTasksByOwnerUsername([FromQuery] string ownerUsername)
+        {
+            var tasks = await taskService.GetUnplannedTasksByOwnerUsernameAsync(ownerUsername);
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
         [HttpPost("CreateTask")]
         public async Task<IActionResult> CreateTask([FromBody] TaskDto task)
         {
