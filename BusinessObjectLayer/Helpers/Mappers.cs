@@ -25,11 +25,13 @@ namespace BusinessObjectLayer.Helpers
             CreateMap<GroupDto, GroupEntity>();
 
             CreateMap<TaskEntity, TaskDto>()
-                .ForMember(x => x.Predecessors, opt => opt.Ignore());
+                .ForMember(x => x.Predecessors, opt => opt.Ignore())
+                .ForMember(x => x.OwnerUsername, opt => opt.Ignore())
+                .ForMember(x => x.ResponsibleUsername, opt => opt.Ignore());
             CreateMap<TaskDto, TaskEntity>()
                 .ForMember(x => x.Tasks, opt => opt.Ignore())
-                .ForMember(x => x.Predecessors, opt => opt.Ignore());
-            CreateMap<TaskDto, TaskJsonDto>();
+                .ForMember(x => x.Predecessors, opt => opt.Ignore())
+                .ForMember(x => x.UserTasks, opt => opt.Ignore());
 
             CreateMap<AvailabilityEntity, AvailabilityDto>();
             CreateMap<AvailabilityDto, AvailabilityEntity>()

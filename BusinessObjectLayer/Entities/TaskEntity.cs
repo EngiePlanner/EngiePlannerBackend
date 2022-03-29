@@ -26,13 +26,9 @@ namespace BusinessObjectLayer.Entities
         [Required]
         public int Duration { get; set; }
 
-        [Required]
-        [ForeignKey("Employee")]
-        public string EmployeeUsername { get; set; }
-
         public DateTime? EndDate { get; set; }
 
-        public virtual UserEntity Employee { get; set; }
+        public virtual ICollection<UserTaskMapping> UserTasks { get; set; }
         public virtual ICollection<TaskPredecessorMapping> Predecessors { get; set; }
         public virtual ICollection<TaskPredecessorMapping> Tasks { get; set; }
     }

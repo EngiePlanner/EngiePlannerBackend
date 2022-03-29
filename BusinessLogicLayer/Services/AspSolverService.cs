@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.Services
         public async Task<List<TaskDto>> InvokeAspSolver(List<TaskDto> tasks)
         {
             var availabilities = new List<AvailabilityDto>();
-            var users = tasks.Select(x => x.EmployeeUsername).Distinct().ToList();
+            var users = tasks.Select(x => x.ResponsibleUsername).Distinct().ToList();
 
             foreach (var user in users)
             {
@@ -83,7 +83,7 @@ namespace BusinessLogicLayer.Services
                     PlannedDate = task.PlannedDate,
                     Subteam = task.Subteam,
                     Duration = task.Duration,
-                    Employees = new List<string> { task.EmployeeUsername.ToLower() },
+                    Employees = new List<string> { task.ResponsibleUsername.ToLower() },
                     Predecessors = task.Predecessors.Select(x => x.Id).ToList()
                 };
 

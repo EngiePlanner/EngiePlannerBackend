@@ -35,10 +35,36 @@ namespace EngiePlanner.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet("GetTasksByOwnerUsername")]
+        public async Task<IActionResult> GetTasksByOwnerUsername([FromQuery] string ownerUsername)
+        {
+            var tasks = await taskService.GetTasksByOwnerUsername(ownerUsername);
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
         [HttpGet("GetTasksWithPlannedDateLowerThanGivenDate")]
-        public async Task<IActionResult> GetTasksWithPlannedDateLowerThanGivenDateAsync(DateTime date)
+        public async Task<IActionResult> GetTasksWithPlannedDateLowerThanGivenDateAsync([FromQuery] DateTime date)
         {
             var tasks = await taskService.GetTasksWithPlannedDateLowerThanGivenDateAsync(date);
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
+        [HttpGet("GetTasksByOwnerUsernameWithPlannedDateLowerThanGivenDate")]
+        public async Task<IActionResult> GetTasksByOwnerUsernameWithPlannedDateLowerThanGivenDate([FromQuery] string ownerUsername, [FromQuery] DateTime date)
+        {
+            var tasks = await taskService.GetTasksByOwnerUsernameWithPlannedDateLowerThanGivenDateAsync(ownerUsername, date);
 
             if (!tasks.Any())
             {

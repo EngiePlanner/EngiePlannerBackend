@@ -32,7 +32,7 @@ namespace BusinessObjectLayer.Entities
 
         public virtual UserEntity Leader { get; set; }
 
-        public virtual ICollection<TaskEntity> Tasks { get; set; }
+        public virtual ICollection<UserTaskMapping> UserTasks { get; set; }
 
         public virtual ICollection<UserDepartmentMapping> UserDepartments { get; set; }
 

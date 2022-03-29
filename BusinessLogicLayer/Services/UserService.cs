@@ -46,6 +46,14 @@ namespace BusinessLogicLayer.Services
                 .ToList();
         }
 
+        public async Task<List<UserDto>> GetUsersByLeaderGroupsAsync(string leaderUsername)
+        {
+            var leader = await userRepository.GetUserByUsernameAsync(leaderUsername);
+            return (await userRepository.GetUsersByGroupIdAsync(leader.UserGroups.Select(x => x.GroupId).ToList()))
+                .Select(mapper.Map<UserEntity, UserDto>)
+                .ToList();
+        }
+
         public async Task<UserDto> GetUserByUsernameAsync(string username)
         {
             var user = await userRepository.GetUserByUsernameAsync(username);
@@ -53,7 +61,6 @@ namespace BusinessLogicLayer.Services
 
             if (user != null)
             {
-                
                 var groupLeader = await userRepository.GetUserByUsernameAsync(user.LeaderUsername);
                 var departmentHead = await userRepository.GetUserByUsernameAsync(groupLeader.LeaderUsername);
 

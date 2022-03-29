@@ -1,15 +1,12 @@
-﻿using BusinessObjectLayer.Entities;
+﻿using BusinessObjectLayer.Dtos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessObjectLayer.Validators
 {
-    public class TaskValidator : IValidator<TaskEntity>
+    public class TaskValidator : IValidator<TaskDto>
     {
-        public void Validate(TaskEntity task)
+        public void Validate(TaskDto task)
         {
             StringBuilder errors = new StringBuilder();
 
@@ -33,7 +30,7 @@ namespace BusinessObjectLayer.Validators
             {
                 errors.Append("Invalid duration!\n");
             }
-            if (task.EmployeeUsername == "" || task.EmployeeUsername.Length == 0)
+            if (task.ResponsibleUsername == "")
             {
                 errors.Append("Invalid associate!\n");
             }

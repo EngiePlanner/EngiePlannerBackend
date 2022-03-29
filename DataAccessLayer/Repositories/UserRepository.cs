@@ -2,6 +2,7 @@
 using DataAccessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
@@ -20,9 +21,18 @@ namespace DataAccessLayer.Repositories
             return dbContext.Users.AsNoTracking().ToListAsync();
         }
 
+        public Task<List<UserEntity>> GetUsersByGroupIdAsync(ICollection<int> groupIds)
+        {
+            return dbContext.Users
+                .Where(x => x.UserGroups.Any(y => groupIds.Contains(y.GroupId)))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public Task<UserEntity> GetUserByUsernameAsync(string username)
         {
             return dbContext.Users.AsNoTracking()
+                .Include(x => x.UserGroups)
                 .FirstOrDefaultAsync(x => x.Username == username);
         }
 

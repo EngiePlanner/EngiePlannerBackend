@@ -33,6 +33,18 @@ namespace EngiePlanner.Controllers
             return Ok(users);
         }
 
+        [HttpGet("GetUsersByLeaderGroup")]
+        public async Task<IActionResult> GetUsersByLeaderGroups([FromQuery] string leaderUsername)
+        {
+            var users = await userService.GetUsersByLeaderGroupsAsync(leaderUsername);
+            if (!users.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(users);
+        }
+
         [HttpGet("GetAvailabilitiesByUserUsername")]
         public async Task<IActionResult> GetAvailabilitiesByUserUsername([FromQuery] string userUsername)
         {
