@@ -321,7 +321,7 @@
     "name": "roc2clj",
     "fromDate": "10.01.2022",
     "toDate": "14.01.2022",
-    "availableHours": 20
+    "availableHours": 0
   },
   {
     "name": "roc2clj",
@@ -615,7 +615,7 @@
     "name": "roc2clj",
     "fromDate": "19.12.2022",
     "toDate": "23.12.2022",
-    "availableHours": 20
+    "availableHours": 10
   },
   {
     "name": "roc2clj",

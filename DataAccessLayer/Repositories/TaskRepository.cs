@@ -34,6 +34,15 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
+        public Task<List<TaskEntity>> GetTasksByResponsibleUsername(string responsibleUsername)
+        {
+            return dbContext.UserTaskMappings
+                .Where(x => x.UserUsername == responsibleUsername && x.UserType == UserType.Responsible)
+                .Include(x => x.Task)
+                .Select(x => x.Task)
+                .ToListAsync();
+        }
+
         public Task<List<TaskEntity>> GetTasksWithPlannedDateLowerThanGivenDateAsync(DateTime date)
         {
             return dbContext.Tasks
@@ -42,10 +51,18 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
-        public Task<List<TaskEntity>> GetUnplannedTasksAsync()
+        public Task<List<TaskEntity>> GetUnscheduledTasksAsync()
         {
             return dbContext.Tasks
                 .Where(x => x.EndDate == null)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public Task<List<TaskEntity>> GetScheduledTasksAsync()
+        {
+            return dbContext.Tasks
+                .Where(x => x.EndDate != null)
                 .AsNoTracking()
                 .ToListAsync();
         }

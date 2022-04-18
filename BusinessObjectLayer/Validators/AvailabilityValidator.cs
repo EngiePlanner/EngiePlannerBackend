@@ -32,5 +32,10 @@ namespace BusinessObjectLayer.Validators
                 throw new ValidationException(errors.ToString());
             }
         }
+
+        public void ValidateCustom(AvailabilityEntity e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

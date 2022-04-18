@@ -79,7 +79,7 @@ namespace BusinessLogicLayer.Services
                 {
                     Id = task.Id,
                     Name = task.Name,
-                    StartDate = task.StartDate,
+                    StartDate = task.AvailabilityDate,
                     PlannedDate = task.PlannedDate,
                     Subteam = task.Subteam,
                     Duration = task.Duration,

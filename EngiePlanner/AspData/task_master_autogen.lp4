@@ -1,19 +1,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem Instance 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-task_available_day(35, 3).
-task_available_week(35, 1).
-task_planned_day(35, 13).
-task_planned_week(35, 3).
-task_duration(35, 11).
-job_duration(35, 11).
+task_available_day(22, 1).
+task_available_week(22, 1).
+task_planned_day(22, 9).
+task_planned_week(22, 2).
+task_duration(22, 10).
+job_duration(22, 10).
 
-task_available_day(36, 1).
-task_available_week(36, 1).
-task_planned_day(36, 4).
-task_planned_week(36, 1).
-task_duration(36, 10).
-job_duration(36, 10).
+task_available_day(23, 1).
+task_available_week(23, 1).
+task_planned_day(23, 16).
+task_planned_week(23, 4).
+task_duration(23, 12).
+job_duration(23, 12).
+
+task_available_day(24, 13).
+task_available_week(24, 3).
+task_planned_day(24, 64).
+task_planned_week(24, 13).
+task_duration(24, 5).
+job_duration(24, 5).
+
+task_available_day(25, 1).
+task_available_week(25, 1).
+task_planned_day(25, 21).
+task_planned_week(25, 5).
+task_duration(25, 10).
+job_duration(25, 10).
 
 
 capacity(rba5clj, 1, 20). 
@@ -69,7 +83,7 @@ capacity(rba5clj, 50, 20).
 capacity(rba5clj, 51, 20). 
 capacity(rba5clj, 52, 20). 
 capacity(roc2clj, 1, 20). 
-capacity(roc2clj, 2, 20). 
+capacity(roc2clj, 2, 0). 
 capacity(roc2clj, 3, 20). 
 capacity(roc2clj, 4, 20). 
 capacity(roc2clj, 5, 20). 
@@ -118,21 +132,43 @@ capacity(roc2clj, 47, 20).
 capacity(roc2clj, 48, 20). 
 capacity(roc2clj, 49, 20). 
 capacity(roc2clj, 50, 20). 
-capacity(roc2clj, 51, 20). 
+capacity(roc2clj, 51, 10). 
 capacity(roc2clj, 52, 20). 
 
-capable_of(rba5clj,35).
-capable_of(roc2clj,36).
+capable_of(rba5clj,22).
+capable_of(wat1fe,23).
+capable_of(roc2clj,24).
+predecessor(22,24).
+predecessor(25,24).
+capable_of(rba5clj,25).
+predecessor(22,25).
 
-days(1..20).
-weeks(1..4).
-job(35).
-job(36).
-weekend(1).
-weekend(7).
-weekend(8).
-weekend(14).
-weekend(15).
+days(1..70).
+weeks(1..14).
+job(24).
+job(25).
+job(22).
+job(23).
+weekend(2).
+weekend(3).
+weekend(9).
+weekend(10).
+weekend(16).
+weekend(17).
+weekend(23).
+weekend(24).
+weekend(30).
+weekend(31).
+weekend(37).
+weekend(38).
+weekend(44).
+weekend(45).
+weekend(51).
+weekend(52).
+weekend(58).
+weekend(59).
+weekend(65).
+weekend(66).
 task(T) :- task_available_day(T,D).
 
 days((7*W-6)..7*W) :- weeks(W).
