@@ -14,10 +14,6 @@ namespace BusinessObjectLayer.Validators
             {
                 errors.Append("Invalid name!\n");
             }
-            if (DateTime.Compare(task.AvailabilityDate.Date, DateTime.Now.Date) < 0)
-            {
-                errors.Append("Invalid availability date!\n");
-            }
             if (DateTime.Compare(task.PlannedDate.Date, task.AvailabilityDate.Date) < 0)
             {
                 errors.Append("Invalid planned date!\n");
