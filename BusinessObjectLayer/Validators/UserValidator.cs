@@ -30,10 +30,5 @@ namespace BusinessObjectLayer.Validators
                 errors.Append("Invalid leader username!\n");
             }
         }
-
-        public void ValidateCustom(UserEntity e)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
