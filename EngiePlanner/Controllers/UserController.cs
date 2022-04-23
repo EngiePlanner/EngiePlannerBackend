@@ -82,7 +82,7 @@ namespace EngiePlanner.Controllers
         {
             try
             {
-                await userService.UpdateAvailabilityAsync(availability);
+                await userService.UpdateDefaultAvailabileHoursAsync(availability);
                 return Ok();
             }
             catch (ValidationException exception)

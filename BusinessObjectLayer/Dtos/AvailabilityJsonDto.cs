@@ -14,6 +14,6 @@ namespace BusinessObjectLayer.Dtos
         [JsonProperty("toDate")]
         public DateTime ToDate { get; set; }
         [JsonProperty("availableHours")]
-        public int AvailableHours { get; set; }
+        public int UnscheduledHours { get; set; }
     }
 }

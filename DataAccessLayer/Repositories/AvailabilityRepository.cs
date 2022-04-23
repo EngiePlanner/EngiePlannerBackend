@@ -18,6 +18,13 @@ namespace DataAccessLayer.Repositories
             this.dbContext = dbContext;
         }
 
+        public Task<AvailabilityEntity> GetAvailabilityByIdAsync(int id)
+        {
+            return dbContext.Availabilities
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public Task<List<AvailabilityEntity>> GetAvailabilitiesByUserUsernameAsync(string userUsername)
         {
             return dbContext.Availabilities

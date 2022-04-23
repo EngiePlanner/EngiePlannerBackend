@@ -16,10 +16,12 @@ namespace EngiePlanner.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService taskService;
+        private readonly IUserService userService;
 
-        public TaskController(ITaskService taskService)
+        public TaskController(ITaskService taskService, IUserService userService)
         {
             this.taskService = taskService;
+            this.userService = userService;
         }
 
         [HttpGet("GetAllTasks")]
@@ -174,12 +176,13 @@ namespace EngiePlanner.Controllers
             }
         }
 
-        [HttpPut("UpdateTasks")]
-        public async Task<IActionResult> UpdateTasks([FromBody] List<TaskDto> tasks)
+        [HttpPut("UpdateTasksAfterSchedule")]
+        public async Task<IActionResult> UpdateTasksAfterSchedule([FromBody] List<TaskDto> tasks)
         {
             try
             {
                 await taskService.UpdateTaskRangeAsync(tasks);
+                await userService.UpdateUnscheduledHoursAsync(tasks);
                 return Ok();
             }
             catch (ValidationException exception)

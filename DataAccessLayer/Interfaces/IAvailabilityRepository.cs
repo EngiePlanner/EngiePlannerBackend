@@ -7,6 +7,7 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IAvailabilityRepository
     {
+        Task<AvailabilityEntity> GetAvailabilityByIdAsync(int id);
         Task<List<AvailabilityEntity>> GetAvailabilitiesByUserUsernameAsync(string userUsername);
         Task<AvailabilityEntity> GetAvailabilityByFromDateAndUserUsernameAsync(DateTime fromDate, string userUsername);
         Task CreateAvailabilityRangeAsync(List<AvailabilityEntity> availability);

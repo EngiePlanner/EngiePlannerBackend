@@ -15,6 +15,7 @@ namespace BusinessLogicLayer.Interfaces
         List<WeekDto> GetAllWeeksFromCurrentYear();
         Task CreateUserAsync(UserDto user);
         Task CreateAvailabilityRangeAsync(List<AvailabilityDto> availability);
-        Task UpdateAvailabilityAsync(AvailabilityDto availability);
+        Task UpdateDefaultAvailabileHoursAsync(AvailabilityDto availability);
+        Task UpdateUnscheduledHoursAsync(List<TaskDto> tasks);
     }
 }
