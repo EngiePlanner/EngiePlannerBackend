@@ -30,28 +30,20 @@ namespace BusinessObjectLayer.Validators
             {
                 errors.Append("Invalid associate!\n");
             }
-
-            if (errors.Length > 0)
+            if (task.EndDate != null && task.StartDate != null)
             {
-                throw new ValidationException(errors.ToString());
-            }
-        }
-
-        public void ValidateCustom(TaskDto task)
-        {
-            StringBuilder errors = new StringBuilder();
-
-            if (DateTime.Compare((DateTime)task.StartDate, task.AvailabilityDate) < 0)
-            {
-                errors.Append("Invalid start date!\n");
-            }
-            if (DateTime.Compare((DateTime)task.StartDate, (DateTime)task.EndDate) > 0)
-            {
-                errors.Append("Start date is after end date!\n");
-            }
-            if (DateTime.Compare((DateTime)task.EndDate, task.PlannedDate) > 0)
-            {
-                errors.Append("Invalid end date!\n");
+                if (DateTime.Compare((DateTime)task.StartDate, task.AvailabilityDate) < 0)
+                {
+                    errors.Append("Invalid start date!\n");
+                }
+                if (DateTime.Compare((DateTime)task.StartDate, (DateTime)task.EndDate) > 0)
+                {
+                    errors.Append("Start date is after end date!\n");
+                }
+                if (DateTime.Compare((DateTime)task.EndDate, task.PlannedDate) > 0)
+                {
+                    errors.Append("Invalid end date!\n");
+                }
             }
 
             if (errors.Length > 0)

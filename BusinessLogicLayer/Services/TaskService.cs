@@ -293,7 +293,7 @@ namespace BusinessLogicLayer.Services
             {
                 foreach (var task in tasks)
                 {
-                    taskValidator.ValidateCustom(task);
+                    taskValidator.Validate(task);
                 }
 
                 await taskRepository.UpdateTaskRangeAsync(tasks.Select(mapper.Map<TaskDto, TaskEntity>).ToList());
