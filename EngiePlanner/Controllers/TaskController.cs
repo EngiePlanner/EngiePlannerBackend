@@ -74,10 +74,10 @@ namespace EngiePlanner.Controllers
             return Ok(tasks);
         }
 
-        [HttpGet("GetUnplannedTasks")]
-        public async Task<IActionResult> GetUnplannedTasks()
+        [HttpGet("GetUnscheduledTasks")]
+        public async Task<IActionResult> GetUnscheduledTasks()
         {
-            var tasks = await taskService.GetUnplannedTasksAsync();
+            var tasks = await taskService.GetUnscheduledTasksAsync();
 
             if (!tasks.Any())
             {
@@ -87,10 +87,49 @@ namespace EngiePlanner.Controllers
             return Ok(tasks);
         }
 
-        [HttpGet("GetUnplannedTasksByOwnerUsername")]
-        public async Task<IActionResult> GetUnplannedTasksByOwnerUsername([FromQuery] string ownerUsername)
+        [HttpGet("GetUnscheduledTasksByOwnerUsername")]
+        public async Task<IActionResult> GetUnscheduledTasksByOwnerUsername([FromQuery] string ownerUsername)
         {
-            var tasks = await taskService.GetUnplannedTasksByOwnerUsernameAsync(ownerUsername);
+            var tasks = await taskService.GetUnscheduledTasksByOwnerUsernameAsync(ownerUsername);
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
+        [HttpGet("GetScheduledTasks")]
+        public async Task<IActionResult> GetScheduledTasks()
+        {
+            var tasks = await taskService.GetScheduledTasksAsync();
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
+        [HttpGet("GetScheduledTasksByOwnerUsername")]
+        public async Task<IActionResult> GetScheduledTasksByOwnerUsername([FromQuery] string ownerUsername)
+        {
+            var tasks = await taskService.GetScheduledTasksByOwnerUsernameAsync(ownerUsername);
+
+            if (!tasks.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(tasks);
+        }
+
+        [HttpGet("GetScheduledTasksByResponsibleUsername")]
+        public async Task<IActionResult> GetScheduledTasksByResponsibleUsername([FromQuery] string responsibleUsername)
+        {
+            var tasks = await taskService.GetScheduledTasksByResponsibleUsernameAsync(responsibleUsername);
 
             if (!tasks.Any())
             {
@@ -127,6 +166,20 @@ namespace EngiePlanner.Controllers
             try
             {
                 await taskService.UpdateTaskAsync(task);
+                return Ok();
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpPut("UpdateTasks")]
+        public async Task<IActionResult> UpdateTasks([FromBody] List<TaskDto> tasks)
+        {
+            try
+            {
+                await taskService.UpdateTaskRangeAsync(tasks);
                 return Ok();
             }
             catch (ValidationException exception)

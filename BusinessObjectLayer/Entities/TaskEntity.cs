@@ -16,7 +16,7 @@ namespace BusinessObjectLayer.Entities
         public string Name { get; set; }
 
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime AvailabilityDate { get; set; }
 
         [Required]
         public DateTime PlannedDate { get; set; }
@@ -27,6 +27,8 @@ namespace BusinessObjectLayer.Entities
         public int Duration { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public DateTime? StartDate { get; set; }
 
         public virtual ICollection<UserTaskMapping> UserTasks { get; set; }
         public virtual ICollection<TaskPredecessorMapping> Predecessors { get; set; }
