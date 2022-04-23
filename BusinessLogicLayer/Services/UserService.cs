@@ -192,7 +192,8 @@ namespace BusinessLogicLayer.Services
                 UserUsername = user.Username,
                 FromDate = x.FirstDay,
                 ToDate = x.LastDay,
-                AvailableHours = 20
+                DefaultAvailableHours = 20,
+                UnscheduledHours = 20
             }).ToList();
 
             await CreateAvailabilityRangeAsync(availabilities);
@@ -203,17 +204,64 @@ namespace BusinessLogicLayer.Services
             await availabilityRepository.CreateAvailabilityRangeAsync(availabilities.Select(mapper.Map<AvailabilityDto, AvailabilityEntity>).ToList());
         }
 
-        public async Task UpdateAvailabilityAsync(AvailabilityDto availability)
+        public async Task UpdateDefaultAvailabileHoursAsync(AvailabilityDto newAvailability)
         {
             try
             {
-                var availabilityEntity = mapper.Map<AvailabilityDto, AvailabilityEntity>(availability);
-                availabilityValidator.Validate(availabilityEntity);
-                await availabilityRepository.UpdateAvailabilityAsync(availabilityEntity);
+                var oldAvailability = await availabilityRepository.GetAvailabilityByIdAsync(newAvailability.Id);
+                
+                if (newAvailability.UnscheduledHours == oldAvailability.DefaultAvailableHours)
+                {
+                    oldAvailability.DefaultAvailableHours = newAvailability.DefaultAvailableHours;
+                    oldAvailability.UnscheduledHours = newAvailability.DefaultAvailableHours;
+                }
+                else
+                {
+                    if (newAvailability.DefaultAvailableHours < oldAvailability.UnscheduledHours)
+                    {
+                        throw new ValidationException("You already have more than " + newAvailability.DefaultAvailableHours + " scheduled hours this week!");
+                    }
+                    oldAvailability.DefaultAvailableHours = newAvailability.DefaultAvailableHours;
+                }
+
+                availabilityValidator.Validate(oldAvailability);
+                await availabilityRepository.UpdateAvailabilityAsync(oldAvailability);
             }
             catch (ValidationException exception)
             {
                 throw new ValidationException(exception.Message);
+            }
+        }
+
+        public async Task UpdateUnscheduledHoursAsync(List<TaskDto> tasks)
+        {
+            var weeks = GetAllWeeksFromCurrentYear();
+            var scheduledHoursDictionary = new Dictionary<Tuple<string, DateTime>, int>();
+
+            foreach (var task in tasks)
+            {
+                var fromDate = weeks.LastOrDefault(x => x.FirstDay.Date <= task.StartDate).FirstDay;
+                var key = new Tuple<string, DateTime>(task.ResponsibleUsername, fromDate);
+
+                if (scheduledHoursDictionary.ContainsKey(key))
+                {
+                    scheduledHoursDictionary[key] += task.Duration;
+                }
+                else
+                {
+                    scheduledHoursDictionary.Add(key, task.Duration);
+                }
+            }
+
+            foreach (var scheduledHours in scheduledHoursDictionary)
+            {
+                var availability = await availabilityRepository.GetAvailabilityByFromDateAndUserUsernameAsync(scheduledHours.Key.Item2, scheduledHours.Key.Item1);
+                availability.UnscheduledHours = availability.DefaultAvailableHours - scheduledHours.Value;
+                if (availability.UnscheduledHours < 0)
+                {
+                    throw new ValidationException(availability.UserUsername + " doesn't have enough available hours during the week " + availability.FromDate.ToShortDateString() + "-" + availability.ToDate.ToShortDateString());
+                }
+                await availabilityRepository.UpdateAvailabilityAsync(availability);
             }
         }
     }

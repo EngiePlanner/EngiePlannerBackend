@@ -1,91 +1,29 @@
 {
   "tasks": [
     {
-      "name": 22,
-      "start_date": "08.04.2022",
-      "planned_date": "17.04.2022",
-      "subteam": "s1",
-      "duration": 10,
-      "employees": [
-        "rba5clj"
-      ],
-      "predecessors": []
-    },
-    {
-      "name": 23,
-      "start_date": "08.04.2022",
-      "planned_date": "23.04.2022",
-      "subteam": "s3",
-      "duration": 12,
-      "employees": [
-        "wat1fe"
-      ],
-      "predecessors": []
-    },
-    {
-      "name": 24,
-      "start_date": "20.04.2022",
-      "planned_date": "10.06.2022",
+      "name": 35,
+      "start_date": "23.04.2022",
+      "planned_date": "30.04.2022",
       "subteam": "s2",
-      "duration": 5,
-      "employees": [
-        "roc2clj"
-      ],
-      "predecessors": [
-        22,
-        25
-      ]
-    },
-    {
-      "name": 25,
-      "start_date": "08.04.2022",
-      "planned_date": "28.04.2022",
-      "subteam": "s2",
-      "duration": 10,
+      "duration": 11,
       "employees": [
         "rba5clj"
       ],
       "predecessors": [
-        22
+        36,
+        38
       ]
     },
     {
-      "name": 26,
-      "start_date": "20.04.2022",
-      "planned_date": "28.04.2022",
+      "name": 36,
+      "start_date": "27.03.2022",
+      "planned_date": "30.03.2022",
       "subteam": "s2",
       "duration": 10,
       "employees": [
         "roc2clj"
       ],
       "predecessors": []
-    },
-    {
-      "name": 27,
-      "start_date": "17.04.2022",
-      "planned_date": "28.04.2022",
-      "subteam": "s2",
-      "duration": 10,
-      "employees": [
-        "rba5clj"
-      ],
-      "predecessors": [
-        23
-      ]
-    },
-    {
-      "name": 28,
-      "start_date": "20.04.2022",
-      "planned_date": "28.04.2022",
-      "subteam": "s1",
-      "duration": 12,
-      "employees": [
-        "cof2bp"
-      ],
-      "predecessors": [
-        22,
-        23
-      ]
     }
   ]
 }

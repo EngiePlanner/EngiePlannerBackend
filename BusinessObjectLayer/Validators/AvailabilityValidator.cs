@@ -14,7 +14,7 @@ namespace BusinessObjectLayer.Validators
             {
                 errors.Append("Invalid username!\n");
             }
-            if (availability.AvailableHours < 0 || availability.AvailableHours > 40)
+            if (availability.DefaultAvailableHours < 0 || availability.DefaultAvailableHours > 40)
             {
                 errors.Append("Invalid number of hours!\n");
             }
