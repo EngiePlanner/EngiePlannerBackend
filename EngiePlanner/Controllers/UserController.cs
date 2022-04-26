@@ -11,7 +11,7 @@ namespace EngiePlanner.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "Jwt")]
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
