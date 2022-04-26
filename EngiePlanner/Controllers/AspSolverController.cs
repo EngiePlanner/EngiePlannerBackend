@@ -10,7 +10,7 @@ namespace EngiePlanner.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "Jwt")]
     public class AspSolverController : ControllerBase
     {
         private readonly IAspSolverService aspSolverService;

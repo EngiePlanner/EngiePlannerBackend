@@ -123,7 +123,6 @@ namespace EngiePlanner
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EngiePlanner v1"));
             }
 
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

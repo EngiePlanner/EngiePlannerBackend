@@ -20,6 +20,7 @@ namespace EngiePlanner.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthenticationController : ControllerBase
     {
         private readonly IConfiguration configuration;

@@ -12,7 +12,7 @@ namespace EngiePlanner.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "Jwt")]
     public class TaskController : ControllerBase
     {
         private readonly ITaskService taskService;
