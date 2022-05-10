@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataAccessLayer.Repositories.DepartmentRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.25" Y="5.75" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DataAccessLayer.Repositories.GroupRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DataAccessLayer.Repositories.TaskRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DataAccessLayer.Repositories.UserRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DataAccessLayer.Repositories.AvailabilityRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="5.75" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.19" Collapsed="true" />
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.AvailabilityEntity" Collapsed="true">
+    <Position X="6" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.DepartmentEntity" Collapsed="true">
+    <Position X="8.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.GroupEntity" Collapsed="true">
+    <Position X="3.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.TaskEntity" Collapsed="true">
+    <Position X="6" Y="7" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.TaskPredecessorMapping" Collapsed="true">
+    <Position X="3.5" Y="7" Width="1.5" />
+    <AssociationLine Name="Task" Type="BusinessObjectLayer.Entities.TaskEntity" FixedFromPoint="true">
+      <Path>
+        <Point X="5" Y="7.125" />
+        <Point X="6" Y="7.125" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.256" Y="0.008" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Predecessor" Type="BusinessObjectLayer.Entities.TaskEntity" FixedFromPoint="true">
+      <Path>
+        <Point X="5" Y="7.437" />
+        <Point X="6" Y="7.437" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.037" Y="0.008" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Task" />
+      <Property Name="Predecessor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.UserDepartmentMapping" Collapsed="true">
+    <Position X="8.5" Y="8.5" Width="1.5" />
+    <AssociationLine Name="User" Type="BusinessObjectLayer.Entities.UserEntity">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.057" Y="-0.013" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Department" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.UserEntity" Collapsed="true">
+    <Position X="6" Y="8.5" Width="1.5" />
+    <AssociationLine Name="Leader" Type="BusinessObjectLayer.Entities.UserEntity">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.086" Y="0.297" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="RoleType" Type="BusinessObjectLayer.Enums.RoleType">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.152" Y="0.195" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Leader" />
+      <Property Name="RoleType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.UserGroupMapping" Collapsed="true">
+    <Position X="3.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Group" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessObjectLayer.Entities.UserTaskMapping" Collapsed="true">
+    <Position X="8.5" Y="7" Width="1.5" />
+    <AssociationLine Name="User" Type="BusinessObjectLayer.Entities.UserEntity">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.006" Y="0.05" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="UserType" Type="BusinessObjectLayer.Enums.UserType">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.133" Y="-0.005" Height="0.182" Width="0.868" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Task" />
+      <Property Name="UserType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessLogicLayer.Services.TaskService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="4.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BusinessObjectLayer.Helpers.Mappers" Collapsed="true">
+    <Position X="10.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BusinessLogicLayer.Services.AspSolverService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8" Y="4.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BusinessLogicLayer.Services.UserService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BusinessObjectLayer.Validators.UserValidator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BusinessObjectLayer.Validators.TaskValidator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BusinessObjectLayer.Validators.AvailabilityValidator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="8.75" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EngiePlanner.Controllers.AspSolverController" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.75" />
+    <AssociationLine Name="aspSolverService" Type="BusinessLogicLayer.Interfaces.IAspSolverService">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.886" Y="-0.027" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\AspSolverController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="aspSolverService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EngiePlanner.Controllers.TaskController" Collapsed="true">
+    <Position X="7" Y="2" Width="1.5" />
+    <AssociationLine Name="taskService" Type="BusinessLogicLayer.Interfaces.ITaskService">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.983" Y="0.039" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="userService" Type="BusinessLogicLayer.Interfaces.IUserService" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="2.346" />
+        <Point X="6.75" Y="2.346" />
+        <Point X="6.75" Y="3.004" />
+        <Point X="4.5" Y="3.004" />
+        <Point X="4.5" Y="3.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.983" Y="0.086" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ABAAgAhAAAAAAICAAAAAAQBAABQAAABAEAAAAAEAgAg=</HashCode>
+      <FileName>Controllers\TaskController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="taskService" />
+      <Field Name="userService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EngiePlanner.Controllers.UserController" Collapsed="true">
+    <Position X="4.75" Y="2" Width="1.5" />
+    <AssociationLine Name="userService" Type="BusinessLogicLayer.Interfaces.IUserService" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="2.312" />
+        <Point X="3.969" Y="2.312" />
+        <Point X="3.969" Y="3.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.074" Y="0.036" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACACAAAAJAAAAAAAAAAAAAAAAAAmAAAA=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="userService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EngiePlanner.Controllers.AuthenticationController" Collapsed="true">
+    <Position X="1.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAgAACCAAAAAAAQAAAACAA=</HashCode>
+      <FileName>Controllers\AuthenticationController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="userService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessObjectLayer.Enums.RoleType" Collapsed="true">
+    <Position X="10.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BusinessObjectLayer.Enums.UserType" Collapsed="true">
+    <Position X="10.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BusinessObjectLayer.Helpers.Constants" Collapsed="true">
+    <Position X="1.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="BusinessLogicLayer.Interfaces.IAspSolverService" Collapsed="true">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="BusinessLogicLayer.Interfaces.ITaskService" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="BusinessLogicLayer.Interfaces.IUserService" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataAccessLayer.Interfaces.IAvailabilityRepository" Collapsed="true">
+    <Position X="7.75" Y="5" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataAccessLayer.Interfaces.IDepartmentRepository" Collapsed="true">
+    <Position X="10.25" Y="5" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataAccessLayer.Interfaces.IGroupRepository" Collapsed="true">
+    <Position X="1.5" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataAccessLayer.Interfaces.ITaskRepository" Collapsed="true">
+    <Position X="5.75" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataAccessLayer.Interfaces.IUserRepository" Collapsed="true">
+    <Position X="3.5" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
