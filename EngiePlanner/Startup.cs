@@ -110,6 +110,26 @@ namespace EngiePlanner
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EngiePlanner", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IlJPQzJDTEoiLCJOYW1lIjoiQ3Jpc3RpYW4gUm90YXIiLCJEaXNwbGF5TmFtZSI6IkZJWEVELVRFUk0gUm90YXIgQ3Jpc3RpYW4gKFBTLUVDL0VUWDEpIiwiRW1haWwiOiJmaXhlZC10ZXJtLkNyaXN0aWFuLlJvdGFyQHJvLmJvc2NoLmNvbSIsIlJvbGUiOiJBZG1pbiIsIkxlYWRlclVzZXJuYW1lIjoiUkJBNUNMSiIsIkxlYWRlck5hbWUiOiJSYXp2YW4gQmFybGVhIiwiR3JvdXBzIjoiUFMtRUMvRVRYMSIsIkRlcGFydG1lbnRzIjoiUFMtRUMvRVRYIiwibmJmIjoxNjUxNjgwNTMxLCJleHAiOjE2NTE3NjY5MzEsImlhdCI6MTY1MTY4MDUzMSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0NDMwMSIsImF1ZCI6IkF1ZGllbmNlIn0.FiPjA8WZnOX496LI8jCBHadTdsV9QLM_AIMfaxXCo8w"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme {
+                        Reference = new OpenApiReference {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
+    });
             });
         }
 

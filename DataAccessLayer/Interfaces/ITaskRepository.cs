@@ -9,16 +9,16 @@ namespace DataAccessLayer.Interfaces
     public interface ITaskRepository
     {
         Task<List<TaskEntity>> GetAllTasksAsync();
-        Task<List<TaskEntity>> GetTasksByOwnerUsername(string ownerUsername);
-        Task<List<TaskEntity>> GetTasksByResponsibleUsername(string responsibleUsername);
+        Task<List<TaskEntity>> GetTasksByOwnerUsernameAsync(string ownerUsername);
+        Task<List<TaskEntity>> GetTasksByResponsibleUsernameAsync(string responsibleUsername);
         Task<List<TaskEntity>> GetTasksWithPlannedDateLowerThanGivenDateAsync(DateTime date);
         Task<List<TaskEntity>> GetUnscheduledTasksAsync();
         Task<List<TaskEntity>> GetScheduledTasksAsync();
         Task<List<TaskEntity>> GetPredecessorsByTaskIdAsync(int taskId);
         Task<List<TaskPredecessorMapping>> GetTaskPredecessorMappingsByTaskIdAsync(int taskId);
         Task<List<TaskPredecessorMapping>> GetTaskPredecessorMappingsByTaskOrPredecessorIdAsync(int id);
-        Task<UserEntity> GetUserByTaskIdAndUserType(int taskId, UserType userType);
-        Task<UserTaskMapping> GetUserTaskMappingByTaskIdAndUserType(int taskId, UserType userType);
+        Task<UserEntity> GetUserByTaskIdAndUserTypeAsync(int taskId, UserType userType);
+        Task<UserTaskMapping> GetUserTaskMappingByTaskIdAndUserTypeAsync(int taskId, UserType userType);
         Task<int> CreateTaskAsync(TaskEntity task);
         Task CreateTaskPredecessorMappingRangeAsync(List<TaskPredecessorMapping> taskPredecessorMappings);
         Task CreateUserTaskMappingAsync(UserTaskMapping userTaskMapping);

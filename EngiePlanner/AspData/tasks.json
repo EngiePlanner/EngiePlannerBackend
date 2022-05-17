@@ -10,8 +10,7 @@
         "rba5clj"
       ],
       "predecessors": [
-        36,
-        38
+        36
       ]
     },
     {
@@ -24,6 +23,19 @@
         "roc2clj"
       ],
       "predecessors": []
+    },
+    {
+      "name": 37,
+      "start_date": "07.04.2022",
+      "planned_date": "30.04.2022",
+      "subteam": "s2",
+      "duration": 10,
+      "employees": [
+        "rba5clj"
+      ],
+      "predecessors": [
+        36
+      ]
     }
   ]
 }

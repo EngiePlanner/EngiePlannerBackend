@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class AvailabilityRepository : IAvailabilityRepository
+    public sealed class AvailabilityRepository : IAvailabilityRepository
     {
         private readonly EngiePlannerContext dbContext;
 

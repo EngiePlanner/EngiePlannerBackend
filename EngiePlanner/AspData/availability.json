@@ -81,7 +81,7 @@
     "name": "rba5clj",
     "fromDate": "04.04.2022",
     "toDate": "08.04.2022",
-    "availableHours": 20
+    "availableHours": 8
   },
   {
     "name": "rba5clj",
@@ -93,13 +93,13 @@
     "name": "rba5clj",
     "fromDate": "18.04.2022",
     "toDate": "22.04.2022",
-    "availableHours": 20
+    "availableHours": 9
   },
   {
     "name": "rba5clj",
     "fromDate": "25.04.2022",
     "toDate": "29.04.2022",
-    "availableHours": 20
+    "availableHours": 9
   },
   {
     "name": "rba5clj",
@@ -387,13 +387,13 @@
     "name": "roc2clj",
     "fromDate": "28.03.2022",
     "toDate": "01.04.2022",
-    "availableHours": 35
+    "availableHours": 25
   },
   {
     "name": "roc2clj",
     "fromDate": "04.04.2022",
     "toDate": "08.04.2022",
-    "availableHours": 20
+    "availableHours": 10
   },
   {
     "name": "roc2clj",
@@ -405,7 +405,7 @@
     "name": "roc2clj",
     "fromDate": "18.04.2022",
     "toDate": "22.04.2022",
-    "availableHours": 20
+    "availableHours": 10
   },
   {
     "name": "roc2clj",
@@ -489,7 +489,7 @@
     "name": "roc2clj",
     "fromDate": "25.07.2022",
     "toDate": "29.07.2022",
-    "availableHours": 20
+    "availableHours": 10
   },
   {
     "name": "roc2clj",
@@ -567,7 +567,7 @@
     "name": "roc2clj",
     "fromDate": "24.10.2022",
     "toDate": "28.10.2022",
-    "availableHours": 20
+    "availableHours": 10
   },
   {
     "name": "roc2clj",

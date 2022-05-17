@@ -25,7 +25,7 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
-        public Task<List<TaskEntity>> GetTasksByOwnerUsername(string ownerUsername)
+        public Task<List<TaskEntity>> GetTasksByOwnerUsernameAsync(string ownerUsername)
         {
             return dbContext.UserTaskMappings
                 .Where(x => x.UserUsername == ownerUsername && x.UserType == UserType.Owner)
@@ -34,7 +34,7 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
-        public Task<List<TaskEntity>> GetTasksByResponsibleUsername(string responsibleUsername)
+        public Task<List<TaskEntity>> GetTasksByResponsibleUsernameAsync(string responsibleUsername)
         {
             return dbContext.UserTaskMappings
                 .Where(x => x.UserUsername == responsibleUsername && x.UserType == UserType.Responsible)
@@ -92,7 +92,7 @@ namespace DataAccessLayer.Repositories
                 .ToListAsync();
         }
 
-        public Task<UserEntity> GetUserByTaskIdAndUserType(int taskId, UserType userType)
+        public Task<UserEntity> GetUserByTaskIdAndUserTypeAsync(int taskId, UserType userType)
         {
             return dbContext.UserTaskMappings
                 .Where(x => x.TaskId == taskId && x.UserType == userType)
@@ -102,7 +102,7 @@ namespace DataAccessLayer.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public Task<UserTaskMapping> GetUserTaskMappingByTaskIdAndUserType(int taskId, UserType userType)
+        public Task<UserTaskMapping> GetUserTaskMappingByTaskIdAndUserTypeAsync(int taskId, UserType userType)
         {
             return dbContext.UserTaskMappings
                 .AsNoTracking()
