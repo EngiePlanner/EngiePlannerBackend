@@ -41,6 +41,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
+            var test = await userRepository.GetAllUsersAsync();
             return (await userRepository.GetAllUsersAsync())
                 .Select(mapper.Map<UserEntity, UserDto>)
                 .ToList();
