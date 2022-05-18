@@ -29,6 +29,11 @@ namespace BusinessObjectLayer.Validators
             {
                 errors.Append("Invalid leader username!\n");
             }
+
+            if (errors.Length > 0)
+            {
+                throw new ValidationException(errors.ToString());
+            }
         }
     }
 }
