@@ -1,41 +1,28 @@
 {
   "tasks": [
     {
-      "name": 35,
-      "start_date": "23.04.2022",
-      "planned_date": "30.04.2022",
-      "subteam": "s2",
-      "duration": 11,
+      "name": 1,
+      "start_date": "17.05.2022",
+      "planned_date": "28.05.2022",
+      "subteam": "Test",
+      "duration": 10,
       "employees": [
-        "rba5clj"
+        "responsible"
       ],
       "predecessors": [
-        36
+        2
       ]
     },
     {
-      "name": 36,
-      "start_date": "27.03.2022",
-      "planned_date": "30.03.2022",
-      "subteam": "s2",
+      "name": 2,
+      "start_date": "17.05.2022",
+      "planned_date": "27.05.2022",
+      "subteam": "Test",
       "duration": 10,
       "employees": [
-        "roc2clj"
+        "responsible"
       ],
       "predecessors": []
-    },
-    {
-      "name": 37,
-      "start_date": "07.04.2022",
-      "planned_date": "30.04.2022",
-      "subteam": "s2",
-      "duration": 10,
-      "employees": [
-        "rba5clj"
-      ],
-      "predecessors": [
-        36
-      ]
     }
   ]
 }

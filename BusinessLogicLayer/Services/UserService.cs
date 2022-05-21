@@ -63,11 +63,10 @@ namespace BusinessLogicLayer.Services
             if (user != null)
             {
                 var groupLeader = await userRepository.GetUserByUsernameAsync(user.LeaderUsername);
-                var departmentHead = await userRepository.GetUserByUsernameAsync(groupLeader.LeaderUsername);
 
                 userDto.LeaderUsername = groupLeader.Username;
                 userDto.LeaderName = groupLeader.Name;
-                
+
                 userDto.Departments = (await departmentRepository.GetDepartmentsByUserUsernameAsync(username)).Select(x => x.Name).ToList();
                 userDto.Groups = (await groupRepository.GetGroupsByUserUsernameAsync(username)).Select(x => x.Name).ToList();
             }
@@ -202,13 +201,26 @@ namespace BusinessLogicLayer.Services
 
         public async Task CreateAvailabilityRangeAsync(List<AvailabilityDto> availabilities)
         {
-            await availabilityRepository.CreateAvailabilityRangeAsync(availabilities.Select(mapper.Map<AvailabilityDto, AvailabilityEntity>).ToList());
+            var availabilityEntities = availabilities.Select(mapper.Map<AvailabilityDto, AvailabilityEntity>).ToList();
+            try
+            {
+                foreach (var availability in availabilityEntities)
+                {
+                    availabilityValidator.Validate(availability);
+                }
+                await availabilityRepository.CreateAvailabilityRangeAsync(availabilityEntities);
+            }
+            catch (ValidationException exception)
+            {
+                throw new ValidationException(exception.Message);
+            }
         }
 
         public async Task UpdateDefaultAvailabileHoursAsync(AvailabilityDto newAvailability)
         {
             try
             {
+                availabilityValidator.Validate(mapper.Map<AvailabilityDto, AvailabilityEntity>(newAvailability));
                 var oldAvailability = await availabilityRepository.GetAvailabilityByIdAsync(newAvailability.Id);
                 
                 if (newAvailability.UnscheduledHours == oldAvailability.DefaultAvailableHours)
@@ -225,7 +237,6 @@ namespace BusinessLogicLayer.Services
                     oldAvailability.DefaultAvailableHours = newAvailability.DefaultAvailableHours;
                 }
 
-                availabilityValidator.Validate(oldAvailability);
                 await availabilityRepository.UpdateAvailabilityAsync(oldAvailability);
             }
             catch (ValidationException exception)
@@ -241,16 +252,20 @@ namespace BusinessLogicLayer.Services
 
             foreach (var task in tasks)
             {
-                var fromDate = weeks.LastOrDefault(x => x.FirstDay.Date <= task.StartDate).FirstDay;
-                var key = new Tuple<string, DateTime>(task.ResponsibleUsername, fromDate);
+                var week = weeks.LastOrDefault(x => x.FirstDay.Date <= task.StartDate);
+                if (week != null)
+                {
+                    var fromDate = week.FirstDay;
+                    var key = new Tuple<string, DateTime>(task.ResponsibleUsername, fromDate);
 
-                if (scheduledHoursDictionary.ContainsKey(key))
-                {
-                    scheduledHoursDictionary[key] += task.Duration;
-                }
-                else
-                {
-                    scheduledHoursDictionary.Add(key, task.Duration);
+                    if (scheduledHoursDictionary.ContainsKey(key))
+                    {
+                        scheduledHoursDictionary[key] += task.Duration;
+                    }
+                    else
+                    {
+                        scheduledHoursDictionary.Add(key, task.Duration);
+                    }
                 }
             }
 

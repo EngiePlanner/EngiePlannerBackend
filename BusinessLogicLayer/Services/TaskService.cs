@@ -39,9 +39,10 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                     .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
-                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).Username;
+                var responsible = await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible);
+                var responsibleUsername = responsible.Username;
                 var ownerUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Owner)).Username;
-                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).DisplayName;
+                var responsibleDisplayName = responsible.DisplayName;
 
                 task.Predecessors = predecessors;
                 task.ResponsibleUsername = responsibleUsername;
@@ -52,7 +53,7 @@ namespace BusinessLogicLayer.Services
             return tasks;
         }
 
-        public async Task<List<TaskDto>> GetTasksByOwnerUsername(string ownerUsername)
+        public async Task<List<TaskDto>> GetTasksByOwnerUsernameAsync(string ownerUsername)
         {
             var tasks = (await taskRepository.GetTasksByOwnerUsernameAsync(ownerUsername))
                 .Select(mapper.Map<TaskEntity, TaskDto>)
@@ -63,8 +64,9 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                     .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
-                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).Username;
-                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).DisplayName;
+                var responsible = await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible);
+                var responsibleUsername = responsible.Username;
+                var responsibleDisplayName = responsible.DisplayName;
 
                 task.Predecessors = predecessors;
                 task.ResponsibleUsername = responsibleUsername;
@@ -93,8 +95,9 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                     .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
-                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).Username;
-                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).DisplayName;
+                var responsible = await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible);
+                var responsibleUsername = responsible.Username;
+                var responsibleDisplayName = responsible.DisplayName;
                 var ownerUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Owner)).Username;
 
                 task.Predecessors = predecessors;
@@ -118,8 +121,9 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                   .Select(mapper.Map<TaskEntity, TaskDto>)
                   .ToList();
-                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).Username;
-                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).DisplayName;
+                var responsible = await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible);
+                var responsibleUsername = responsible.Username;
+                var responsibleDisplayName = responsible.DisplayName;
 
                 task.Predecessors = predecessors;
                 task.ResponsibleUsername = responsibleUsername;
@@ -149,8 +153,9 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                     .Select(mapper.Map<TaskEntity, TaskDto>)
                     .ToList();
-                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).Username;
-                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).DisplayName;
+                var responsible = await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible);
+                var responsibleUsername = responsible.Username;
+                var responsibleDisplayName = responsible.DisplayName;
                 var ownerUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Owner)).Username;
 
                 task.Predecessors = predecessors;
@@ -174,8 +179,9 @@ namespace BusinessLogicLayer.Services
                 var predecessors = (await taskRepository.GetPredecessorsByTaskIdAsync(task.Id))
                   .Select(mapper.Map<TaskEntity, TaskDto>)
                   .ToList();
-                var responsibleUsername = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).Username;
-                var responsibleDisplayName = (await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible)).DisplayName;
+                var responsible = await taskRepository.GetUserByTaskIdAndUserTypeAsync(task.Id, UserType.Responsible);
+                var responsibleUsername = responsible.Username;
+                var responsibleDisplayName = responsible.DisplayName;
 
                 task.Predecessors = predecessors;
                 task.ResponsibleUsername = responsibleUsername;
