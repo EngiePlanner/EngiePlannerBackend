@@ -40,7 +40,7 @@ namespace EngiePlanner.Controllers
         [HttpGet("GetTasksByOwnerUsername")]
         public async Task<IActionResult> GetTasksByOwnerUsername([FromQuery] string ownerUsername)
         {
-            var tasks = await taskService.GetTasksByOwnerUsername(ownerUsername);
+            var tasks = await taskService.GetTasksByOwnerUsernameAsync(ownerUsername);
 
             if (!tasks.Any())
             {
