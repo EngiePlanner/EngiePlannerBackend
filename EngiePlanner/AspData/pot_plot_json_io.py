@@ -68,38 +68,7 @@ class JsonInputReader():
                     for predecessor in task['predecessors']:
                         lp_complex += 'predecessor({},{}).\n'.format(predecessor, task['name'])
                 
-        '''            
-            else:
-                n_splits = int(task['duration']/38)
-                if task['duration']%38 > 0:
-                    n_splits += 1
-                parts = []
-                for i in range(1, n_splits + 1):
-                    parts.append('part{}_'.format(i) + task['name'])
-                
-                for part in parts:
-                    lp += 'task(({}, {})). '.format(part, task['delivery'])
-                    lp += 'split_task(({},{}), {}). '.format(part, task['delivery'], task['name'])
-                    lp += 'task_available_day(({}, {}),{}). '.format(part, task['delivery'], self.integer_dates[task['start_date']])
-                    available_week = int(np.ceil(self.integer_dates[task['start_date']]/5))
-                    lp += 'task_available({},{}). '.format(task['delivery'], available_week)
-                    lp += 'task_planned_day(({}, {}),{}). '.format(part, task['delivery'], self.integer_dates[task['planned_date']])
-                    planned_week = int(np.ceil(self.integer_dates[task['planned_date']]/5))
-                    lp += 'planned_date_week({}, {}). '.format(task['delivery'], planned_week)
-                    #lp += 'task_duration(({}, {}),{}). '.format(task['name'], task['delivery'], task['duration'])
-                    if not task['name'] in jobs:
-                        lp += 'job_duration({},{}). '.format(task['name'], task['duration'])
-                    jobs.add(task['name'])
-                    if not task['delivery'] in deliveries:
-                        lp += 'delivery({}). '.format(task['delivery'])
-                    deliveries.add(task['delivery'])
-                    lp += '\n'
-                    if task['subteam']:
-                        lp_complex += 'capable_of(E,{}) :- sub_team_member(E,team1).\n'.format(part, task['subteam'])
-                    if task['employees']:
-                        for empl in task['employees']:
-                            lp_complex += 'capable_of({},{}).\n'.format(empl, part)     
-        '''            
+
         if max_days == 'default':
             last_day = int(max(self.integer_dates.values()))+5
             last_day = last_day + 5-last_day%5
@@ -121,8 +90,7 @@ class JsonInputReader():
             lp_complex += 'job({}).\n'.format(job)
         
         first_day = min(self.integer_week_day)
-        #last_day = max(self.integer_week_day)
-        week_day = self.integer_week_day[first_day] 
+        week_day = self.integer_week_day[first_day]
         for day in range(first_day, last_day):
             if week_day > 4:
                 lp_complex += 'weekend({}).\n'.format(day)
@@ -143,14 +111,17 @@ class JsonInputReader():
         return(lp+lp_complex)
             
     def _determin_integer_date(self):
-    #!!!! Wochenenden müssen noch behandelt werden!!!!
         dates_raw = []
         dates = []
         
         for task in self.json_data['tasks']:
             dates_raw.append(task['start_date'])
             dates_raw.append(task['planned_date'])
-            
+
+        # for availability in self.availability_data:
+        #     dates_raw.append(availability['fromDate'])
+        #     dates_raw.append((availability['toDate']))
+
         for i in dates_raw:
             dates.append(datetime.datetime.strptime(i, '%d.%m.%Y'))
             
@@ -178,7 +149,7 @@ class JsonInputReader():
             out.write(encoding)
             
 class JsonOutputWriter():
-    def __init__(self, answer_set, date2integer_dict, output_file_name = 'clingo_output.json'):          
+    def __init__(self, answer_set, date2integer_dict, output_file_name = 'clingo_output.json'):
         self.answer_set = answer_set
         self.output_file_name = output_file_name
         self.date2integer_dict = date2integer_dict
@@ -193,64 +164,34 @@ class JsonOutputWriter():
         self.answer_set_list_start_end = []
         self.json_string = ''
         
-        #embed()
-        
-        # self._fill_dictionary()
-        # self._write_json(self.answer_set_list, self.output_file_name)
-        
         self._start_end_dict()
 
         dirname = os.path.dirname(__file__)
         output = os.path.join(dirname, 'output.json').replace('\\', '/')
         self._write_json(self.answer_set_list_start_end, output)
-        #embed()
-        
-    # def _fill_dictionary(self):
-    #     for atom in self.answer_set:
-    #         if 'assign_day' in atom:
-    #             print(atom)
-    #             #regex = r'assign_day\(([A-Za-z0-9]+),([0-9]+),\(([A-Za-z0-9,_]+)\)\)'
-    #             items = atom[:-1].split('(')[1].split(',')
-    #             temp_day = self.schedule_start_day + datetime.timedelta(days=int(items[1]))
-    #             temp_date = temp_day.strftime('%d.%m.%Y')
-    #             temp_dict = {
-    #                             'day' : temp_date,
-    #                             'workitem' : items[2]}
-    #                             #'delivery' : assign_day[0][2].split(',')[1]}
-    #             self.answer_set_list.append(temp_dict)
-    
+
     def _start_end_dict(self):
         temp_answer_set = self.answer_set.copy()
         for atom in self.answer_set:
             if 'start_day' in atom:
-                # regex = r'start_day\(([A-Za-z0-9]+),([0-9]+),\(([A-Za-z0-9,_]+)\)\)'
                 start_day = atom
                 start_day_items = start_day[:-1].split('(')[1].split(',')
-                #print(atom)
                 for atom2 in temp_answer_set:
 
                     if 'end_day' in atom2:
-                        # print(atom2)
-                        #print('end ' + atom2)
-                        # regex_end = r'end_day\(([A-Za-z0-9]+),([0-9]+),\(([A-Za-z0-9,_]+)\)\)'
                         end_day = atom2
                         end_day_items = end_day[:-1].split('(')[1].split(',')
-                        #embed()
                         if start_day_items[2] == end_day_items[2]:
-
                             temp_day_start = self.schedule_start_day + datetime.timedelta(days=int(start_day_items[1]))
                             temp_day_end = self.schedule_start_day + datetime.timedelta(days=int(end_day_items[1]))
                             temp_date_start = temp_day_start.strftime('%d.%m.%Y')
                             temp_date_end = temp_day_end.strftime('%d.%m.%Y')
-                            #embed()
                             temp_dict = {
                                             'start': temp_date_start,
                                             'finish': temp_date_end,
                                             'task': start_day_items[2]
                                             }
                          
-                            #print(temp_dict)
-                        # temp_dict = {'Atom' : atom}
                             self.answer_set_list_start_end.append(temp_dict)
                                         
     
@@ -267,4 +208,3 @@ if __name__ == '__main__':
     taskMasterAutogenEncoding = os.path.join(dirname, 'task_master_pot_encoding.lp4').replace('\\', '/')
     json = JsonInputReader(inputFile, availabilityFile)
     json.write_lp(encoding_file = taskMasterAutogenEncoding)
-   #embed()

@@ -4,10 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 #ASP data files
-AspData/tasks.json
-AspData/availability.json
-AspData/output.json
-AspData/task_master_autogen.lp4
+.json
 
 # User-specific files
 *.rsuser
@@ -402,3 +399,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+.idea
