@@ -47,17 +47,17 @@ def one_clingodl_run(prg, n_solution = 0, time_limit = None):
     
     return(temp_mdl)
 
-def reshape_date_start(date):
-    d,m,y = date.split('.')
-    dt = datetime.datetime.strptime(date, '%d.%m.%Y') + datetime.timedelta(hours = 8)
-    #return('{}-{}-{}'.format(y,m,d))
-    return(dt)
-    
-def reshape_date_finish(date):
-    d,m,y = date.split('.')
-    dt = datetime.datetime.strptime(date, '%d.%m.%Y') + datetime.timedelta(hours = 17)
-    #return('{}-{}-{}'.format(y,m,d))
-    return(dt)
+# def reshape_date_start(date):
+#     d,m,y = date.split('.')
+#     dt = datetime.datetime.strptime(date, '%d.%m.%Y') + datetime.timedelta(hours = 8)
+#     #return('{}-{}-{}'.format(y,m,d))
+#     return(dt)
+#
+# def reshape_date_finish(date):
+#     d,m,y = date.split('.')
+#     dt = datetime.datetime.strptime(date, '%d.%m.%Y') + datetime.timedelta(hours = 17)
+#     #return('{}-{}-{}'.format(y,m,d))
+#     return(dt)
 
 
 if __name__ == '__main__':
