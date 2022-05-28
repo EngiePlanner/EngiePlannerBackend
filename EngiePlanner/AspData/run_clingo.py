@@ -66,11 +66,11 @@ if __name__ == '__main__':
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
     taskMasterAutogenEncoding = os.path.join(dirname, 'task_master_pot_encoding.lp4').replace('\\', '/')
     taskMasterAutogen = os.path.join(dirname, 'task_master_autogen.lp4').replace('\\', '/')
-    json = jir(inputFile, availabilityFile)
-    json.write_lp(encoding_file = taskMasterAutogenEncoding)
+    json = jir('tasks.json', 'availability.json')
+    json.write_lp(encoding_file = 'task_master_pot_encoding.lp4')
         
     lp = ''
-    with open(taskMasterAutogen, 'r') as f:
+    with open('task_master_autogen.lp4', 'r') as f:
         lp = f.read()
 
     answer = one_clingodl_run(lp, n_solution=0,  time_limit = 15)

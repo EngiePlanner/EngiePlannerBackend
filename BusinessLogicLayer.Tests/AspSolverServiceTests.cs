@@ -5,6 +5,7 @@ using BusinessObjectLayer.Entities;
 using BusinessObjectLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace BusinessLogicLayer.Tests
             var taskRepository = new Mock<ITaskRepository>();
             var availabilityRepository = new Mock<IAvailabilityRepository>();
             var mapper = GetMapper();
+            var logger = new Mock<ILogger<AspSolverService>>();
 
             var task2 = new TaskDto
             {
@@ -86,7 +88,7 @@ namespace BusinessLogicLayer.Tests
                 .Setup(x => x.GetAvailabilitiesByUserUsernameAsync("Responsible"))
                 .ReturnsAsync(availabilities);
 
-            var service = new AspSolverService(taskRepository.Object, availabilityRepository.Object, mapper);
+            var service = new AspSolverService(taskRepository.Object, availabilityRepository.Object, mapper, logger.Object);
 
             //act
             var result = await service.InvokeAspSolver(tasks);

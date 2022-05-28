@@ -1,50 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem Instance 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-task_available_day(41, 1).
-task_available_week(41, 1).
-task_planned_day(41, 17).
-task_planned_week(41, 4).
-task_duration(41, 5).
-job_duration(41, 5).
-
-task_available_day(42, 1).
-task_available_week(42, 1).
-task_planned_day(42, 15).
-task_planned_week(42, 3).
-task_duration(42, 12).
-job_duration(42, 12).
-
-task_available_day(43, 5).
-task_available_week(43, 1).
-task_planned_day(43, 17).
-task_planned_week(43, 4).
-task_duration(43, 18).
-job_duration(43, 18).
-
-task_available_day(44, 1).
-task_available_week(44, 1).
-task_planned_day(44, 8).
-task_planned_week(44, 2).
-task_duration(44, 4).
-job_duration(44, 4).
-
-task_available_day(45, 5).
-task_available_week(45, 1).
-task_planned_day(45, 17).
-task_planned_week(45, 4).
-task_duration(45, 10).
-job_duration(45, 10).
-
-task_available_day(46, 4).
-task_available_week(46, 1).
-task_planned_day(46, 11).
-task_planned_week(46, 3).
-task_duration(46, 11).
-job_duration(46, 11).
+task_available_day(1041, 1).
+task_available_week(1041, 1).
+task_planned_day(1041, 29).
+task_planned_week(1041, 6).
+task_duration(1041, 10).
+job_duration(1041, 10).
 
 
-capacity(roc2clj, 1, 20). 
 capacity(roc2clj, 2, 20). 
 capacity(roc2clj, 3, 20). 
 capacity(roc2clj, 4, 20). 
@@ -55,17 +19,17 @@ capacity(roc2clj, 8, 20).
 capacity(roc2clj, 9, 20). 
 capacity(roc2clj, 10, 20). 
 capacity(roc2clj, 11, 20). 
-capacity(roc2clj, 12, 10). 
-capacity(roc2clj, 13, 25). 
-capacity(roc2clj, 14, 10). 
+capacity(roc2clj, 12, 20). 
+capacity(roc2clj, 13, 10). 
+capacity(roc2clj, 14, 25). 
 capacity(roc2clj, 15, 10). 
 capacity(roc2clj, 16, 10). 
-capacity(roc2clj, 17, 20). 
+capacity(roc2clj, 17, 10). 
 capacity(roc2clj, 18, 20). 
 capacity(roc2clj, 19, 20). 
 capacity(roc2clj, 20, 20). 
-capacity(roc2clj, 21, 20). 
-capacity(roc2clj, 22, 20). 
+capacity(roc2clj, 21, 2). 
+capacity(roc2clj, 22, 15). 
 capacity(roc2clj, 23, 20). 
 capacity(roc2clj, 24, 20). 
 capacity(roc2clj, 25, 20). 
@@ -73,8 +37,8 @@ capacity(roc2clj, 26, 20).
 capacity(roc2clj, 27, 20). 
 capacity(roc2clj, 28, 20). 
 capacity(roc2clj, 29, 20). 
-capacity(roc2clj, 30, 10). 
-capacity(roc2clj, 31, 20). 
+capacity(roc2clj, 30, 20). 
+capacity(roc2clj, 31, 10). 
 capacity(roc2clj, 32, 20). 
 capacity(roc2clj, 33, 20). 
 capacity(roc2clj, 34, 20). 
@@ -86,149 +50,33 @@ capacity(roc2clj, 39, 20).
 capacity(roc2clj, 40, 20). 
 capacity(roc2clj, 41, 20). 
 capacity(roc2clj, 42, 20). 
-capacity(roc2clj, 43, 10). 
-capacity(roc2clj, 44, 20). 
+capacity(roc2clj, 43, 20). 
+capacity(roc2clj, 44, 10). 
 capacity(roc2clj, 45, 20). 
 capacity(roc2clj, 46, 20). 
-capacity(roc2clj, 47, 0). 
-capacity(roc2clj, 48, 20). 
-capacity(roc2clj, 49, 6). 
-capacity(roc2clj, 50, 8). 
-capacity(roc2clj, 51, 20). 
+capacity(roc2clj, 47, 20). 
+capacity(roc2clj, 48, 0). 
+capacity(roc2clj, 49, 20). 
+capacity(roc2clj, 50, 6). 
+capacity(roc2clj, 51, 8). 
 capacity(roc2clj, 52, 20). 
-capacity(rba5clj, 1, 20). 
-capacity(rba5clj, 2, 20). 
-capacity(rba5clj, 3, 20). 
-capacity(rba5clj, 4, 20). 
-capacity(rba5clj, 5, 20). 
-capacity(rba5clj, 6, 20). 
-capacity(rba5clj, 7, 20). 
-capacity(rba5clj, 8, 20). 
-capacity(rba5clj, 9, 20). 
-capacity(rba5clj, 10, 20). 
-capacity(rba5clj, 11, 20). 
-capacity(rba5clj, 12, 20). 
-capacity(rba5clj, 13, 20). 
-capacity(rba5clj, 14, 9). 
-capacity(rba5clj, 15, 10). 
-capacity(rba5clj, 16, 9). 
-capacity(rba5clj, 17, 9). 
-capacity(rba5clj, 18, 20). 
-capacity(rba5clj, 19, 20). 
-capacity(rba5clj, 20, 20). 
-capacity(rba5clj, 21, 20). 
-capacity(rba5clj, 22, 20). 
-capacity(rba5clj, 23, 20). 
-capacity(rba5clj, 24, 20). 
-capacity(rba5clj, 25, 20). 
-capacity(rba5clj, 26, 20). 
-capacity(rba5clj, 27, 20). 
-capacity(rba5clj, 28, 20). 
-capacity(rba5clj, 29, 20). 
-capacity(rba5clj, 30, 20). 
-capacity(rba5clj, 31, 20). 
-capacity(rba5clj, 32, 20). 
-capacity(rba5clj, 33, 20). 
-capacity(rba5clj, 34, 20). 
-capacity(rba5clj, 35, 20). 
-capacity(rba5clj, 36, 20). 
-capacity(rba5clj, 37, 20). 
-capacity(rba5clj, 38, 20). 
-capacity(rba5clj, 39, 20). 
-capacity(rba5clj, 40, 20). 
-capacity(rba5clj, 41, 20). 
-capacity(rba5clj, 42, 20). 
-capacity(rba5clj, 43, 20). 
-capacity(rba5clj, 44, 20). 
-capacity(rba5clj, 45, 20). 
-capacity(rba5clj, 46, 20). 
-capacity(rba5clj, 47, 20). 
-capacity(rba5clj, 48, 20). 
-capacity(rba5clj, 49, 20). 
-capacity(rba5clj, 50, 20). 
-capacity(rba5clj, 51, 20). 
-capacity(rba5clj, 52, 20). 
-capacity(cof2bp, 1, 20). 
-capacity(cof2bp, 2, 20). 
-capacity(cof2bp, 3, 20). 
-capacity(cof2bp, 4, 20). 
-capacity(cof2bp, 5, 20). 
-capacity(cof2bp, 6, 20). 
-capacity(cof2bp, 7, 20). 
-capacity(cof2bp, 8, 20). 
-capacity(cof2bp, 9, 20). 
-capacity(cof2bp, 10, 20). 
-capacity(cof2bp, 11, 20). 
-capacity(cof2bp, 12, 20). 
-capacity(cof2bp, 13, 20). 
-capacity(cof2bp, 14, 20). 
-capacity(cof2bp, 15, 20). 
-capacity(cof2bp, 16, 20). 
-capacity(cof2bp, 17, 20). 
-capacity(cof2bp, 18, 20). 
-capacity(cof2bp, 19, 20). 
-capacity(cof2bp, 20, 20). 
-capacity(cof2bp, 21, 20). 
-capacity(cof2bp, 22, 20). 
-capacity(cof2bp, 23, 20). 
-capacity(cof2bp, 24, 20). 
-capacity(cof2bp, 25, 20). 
-capacity(cof2bp, 26, 20). 
-capacity(cof2bp, 27, 20). 
-capacity(cof2bp, 28, 20). 
-capacity(cof2bp, 29, 20). 
-capacity(cof2bp, 30, 20). 
-capacity(cof2bp, 31, 20). 
-capacity(cof2bp, 32, 20). 
-capacity(cof2bp, 33, 20). 
-capacity(cof2bp, 34, 20). 
-capacity(cof2bp, 35, 20). 
-capacity(cof2bp, 36, 20). 
-capacity(cof2bp, 37, 20). 
-capacity(cof2bp, 38, 20). 
-capacity(cof2bp, 39, 20). 
-capacity(cof2bp, 40, 20). 
-capacity(cof2bp, 41, 20). 
-capacity(cof2bp, 42, 20). 
-capacity(cof2bp, 43, 20). 
-capacity(cof2bp, 44, 20). 
-capacity(cof2bp, 45, 20). 
-capacity(cof2bp, 46, 20). 
-capacity(cof2bp, 47, 20). 
-capacity(cof2bp, 48, 20). 
-capacity(cof2bp, 49, 20). 
-capacity(cof2bp, 50, 20). 
-capacity(cof2bp, 51, 20). 
-capacity(cof2bp, 52, 20). 
+capacity(roc2clj, 53, 20). 
 
-capable_of(roc2clj,41).
-predecessor(42,41).
-predecessor(44,41).
-capable_of(rba5clj,42).
-predecessor(46,42).
-capable_of(roc2clj,43).
-predecessor(44,43).
-capable_of(cof2bp,44).
-capable_of(wat1fe,45).
-predecessor(44,45).
-capable_of(wat1fe,46).
-predecessor(44,46).
+capable_of(roc2clj,1041).
 
-days(1..25).
-weeks(1..5).
-job(41).
-job(42).
-job(43).
-job(44).
-job(45).
-job(46).
-weekend(1).
-weekend(7).
-weekend(8).
-weekend(14).
-weekend(15).
-weekend(21).
-weekend(22).
+days(1..35).
+weeks(1..7).
+job(1041).
+weekend(3).
+weekend(4).
+weekend(10).
+weekend(11).
+weekend(17).
+weekend(18).
+weekend(24).
+weekend(25).
+weekend(31).
+weekend(32).
 task(T) :- task_available_day(T,D).
 
 days((7*W-6)..7*W) :- weeks(W).

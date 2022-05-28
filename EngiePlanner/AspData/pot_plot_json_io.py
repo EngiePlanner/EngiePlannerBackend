@@ -144,7 +144,7 @@ class JsonInputReader():
         with open(encoding_file, 'r') as f:
             encoding = f.read()
         
-        with open(out_file, 'w') as out:
+        with open('task_master_autogen.lp4', 'w') as out:
             out.write(self.lp)
             out.write(encoding)
             
@@ -168,7 +168,7 @@ class JsonOutputWriter():
 
         dirname = os.path.dirname(__file__)
         output = os.path.join(dirname, 'output.json').replace('\\', '/')
-        self._write_json(self.answer_set_list_start_end, output)
+        self._write_json(self.answer_set_list_start_end, 'output.json')
 
     def _start_end_dict(self):
         temp_answer_set = self.answer_set.copy()
@@ -206,5 +206,5 @@ if __name__ == '__main__':
     inputFile = os.path.join(dirname, 'tasks.json').replace('\\', '/')
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
     taskMasterAutogenEncoding = os.path.join(dirname, 'task_master_pot_encoding.lp4').replace('\\', '/')
-    json = JsonInputReader(inputFile, availabilityFile)
-    json.write_lp(encoding_file = taskMasterAutogenEncoding)
+    json = JsonInputReader('tasks.json', 'availability.json')
+    json.write_lp(encoding_file = 'task_master_pot_encoding.lp4')
