@@ -139,7 +139,7 @@ class JsonInputReader():
         
     def write_lp(self, encoding_file):
         dirname = os.path.dirname(__file__)
-        out_file = os.path.join(dirname, 'task_master_autogen.lp4').replace('\\', '/')
+        out_file = os.path.join(dirname, 'encoding.lp4').replace('\\', '/')
         encoding = None
         with open(encoding_file, 'r') as f:
             encoding = f.read()
@@ -205,6 +205,6 @@ if __name__ == '__main__':
     dirname = os.path.dirname(__file__)
     inputFile = os.path.join(dirname, 'tasks.json').replace('\\', '/')
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
-    taskMasterAutogenEncoding = os.path.join(dirname, 'task_master_pot_encoding.lp4').replace('\\', '/')
+    template = os.path.join(dirname, 'template.lp4').replace('\\', '/')
     json = JsonInputReader(inputFile, availabilityFile)
-    json.write_lp(encoding_file = taskMasterAutogenEncoding)
+    json.write_lp(encoding_file = template)

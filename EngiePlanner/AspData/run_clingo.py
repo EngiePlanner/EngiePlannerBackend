@@ -4,8 +4,8 @@ from clingo import Control
 from clingo.ast import parse_string, ProgramBuilder
 from clingodl import ClingoDLTheory
 import datetime
-from pot_plot_json_io import JsonOutputWriter as jow
-from pot_plot_json_io import JsonInputReader as jir
+from create_encoding import JsonOutputWriter as jow
+from create_encoding import JsonInputReader as jir
 import time
 
 def one_clingodl_run(prg, n_solution = 0, time_limit = None):
@@ -64,10 +64,10 @@ if __name__ == '__main__':
     dirname = os.path.dirname(__file__)
     inputFile = os.path.join(dirname, 'tasks.json').replace('\\', '/')
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
-    taskMasterAutogenEncoding = os.path.join(dirname, 'task_master_pot_encoding.lp4').replace('\\', '/')
-    taskMasterAutogen = os.path.join(dirname, 'task_master_autogen.lp4').replace('\\', '/')
+    template = os.path.join(dirname, 'template.lp4').replace('\\', '/')
+    taskMasterAutogen = os.path.join(dirname, 'encoding.lp4').replace('\\', '/')
     json = jir(inputFile, availabilityFile)
-    json.write_lp(encoding_file = taskMasterAutogenEncoding)
+    json.write_lp(encoding_file = template)
         
     lp = ''
     with open(taskMasterAutogen, 'r') as f:
