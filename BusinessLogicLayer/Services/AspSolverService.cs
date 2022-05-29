@@ -18,8 +18,8 @@ namespace BusinessLogicLayer.Services
         private readonly ITaskRepository taskRepository;
         private readonly IAvailabilityRepository availabilityRepository;
         private readonly IMapper mapper;
-        //private static readonly string aspDataDirectory = AppDomain.CurrentDomain.GetData("AspDataDirectory").ToString();
-        private static readonly string aspDataDirectory = @"E:\Facultate\EngiePlannerAPI\EngiePlanner\AspData";
+        private static readonly string aspDataDirectory = AppDomain.CurrentDomain.GetData("AspDataDirectory").ToString();
+        //private static readonly string aspDataDirectory = @"E:\Facultate\EngiePlannerAPI\EngiePlanner\AspData";
 
         public AspSolverService(
             ITaskRepository taskRepository, 
@@ -45,7 +45,7 @@ namespace BusinessLogicLayer.Services
 
             CreateAvailabilityJsonFile(availabilities);
             CreateTaskJsonFile(tasks);
-            CallPythonScript("pot_plot_json_io.py");
+            CallPythonScript("create_encoding.py");
             CallPythonScript("run_clingo.py");
             var result = ReadJsonResult();
             return SetStartAndEndDateOnTasks(tasks, result);
@@ -64,10 +64,10 @@ namespace BusinessLogicLayer.Services
             string availabilityJson = JsonConvert.SerializeObject(availabilitiesJson, jsonSerializerOptions);
 
             var path = aspDataDirectory + "\\availability.json";
-           /* if (!File.Exists(path))
+            if (!File.Exists(path))
             {
                 File.CreateText(path);
-            }*/
+            }
             File.WriteAllText(path, availabilityJson);
         }
 
@@ -104,10 +104,10 @@ namespace BusinessLogicLayer.Services
             string availabilityJson = JsonConvert.SerializeObject(tasksDictionary, jsonSerializerOptions);
 
             var path = aspDataDirectory + "\\tasks.json";
-            /*if (!File.Exists(path))
+            if (!File.Exists(path))
             {
                 File.CreateText(path);
-            }*/
+            }
             File.WriteAllText(path, availabilityJson);
         }
 
