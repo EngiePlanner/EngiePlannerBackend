@@ -51,7 +51,7 @@ namespace BusinessLogicLayer.Services
 
             CreateAvailabilityJsonFile(availabilities);
             CreateTaskJsonFile(tasks);
-            CallPythonScript("pot_plot_json_io.py");
+            CallPythonScript("create_encoding.py");
             CallPythonScript("run_clingo.py");
             var result = ReadJsonResult();
             return SetStartAndEndDateOnTasks(tasks, result);
