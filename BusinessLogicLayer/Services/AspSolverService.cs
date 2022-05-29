@@ -3,6 +3,7 @@ using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
 using BusinessObjectLayer.Entities;
 using DataAccessLayer.Interfaces;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,20 @@ namespace BusinessLogicLayer.Services
         private readonly ITaskRepository taskRepository;
         private readonly IAvailabilityRepository availabilityRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<AspSolverService> logger;
         private static readonly string aspDataDirectory = AppDomain.CurrentDomain.GetData("AspDataDirectory").ToString();
         //private static readonly string aspDataDirectory = @"E:\Facultate\EngiePlannerAPI\EngiePlanner\AspData";
 
         public AspSolverService(
             ITaskRepository taskRepository, 
             IAvailabilityRepository availabilityRepository,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<AspSolverService> logger)
         {
             this.taskRepository = taskRepository;
             this.availabilityRepository = availabilityRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<List<TaskDto>> InvokeAspSolver(List<TaskDto> tasks)
@@ -111,7 +115,7 @@ namespace BusinessLogicLayer.Services
             File.WriteAllText(path, availabilityJson);
         }
 
-        private static void CallPythonScript(string script)
+        private void CallPythonScript(string script)
         {
             var cmd = aspDataDirectory + "\\" + script;
             ProcessStartInfo start = new ProcessStartInfo();
@@ -120,21 +124,28 @@ namespace BusinessLogicLayer.Services
             start.UseShellExecute = false;
             start.CreateNoWindow = true; 
             start.RedirectStandardOutput = true;
-            start.RedirectStandardError = true; 
-            using (Process process = Process.Start(start))
+            start.RedirectStandardError = true;
+            try 
             {
-                using (StreamReader reader = process.StandardOutput)
+                using (Process process = Process.Start(start))
                 {
-                    string stderr = process.StandardError.ReadToEnd(); 
-
-                    /*if (stderr.Length != 0 && !stderr.Equals(Constants.ClingoWarnings))
+                    using (StreamReader reader = process.StandardOutput)
                     {
-                        Debug.WriteLine(stderr);
-                        throw new IOException(stderr);
-                    }*/
+                        string stderr = process.StandardError.ReadToEnd();
 
-                    string result = reader.ReadToEnd(); 
+                        /*if (stderr.Length != 0 && !stderr.Equals(Constants.ClingoWarnings))
+                        {
+                            Debug.WriteLine(stderr);
+                            throw new IOException(stderr);
+                        }*/
+
+                        string result = reader.ReadToEnd();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error is: " + ex.Message);
             }
         }
 

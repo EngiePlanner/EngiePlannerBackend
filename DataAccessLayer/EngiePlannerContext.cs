@@ -24,7 +24,8 @@ namespace DataAccessLayer
         {
             optionsBuilder
                 //.UseSqlServer("Server=CLJ-C-0019T;Database=EngiePlanner;Trusted_Connection=True;")
-                .UseSqlServer("Server=DESKTOP-OHBS1P5;Database=EngiePlanner;Trusted_Connection=True;")
+                //.UseSqlServer("Server=DESKTOP-OHBS1P5;Database=EngiePlanner;Trusted_Connection=True;")
+                .UseSqlServer(@"Server=DESKTOP-OHBS1P5\SQLEXPRESS;Database=EngiePlanner;Integrated Security=False; User Id=EngiePlanner;Password=EngiePlanner1234")
                 .EnableSensitiveDataLogging();
         }
 
