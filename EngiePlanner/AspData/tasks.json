@@ -1,6 +1,70 @@
 {
   "tasks": [
     {
+      "name": 41,
+      "start_date": "15.05.2022",
+      "planned_date": "31.05.2022",
+      "subteam": "s1",
+      "duration": 5,
+      "employees": [
+        "roc2clj"
+      ],
+      "predecessors": [
+        42,
+        44
+      ]
+    },
+    {
+      "name": 42,
+      "start_date": "15.05.2022",
+      "planned_date": "29.05.2022",
+      "subteam": "s2",
+      "duration": 12,
+      "employees": [
+        "rba5clj"
+      ],
+      "predecessors": [
+        46
+      ]
+    },
+    {
+      "name": 43,
+      "start_date": "19.05.2022",
+      "planned_date": "31.05.2022",
+      "subteam": "s1",
+      "duration": 18,
+      "employees": [
+        "roc2clj"
+      ],
+      "predecessors": [
+        44
+      ]
+    },
+    {
+      "name": 44,
+      "start_date": "15.05.2022",
+      "planned_date": "22.05.2022",
+      "subteam": "s2",
+      "duration": 4,
+      "employees": [
+        "cof2bp"
+      ],
+      "predecessors": []
+    },
+    {
+      "name": 45,
+      "start_date": "19.05.2022",
+      "planned_date": "31.05.2022",
+      "subteam": "s3",
+      "duration": 10,
+      "employees": [
+        "wat1fe"
+      ],
+      "predecessors": [
+        44
+      ]
+    },
+    {
       "name": 1042,
       "start_date": "27.05.2022",
       "planned_date": "03.06.2022",

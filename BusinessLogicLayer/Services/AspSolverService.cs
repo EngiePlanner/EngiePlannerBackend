@@ -119,7 +119,7 @@ namespace BusinessLogicLayer.Services
         {
             var cmd = aspDataDirectory + "\\" + script;
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = "python";
+            start.FileName = @"C:\Users\crist\AppData\Local\Programs\Python\Python39\python.exe";
             start.Arguments = string.Format("\"{0}\"", cmd);
             start.UseShellExecute = false;
             start.CreateNoWindow = true; 
@@ -132,7 +132,7 @@ namespace BusinessLogicLayer.Services
                     using (StreamReader reader = process.StandardOutput)
                     {
                         string stderr = process.StandardError.ReadToEnd();
-
+                        logger.LogError("Error: " + stderr);
                         /*if (stderr.Length != 0 && !stderr.Equals(Constants.ClingoWarnings))
                         {
                             Debug.WriteLine(stderr);
@@ -140,8 +140,10 @@ namespace BusinessLogicLayer.Services
                         }*/
 
                         string result = reader.ReadToEnd();
+                        logger.LogInformation("Result: " + result);
                     }
                 }
+                logger.LogInformation("All Good!");
             }
             catch (Exception ex)
             {
@@ -149,7 +151,7 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        private static List<AspResultDto> ReadJsonResult()
+        private List<AspResultDto> ReadJsonResult()
         {
             var path = aspDataDirectory + "\\output.json";
             var json = File.ReadAllText(path);
@@ -158,10 +160,11 @@ namespace BusinessLogicLayer.Services
                 DateFormatString = "dd.MM.yyyy",
             };
             var aspResults = JsonConvert.DeserializeObject<List<AspResultDto>>(json, jsonSerializerOptions);
+            logger.LogInformation("Output path: " + path);
             return aspResults;
         }
 
-        private static List<TaskDto> SetStartAndEndDateOnTasks(List<TaskDto> tasks, List<AspResultDto> result)
+        private List<TaskDto> SetStartAndEndDateOnTasks(List<TaskDto> tasks, List<AspResultDto> result)
         {
             foreach (var task in tasks)
             {

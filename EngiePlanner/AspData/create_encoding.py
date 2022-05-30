@@ -149,7 +149,7 @@ class JsonInputReader():
             out.write(encoding)
             
 class JsonOutputWriter():
-    def __init__(self, answer_set, date2integer_dict, output_file_name = 'clingo_output.json'):
+    def __init__(self, answer_set, date2integer_dict, output_file_name = 'output.json'):
         self.answer_set = answer_set
         self.output_file_name = output_file_name
         self.date2integer_dict = date2integer_dict
@@ -168,6 +168,7 @@ class JsonOutputWriter():
 
         dirname = os.path.dirname(__file__)
         output = os.path.join(dirname, 'output.json').replace('\\', '/')
+        print('Output: ' + output)
         self._write_json(self.answer_set_list_start_end, output)
 
     def _start_end_dict(self):
@@ -204,7 +205,9 @@ class JsonOutputWriter():
 if __name__ == '__main__':
     dirname = os.path.dirname(__file__)
     inputFile = os.path.join(dirname, 'tasks.json').replace('\\', '/')
+    print('Tasks file: ' + inputFile)
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
+    print('Availability file: ' + availabilityFile)
     template = os.path.join(dirname, 'template.lp4').replace('\\', '/')
     json = JsonInputReader(inputFile, availabilityFile)
     json.write_lp(encoding_file = template)
