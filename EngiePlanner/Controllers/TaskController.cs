@@ -1,10 +1,15 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessObjectLayer.Dtos;
+using BusinessObjectLayer.Helpers;
 using BusinessObjectLayer.Validators;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,11 +22,15 @@ namespace EngiePlanner.Controllers
     {
         private readonly ITaskService taskService;
         private readonly IUserService userService;
+        private readonly IConverter converter;
+        private ILogger<TaskController> logger;
 
-        public TaskController(ITaskService taskService, IUserService userService)
+        public TaskController(ITaskService taskService, IUserService userService, IConverter converter, ILogger<TaskController> logger)
         {
             this.taskService = taskService;
             this.userService = userService;
+            this.converter = converter;
+            this.logger = logger;
         }
 
         [HttpGet("GetAllTasks")]
@@ -196,6 +205,46 @@ namespace EngiePlanner.Controllers
         {
             await taskService.DeleteTaskAsync(taskId);
             return Ok();
+        }
+
+        [HttpPost("CreateScheduledTasksPdf")]
+        public async Task<IActionResult> CreatePDF([FromBody] List<TaskDto> tasks)
+        {
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Left = 0, Bottom = 3, Right = 0, Top = 10 },
+                DocumentTitle = "PDF_Report",
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = PdfTemplate.GetHTMLString(tasks),
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "styles.css") },
+                HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
+                FooterSettings = { HtmUrl = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "footer.html") }
+            };
+
+            var pdf = new HtmlToPdfDocument
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+
+            try
+            {
+                var file = converter.Convert(pdf);
+
+                return File(file, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("PDF Error: " + ex.Message);
+                return BadRequest();
+            }
         }
     }
 }
