@@ -39,11 +39,18 @@ namespace BusinessLogicLayer.Services
         {
             var availabilities = new List<AvailabilityDto>();
             var users = tasks.Select(x => x.ResponsibleUsername).Distinct().ToList();
+            var firstAvailabilityDate = tasks.OrderBy(x => x.AvailabilityDate).Select(x => x.AvailabilityDate).First();
+            var lastPlannerDate = tasks.OrderByDescending(x => x.PlannedDate).Select(x => x.PlannedDate).First();
+            var daysAfterMonday = ((int)firstAvailabilityDate.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+            var daysBeforeFriday = ((int)DayOfWeek.Friday - (int)lastPlannerDate.DayOfWeek + 7) % 7;
+            var mondayBeforeFirstAvailabilityDate = firstAvailabilityDate.AddDays(-daysAfterMonday);
+            var fridayAfterLastPlannedDate = lastPlannerDate.AddDays(daysBeforeFriday);
 
             foreach (var user in users)
             {
                 availabilities.AddRange(
                     (await availabilityRepository.GetAvailabilitiesByUserUsernameAsync(user))
+                    .Where(x => DateTime.Compare(x.FromDate, mondayBeforeFirstAvailabilityDate) >= 0 && DateTime.Compare(x.ToDate, fridayAfterLastPlannedDate) <= 0)
                     .Select(mapper.Map<AvailabilityEntity, AvailabilityDto>));
             }
 
