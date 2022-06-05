@@ -8,6 +8,8 @@ using BusinessObjectLayer.Validators;
 using DataAccessLayer;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Text;
 
 namespace EngiePlanner
@@ -74,6 +77,11 @@ namespace EngiePlanner
             services.AddCors();
 
             services.AddMvcCore();
+
+            var context = new CustomAssemblyLoadContext();
+            context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.AddControllers()
                     .AddNewtonsoftJson(options =>
@@ -162,7 +170,7 @@ namespace EngiePlanner
             });
 
             string baseDir = env.ContentRootPath;
-            AppDomain.CurrentDomain.SetData("AspDataDirectory", System.IO.Path.Combine(baseDir, "AspData"));
+            AppDomain.CurrentDomain.SetData("AspDataDirectory", Path.Combine(baseDir, "AspData"));
         }
     }
 }
