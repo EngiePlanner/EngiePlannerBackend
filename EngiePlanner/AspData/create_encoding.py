@@ -4,11 +4,12 @@ import numpy as np
 import os
 import math
 
-class JsonInputReader():
+
+class JsonInputReader:
     def __init__(self, json_file, availability_file):
     
         self.file_name = json_file
-        f=open(json_file,'r')
+        f = open(json_file, 'r')
         self.json_data = json.load(f)
         f.close()
         self.availability_file_name = availability_file
@@ -41,7 +42,6 @@ class JsonInputReader():
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n'''
         lp_complex = '\n'
         jobs = set()
-        deliveries = set()
         for task in self.json_data['tasks']:
             if task['duration'] <= 38:
                 lp += 'task_available_day({}, {}).\n'.format(task['name'], self.integer_dates[task['start_date']])
@@ -55,23 +55,17 @@ class JsonInputReader():
                 if not task['name'] in jobs:
                     lp += 'job_duration({}, {}).\n'.format(task['name'], task['duration'])
                 jobs.add(task['name'])
-                #if not task['delivery'] in deliveries:
-                #    lp += 'delivery({}).\n'.format(task['delivery'])
-                #deliveries.add(task['delivery'])
                 lp += '\n'
-                #if task['subteam']:
-                #    lp_complex += 'capable_of(E,{}) :- sub_team_member(E,team1).\n'.format(task['name'], task['subteam'])
                 if task['employees']:
                     for empl in task['employees']:
                         lp_complex += 'capable_of({},{}).\n'.format(empl, task['name'])
                 if task['predecessors']:
                     for predecessor in task['predecessors']:
                         lp_complex += 'predecessor({},{}).\n'.format(predecessor, task['name'])
-                
 
         if max_days == 'default':
             last_day = int(max(self.integer_dates.values()))+5
-            last_day = last_day + 5-last_day%5
+            last_day = last_day + 5 - last_day % 5
             lp_complex += '\ndays(1..{}).\n'.format(last_day)            
             lp_complex += 'weeks(1..{}).\n'.format(int(np.ceil(last_day/5))) 
         elif max_days == 'min':
@@ -118,10 +112,6 @@ class JsonInputReader():
             dates_raw.append(task['start_date'])
             dates_raw.append(task['planned_date'])
 
-        # for availability in self.availability_data:
-        #     dates_raw.append(availability['fromDate'])
-        #     dates_raw.append((availability['toDate']))
-
         for i in dates_raw:
             dates.append(datetime.datetime.strptime(i, '%d.%m.%Y'))
             
@@ -147,9 +137,10 @@ class JsonInputReader():
         with open(out_file, 'w') as out:
             out.write(self.lp)
             out.write(encoding)
-            
-class JsonOutputWriter():
-    def __init__(self, answer_set, date2integer_dict, output_file_name = 'output.json'):
+
+
+class JsonOutputWriter:
+    def __init__(self, answer_set, date2integer_dict, output_file_name='output.json'):
         self.answer_set = answer_set
         self.output_file_name = output_file_name
         self.date2integer_dict = date2integer_dict
@@ -168,7 +159,6 @@ class JsonOutputWriter():
 
         dirname = os.path.dirname(__file__)
         output = os.path.join(dirname, 'output.json').replace('\\', '/')
-        print('Output: ' + output)
         self._write_json(self.answer_set_list_start_end, output)
 
     def _start_end_dict(self):
@@ -205,9 +195,7 @@ class JsonOutputWriter():
 if __name__ == '__main__':
     dirname = os.path.dirname(__file__)
     inputFile = os.path.join(dirname, 'tasks.json').replace('\\', '/')
-    print('Tasks file: ' + inputFile)
     availabilityFile = os.path.join(dirname, 'availability.json').replace('\\', '/')
-    print('Availability file: ' + availabilityFile)
     template = os.path.join(dirname, 'template.lp4').replace('\\', '/')
     json = JsonInputReader(inputFile, availabilityFile)
-    json.write_lp(encoding_file = template)
+    json.write_lp(encoding_file=template)

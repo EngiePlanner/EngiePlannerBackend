@@ -9,15 +9,6 @@ days((7*W-6)..7*W) :- weeks(W).
 % Feasible Solutions (weekly)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Generate assignments
-%{assigned_empl(T,Emp) : task(T), employee(Emp)} .
-% Each task must be assigned an employee.
-%:- task(T), not assigned_empl(T,_).
-% Each task cannot be assigned more than one employee.
-%:- assigned_empl(T,Emp1), assigned_empl(T,Emp2), Emp1 != Emp2.
-% An assigned employee must be capable of the job, they are assigned to.
-%:- assigned_empl(J,E), not capable_of(E,J). 
-
 assigned_empl(J,E) :- capable_of(E,J).
 
 % Assign tasks to a week
@@ -67,7 +58,6 @@ day_belongs_to_week(Day, Week) :- days(Day), weeks(Week), Day\5!=0, Day/5 + 1 = 
 % If there is a predecessor-successor relationship, then the successor must be in the same or a later week than the predecessor.
 :- predecessor(T1, T2), assign_day(_, Day1, T1), assign_day(_, Day2, T2), Day2<Day1.
 
-
 % Start day must be greater or equal the available day.
 :- task_available_day(T,Day_available), start_day(_, Day_start, T), Day_start < Day_available.
 
@@ -90,10 +80,6 @@ end_day(E, Day, T1)|end_day(E, Day, T2) :- assign_day(E, Day, T1), assign_day(E,
 :- task(T), not start_day(_, _, T).
 :- task(T), not end_day(_, _, T).
 
-
-%#show day_belongs_to_week/2.
-%#show assign_day/3.
-%#show task_duration/2.
 #show start_day/3.
 #show end_day/3.
 
