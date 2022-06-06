@@ -16,7 +16,6 @@ namespace BusinessLogicLayer.Services
 {
     public class AspSolverService : IAspSolverService
     {
-        private readonly ITaskRepository taskRepository;
         private readonly IAvailabilityRepository availabilityRepository;
         private readonly IMapper mapper;
         private readonly ILogger<AspSolverService> logger;
@@ -24,12 +23,10 @@ namespace BusinessLogicLayer.Services
         //private static readonly string aspDataDirectory = @"E:\Facultate\EngiePlannerAPI\EngiePlanner\AspData";
 
         public AspSolverService(
-            ITaskRepository taskRepository, 
             IAvailabilityRepository availabilityRepository,
             IMapper mapper,
             ILogger<AspSolverService> logger)
         {
-            this.taskRepository = taskRepository;
             this.availabilityRepository = availabilityRepository;
             this.mapper = mapper;
             this.logger = logger;
