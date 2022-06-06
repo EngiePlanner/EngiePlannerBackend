@@ -1,37 +1,35 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem Instance 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-task_available_day(1, 1).
-task_available_week(1, 1).
-task_planned_day(1, 12).
-task_planned_week(1, 3).
-task_duration(1, 10).
-job_duration(1, 10).
-
-task_available_day(2, 1).
-task_available_week(2, 1).
-task_planned_day(2, 11).
-task_planned_week(2, 3).
-task_duration(2, 10).
-job_duration(2, 10).
+task_available_day(1041, 1).
+task_available_week(1041, 1).
+task_planned_day(1041, 29).
+task_planned_week(1041, 6).
+task_duration(1041, 10).
+job_duration(1041, 10).
 
 
-capacity(responsible, 2, 15). 
-capacity(responsible, 3, 20). 
+capacity(roc2clj, 2, 12). 
+capacity(roc2clj, 3, 10). 
+capacity(roc2clj, 4, 20). 
+capacity(roc2clj, 5, 20). 
+capacity(roc2clj, 6, 20). 
 
-capable_of(responsible,1).
-predecessor(2,1).
-capable_of(responsible,2).
+capable_of(roc2clj,1041).
 
-days(1..20).
-weeks(1..4).
-job(1).
-job(2).
-weekend(5).
-weekend(6).
-weekend(12).
-weekend(13).
-weekend(19).
+days(1..35).
+weeks(1..7).
+job(1041).
+weekend(3).
+weekend(4).
+weekend(10).
+weekend(11).
+weekend(17).
+weekend(18).
+weekend(24).
+weekend(25).
+weekend(31).
+weekend(32).
 task(T) :- task_available_day(T,D).
 
 days((7*W-6)..7*W) :- weeks(W).

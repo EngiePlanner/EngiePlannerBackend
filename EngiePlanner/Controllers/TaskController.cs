@@ -216,7 +216,7 @@ namespace EngiePlanner.Controllers
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Left = 0, Bottom = 3, Right = 0, Top = 10 },
-                DocumentTitle = "PDF_Report",
+                DocumentTitle = "Scheduled Tasks",
             };
 
             var objectSettings = new ObjectSettings
