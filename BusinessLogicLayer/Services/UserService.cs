@@ -192,8 +192,8 @@ namespace BusinessLogicLayer.Services
                 UserUsername = user.Username,
                 FromDate = x.FirstDay,
                 ToDate = x.LastDay,
-                DefaultAvailableHours = 20,
-                UnscheduledHours = 20
+                DefaultAvailableHours = 40,
+                UnscheduledHours = 40
             }).ToList();
 
             await CreateAvailabilityRangeAsync(availabilities);
