@@ -27,7 +27,9 @@ namespace BusinessObjectLayer.Helpers
 
             foreach (var task in tasks)
             {
-                stringBuilder.AppendFormat(@"
+                if (task.StartDate != null)
+                {
+                    stringBuilder.AppendFormat(@"
                    <tr>
                         <td>{0}</td>
                         <td>{1}</td>
@@ -35,6 +37,7 @@ namespace BusinessObjectLayer.Helpers
                         <td>{3}</td>
                     </tr>
                 ", task.Name, task.ResponsibleDisplayName, task.StartDate.Value.ToString("dd/MMMM/yyyy"), task.EndDate.Value.ToString("dd/MMMM/yyyy"));
+                }
             }
 
             stringBuilder.Append(@"

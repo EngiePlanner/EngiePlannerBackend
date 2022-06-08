@@ -1,15 +1,28 @@
 {
   "tasks": [
     {
-      "name": 1041,
-      "start_date": "26.05.2022",
-      "planned_date": "23.06.2022",
-      "subteam": "s2",
-      "duration": 10,
+      "name": 2043,
+      "start_date": "06.06.2022",
+      "planned_date": "18.06.2022",
+      "subteam": "s1",
+      "duration": 8,
       "employees": [
         "roc2clj"
       ],
       "predecessors": []
+    },
+    {
+      "name": 2048,
+      "start_date": "11.06.2022",
+      "planned_date": "28.06.2022",
+      "subteam": "s3",
+      "duration": 17,
+      "employees": [
+        "wat1fe"
+      ],
+      "predecessors": [
+        2043
+      ]
     }
   ]
 }

@@ -1,35 +1,46 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem Instance 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-task_available_day(1041, 1).
-task_available_week(1041, 1).
-task_planned_day(1041, 29).
-task_planned_week(1041, 6).
-task_duration(1041, 10).
-job_duration(1041, 10).
+task_available_day(2043, 1).
+task_available_week(2043, 1).
+task_planned_day(2043, 13).
+task_planned_week(2043, 3).
+task_duration(2043, 8).
+job_duration(2043, 8).
+
+task_available_day(2048, 6).
+task_available_week(2048, 2).
+task_planned_day(2048, 23).
+task_planned_week(2048, 5).
+task_duration(2048, 17).
+job_duration(2048, 17).
 
 
-capacity(roc2clj, 2, 12). 
-capacity(roc2clj, 3, 10). 
-capacity(roc2clj, 4, 20). 
-capacity(roc2clj, 5, 20). 
-capacity(roc2clj, 6, 20). 
+capacity(roc2clj, 1, 12). 
+capacity(roc2clj, 2, 40). 
+capacity(roc2clj, 3, 15). 
+capacity(roc2clj, 4, 40). 
+capacity(wat1fe, 1, 40). 
+capacity(wat1fe, 2, 35). 
+capacity(wat1fe, 3, 35). 
+capacity(wat1fe, 4, 40). 
 
-capable_of(roc2clj,1041).
+capable_of(roc2clj,2043).
+capable_of(wat1fe,2048).
+predecessor(2043,2048).
 
-days(1..35).
-weeks(1..7).
-job(1041).
-weekend(3).
-weekend(4).
-weekend(10).
-weekend(11).
-weekend(17).
-weekend(18).
-weekend(24).
-weekend(25).
-weekend(31).
-weekend(32).
+days(1..30).
+weeks(1..6).
+job(2048).
+job(2043).
+weekend(6).
+weekend(7).
+weekend(13).
+weekend(14).
+weekend(20).
+weekend(21).
+weekend(27).
+weekend(28).
 task(T) :- task_available_day(T,D).
 
 days((7*W-6)..7*W) :- weeks(W).

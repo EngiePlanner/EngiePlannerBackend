@@ -1,32 +1,50 @@
 [
   {
     "name": "roc2clj",
-    "fromDate": "23.05.2022",
-    "toDate": "27.05.2022",
-    "availableHours": 12
-  },
-  {
-    "name": "roc2clj",
-    "fromDate": "30.05.2022",
-    "toDate": "03.06.2022",
-    "availableHours": 10
-  },
-  {
-    "name": "roc2clj",
     "fromDate": "06.06.2022",
     "toDate": "10.06.2022",
-    "availableHours": 20
+    "availableHours": 12
   },
   {
     "name": "roc2clj",
     "fromDate": "13.06.2022",
     "toDate": "17.06.2022",
-    "availableHours": 20
+    "availableHours": 40
   },
   {
     "name": "roc2clj",
     "fromDate": "20.06.2022",
     "toDate": "24.06.2022",
-    "availableHours": 20
+    "availableHours": 15
+  },
+  {
+    "name": "roc2clj",
+    "fromDate": "27.06.2022",
+    "toDate": "01.07.2022",
+    "availableHours": 40
+  },
+  {
+    "name": "wat1fe",
+    "fromDate": "06.06.2022",
+    "toDate": "10.06.2022",
+    "availableHours": 40
+  },
+  {
+    "name": "wat1fe",
+    "fromDate": "13.06.2022",
+    "toDate": "17.06.2022",
+    "availableHours": 35
+  },
+  {
+    "name": "wat1fe",
+    "fromDate": "20.06.2022",
+    "toDate": "24.06.2022",
+    "availableHours": 35
+  },
+  {
+    "name": "wat1fe",
+    "fromDate": "27.06.2022",
+    "toDate": "01.07.2022",
+    "availableHours": 40
   }
 ]
